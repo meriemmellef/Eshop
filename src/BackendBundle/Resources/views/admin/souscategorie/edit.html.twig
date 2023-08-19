@@ -1,0 +1,212 @@
+{% extends '@Backend/layout/layout.html.twig' %}
+
+
+{% block page %}
+    <div class="page">
+        <div class="page-header">
+            <h1 class="page-title">{{"Modification Sous Catégorie"|trans}}</h1>
+        </div>
+        {% if error is defined %}
+            {% if error == 2 %}
+                <div class="col-lg-12 text-center">
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        {{ "fill_all"|trans({}, 'messages') }}
+                    </div>
+                </div>
+            {% elseif error ==1 %}
+            <div class="col-lg-12 text-center">
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    {{ "sous_cat_exist"|trans({}, 'messages') }}
+                </div>
+            </div>
+            {% endif %}
+
+        {% endif %}
+
+        <div class="page-content">
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid">
+                    <div class="row row-lg">
+                        <div class="col-lg-12">
+                            <div class="example-wrap">
+                                <div class="row row-lg">
+
+
+                                    {{ form_start(form, {'attr': {'class': 'col-lg-12 '}}) }}
+                                    <input type="hidden" name="referer" value="{{app.request.headers.get('referer')}}"/>
+
+
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-2 text-left">
+
+                                            </div>
+                                            <div class="col-xxl-8 col-lg-8">
+                                                <!-- Example Tabs In The Panel -->
+                                                <div class="panel nav-tabs-horizontal" data-plugin="tabs">
+                                                    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                                                        <li class="nav-item" id="titleeeone">
+                                                            <a class="nav-link active" id="nom_fr"  style="padding: 7px 10px 7px 0px;" data-toggle="tab" href="#nomfr" aria-controls="exampleTopHome" role="tab" aria-selected="true">
+                                                                {{ "Nom"|trans }}<span style="color: #ED0000">*</span><span class="flag-icon flag-icon-fr"></span>
+                                                            </a>
+
+                                                        </li>
+
+                                                        <li class="nav-item" style="" id="titleee">
+                                                            <a class="nav-link" id="nom_en" style="padding: 7px 10px 7px 0px;" data-toggle="tab" href="#nomen" aria-controls="exampleTopComponents" role="tab" aria-selected="false">
+                                                                {{ "Nom"|trans }}<span style="color: #ED0000">*</span><span class="flag-icon flag-icon-gb"></span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="panel-body" style="border: 1px solid #d4d4d4;">
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane active" id="nomfr" role="tabpanel">
+
+                                                                <div class="row row-lg">
+                                                                    <div class="col-lg-3 ">
+                                                                    </div>
+
+                                                                    <div class="col-lg-9 text-left">
+                                                                        {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="tab-pane" id="nomen" role="tabpanel">
+                                                                <div class="row row-lg">
+                                                                    <div class="col-lg-3 text-left" style="padding-right: 0px;padding-left: 4px;">
+                                                                    </div>
+                                                                    <div class="col-lg-9 text-left">
+                                                                        {{ form_widget(form.nom_en, {'attr': {'class': 'form-control'}}) }}
+
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- End Example Tabs In The Panel -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {#
+                                    was
+                                     <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-2 text-left">
+
+                                            </div>
+                                            <div class="col-xxl-8 col-lg-8">
+                                                <h6 style="color: #ED0000">{{ form_errors(form.nom) }}</h6>
+                                                <h6 style="color: #ED0000">{{ form_errors(form.nom_en) }}</h6>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    #}
+
+
+
+                                    <br><br>
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-3 text-right">
+                                                <label>{{"Catégorie"|trans}} <span style="color: #ED0000">*</span>:</label>
+                                            </div>
+                                            <div class="col-lg-6 text-left">
+                                                {{ form_widget(form.categorie, {'attr': {'class': 'form-control'}}) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-3 text-right">
+                                                <label>{{ "Image"|trans }}  :</label>
+                                            </div>
+                                            <div class="col-lg-6 text-left">
+                                                {% if souscategorie.image %}
+                                                    <div style="padding-top: 20px;">
+                                                        <img class="" style="height: 50px;width: auto;  margin-left: auto;  margin-right: auto;  display: block;"
+                                                             src="{{ asset('uploads/produits/') }}{{ souscategorie.image }}"
+                                                        >
+
+                                                    </div>
+                                                {% endif %}
+                                                {{ form_widget(form.imagefile, {'attr': {'id': 'input-file-now', 'data-plugin':'dropify','data-default-file': '','style' : 'max-height: 100px;max-width:300px'}}) }}
+                                                <h6 style="color: #ED0000">{{ "image"|trans }} ( 400 × 352 px ) {{ "maxsize"|trans }} (1024k)</h6>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                    {#
+                                       <div class="col-lg-12 text-center">
+                                        <button class="float-right btn md-edit social-evernote waves-effect waves-classic waves-effect waves-classic waves-effect waves-classic">{{ 'Enregistrer'|trans }}</button>
+                                    </div>
+                                    #}
+
+                                    <div class="row col-lg-12 text-center">
+                                        <div class="col-lg-6 text-right">
+                                            <button class="btn social-evernote  waves-effect waves-classic">{{ 'Enregistrer'|trans }}</button>
+                                        </div>
+                                        <div class="col-lg-6 text-left">
+                                            <a href="{{ path('sous_categorie_admin_index') }}" style=" background-color: #ed0000 !important;  border-color: #ed0000!important;"  class="btn   btn-danger waves-effect waves-classic">{{ 'back'|trans }}</a>
+                                        </div>
+                                    </div>
+                                    {{ form_end(form) }}
+
+                                    <br>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+
+        $( "#save").click(function() {
+
+            console.log("rererere")
+            if ( $("#sous_categorie_nom").val().length === 0 )
+            {
+
+                $('#titleeeone').find('a').trigger('click');
+
+            }
+            if ( $("#sous_categorie_nom_en").val().length === 0 )
+            {
+
+                $('#titleee').find('a').trigger('click');
+
+            }
+
+        });
+
+    </script>
+{% endblock %}

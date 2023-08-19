@@ -1,0 +1,41 @@
+{% xlsdocument %}
+    {% xlssheet 'Worksheet' {
+        columnDimension: {
+            'default': {
+                autoSize: true
+            }
+        }
+    } %}
+        {% xlsrow %}
+            {% xlscell { style: { font: { size: '14' } }, margin: { left: '140' } } %}ID{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Code{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Nom{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Categorie{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Sous Categorie{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Prix {% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Quantité {% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Active {% endxlscell %}
+
+
+        {% endxlsrow %}
+        {% for Modele in Modeles %}
+            {% xlsrow %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.id }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.code }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.nom  }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.categorie.nom  }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.sous_categorie.nom }}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.prix }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.quantite }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}
+                    {% if Modele.is_active == true %}
+                        True
+                    {% else %}
+                        False
+                    {% endif %}
+                {% endxlscell %}
+
+            {% endxlsrow %}
+        {% endfor %}
+    {% endxlssheet %}
+{% endxlsdocument %}

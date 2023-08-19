@@ -1,0 +1,131 @@
+
+
+
+
+<form class="row row-lg" action="{{ path('generer_coupon_pourcentage') }}" method="post">
+    <input type="hidden" name="referer" value="{{app.request.headers.get('referer')}}"/>
+
+
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Nombre de coupons"|trans }} :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                <input type="number" class="form-control"  name="nbcoupon">
+            </div>
+        </div>
+    </div>
+    <br><br>
+
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Pourcentage"|trans }} :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                <input type="number" class="form-control"  min="0"  name="pourcentage">
+            </div>
+        </div>
+    </div>
+    <br><br>
+
+    <div class="col-lg-12 "  >
+        <div class="row">
+            <div class="col-lg-3">
+
+            </div>
+            <div class="col-lg-9">
+                <div class="input-group" style="padding-top: 14px;padding-bottom: 5px;">
+                    <div class="g-recaptcha" data-sitekey="6LedckodAAAAAAE-j3jaEd9gBOEFaaM7xxW3FKN0"></div>
+                    <script type="text/javascript"
+                            src="https://www.google.com/recaptcha/api.js?hl=en">
+                    </script>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <br><br>
+    <div class="row col-lg-12 text-center">
+        <div class="col-lg-6 text-right">
+            <button class="btn social-evernote  waves-effect waves-classic" value="submit">{{ 'Enregistrer'|trans }}</button>
+        </div>
+        <div class="col-lg-6 text-left">
+            <a href="{{ path('coupon_index') }}" style=" background-color: #ed0000 !important;  border-color: #ed0000!important;"  class="btn   btn-danger waves-effect waves-classic">{{ 'back'|trans }}</a>
+        </div>
+    </div>
+    <br>
+</form>
+
+{#
+
+{% extends '@Backend/layout/layout.html.twig' %}
+
+
+{% block page %}
+    <div class="page">
+        <div class="page-content">
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid">
+                    <div class="row row-lg">
+                        <div class="col-lg-12">
+                            <div class="example-wrap">
+                                <h4 class="example-title" hidden>{{"Générer Coupons Par Pourcentage"|trans}} </h4>
+                                <br><br>
+                                <form class="row row-lg" action="{{ path('generer_coupon_pourcentage') }}" method="post">
+                                    <input type="hidden" name="referer" value="{{app.request.headers.get('referer')}}"/>
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-3 text-right">
+                                                <label>{{ "Nombre de coupons"|trans }} :</label>
+                                            </div>
+                                            <div class="col-lg-6 text-left">
+                                                <input type="number" class="form-control"  name="nbcoupon">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-3 text-right">
+                                                <label>{{ "Pourcentage"|trans }} :</label>
+                                            </div>
+                                            <div class="col-lg-6 text-left">
+                                                <input type="number" class="form-control"  min="0"  name="pourcentage">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+
+                                    <br><br>
+                                    <div class="col-lg-12 text-center">
+                                        <button class="btn social-evernote   waves-effect waves-classic">{{ button_label|default('Générer ') }}</button>
+                                    </div>
+                                    <br>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+
+    </script>
+{% endblock %}
+
+#}

@@ -1,0 +1,150 @@
+{% extends '@Backend/layout/layout.html.twig' %}
+
+{% block page %}
+    <div class="page">
+        <div class="page-content">
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid">
+                    <div class="row row-lg">
+
+
+                        <div class="col-lg-12">
+                            <!-- Example Bordered Table -->
+                            <div class="example-wrap">
+                                <div class="row row-lg">
+
+                                    <div class="col-lg-6">
+                                        <h4 class="example-title">{{ "Gestion Des Utilisateurs"|trans }} </h4>
+                                    </div>
+                                    <div class="col-lg-6" >
+                                        <a href="{{ path('user_new') }}" class="float-right btn btn-icon social-evernote waves-effect waves-classic"><i class="icon md-plus" aria-hidden="true"></i>
+                                            {{ 'Ajouter'|trans }}</a>
+                                    </div>
+                                    <br>
+                                </div>
+                                <br>
+                                <div class="example table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>{{ "Filtre"|trans }}</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <form class="row" style="align-items: center;max-width: 1520px;" action="{{ path('user_index') }}" method="get">
+                                                        <div class="col-lg-6  col-md-6 col-xs-6">
+                                                            <input type="text" class="form-control" name="email" value="{% if email is defined %}{{email}}{% endif %}" placeholder="email">
+
+                                                        </div>
+                                                        <div class="col-lg-6  col-md-5 col-xs-5">
+                                                            <button type="submit" class="float-right btn btn-icon social-evernote waves-effect waves-classic"><i class="icon icon md-search" aria-hidden="true"></i></button>                                    </div>
+                                                    <br><br>
+                                                </form>
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="example table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th style="width: 33%">{{ "email"|trans }}</th>
+                                            <th style="width: 20%" hidden >{{ "Roles"|trans }}</th>
+                                            <th class="text-left" style="width: 33%">{{ "Pays"|trans }}</th>
+                                            <th style="width: 20%" hidden >{{ "Statut"|trans }}</th>
+                                            <th class="text-nowrap" style="width: 34%">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                        {% for u in users %}
+
+
+                                            <tr class="text-center">
+                                                <td >
+                                                    {{ u.email }}
+                                                </td>
+                                                <td  hidden>
+                                                    {% for role in u.roles %}
+                                                        {% if role != "ROLE_USER" %}
+                                                           {% if role == "ROLE_GESTIONNAIRE" %}
+                                                              <span class="badge mb-5 mr-5 badge-warning"> Gestionnaire</span>
+                                                           {% elseif role == 'ROLE_SUPER_ADMIN' %}
+                                                               <span class="badge mb-5 mr-5 badge-info">Administrateur</span>
+                                                           {% elseif role == 'ROLE_ACTIVATOR' %}
+                                                               <span class="badge mb-5 mr-5 badge-danger">Activateur de photo</span>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </td>
+                                                <td class="text-left">
+                                                    {% if u.pays %}
+                                                    <span class="flag-icon flag-icon-{{u.pays.code}}" style="margin-right: 8px;"></span>{{ u.pays.nom }}
+                                                    {% endif %}
+                                                </td>
+                                                <td hidden >
+                                                    {% if u.enabled == false %}
+                                                        <i class="md-close text-danger" style="font-size: 25px;"></i>
+                                                    {% else %}
+                                                        <i class="md-check text-success" style="font-size: 25px;"></i>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <a data-target="#utilisateurs_disable{{ u.id }}" data-toggle="modal" class="btn btn-pure btn-default  md-delete waves-effect waves-classic"></a>
+                                                    <a href="{{ path('user_edit',{'id':u.id}) }}" class="btn btn-pure btn-default icon md-edit waves-effect waves-classic"></a>
+
+
+
+
+
+
+                                                    <div class="modal fade" id="utilisateurs_disable{{ u.id }}" aria-hidden="true"
+                                                         aria-labelledby="exampleModalTabs"
+                                                         role="dialog" tabindex="-1">
+                                                        <div class="modal-dialog modal-simple">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <button type="button" class="close" data-dismiss="modal"
+                                                                            aria-label="Close">
+                                                                        <span aria-hidden="true">×</span>
+                                                                    </button>
+                                                                    <h4 class="modal-title" id="utilisateurs_disable{{ u.id }}">{{ 'conf_delete'|trans }}</h4>
+                                                                </div>
+                                                                <form action="{{ path('utilisateurs_disable', { 'id': u.id }) }}" method="get">
+                                                                    <div class="modal-body">
+                                                                        <h4>{{ 'msg_conf_delete'|trans }}</h4>
+                                                                    </div>
+                                                                    <div class="panel-footer">
+                                                                        <button style="margin-left: 80%;width: 100px" type="submit"
+                                                                                class="pull-right btn btn-block btn-danger">{{ 'label_delete'|trans }}
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- End Example Bordered Table -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+    </div>
+{% endblock %}

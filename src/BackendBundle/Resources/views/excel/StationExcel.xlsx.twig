@@ -1,0 +1,31 @@
+{% xlsdocument %}
+    {% xlssheet 'Worksheet' {
+        columnDimension: {
+            'default': {
+                autoSize: true
+            }
+        }
+    } %}
+        {% xlsrow %}
+            {% xlscell { style: { font: { size: '14' } }, margin: { left: '140' } } %}ID{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Nom{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Adresse{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Zone{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Nom Gerant{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Email Gerant{% endxlscell %}
+
+
+        {% endxlsrow %}
+        {% for Modele in Modeles %}
+            {% xlsrow %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.id }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.nom }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.adresse  }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.zone.nom}} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.gerant.firstName }} {{ Modele.gerant.lastName }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.gerant.email }} {% endxlscell %}
+
+            {% endxlsrow %}
+        {% endfor %}
+    {% endxlssheet %}
+{% endxlsdocument %}

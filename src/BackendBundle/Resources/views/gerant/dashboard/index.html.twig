@@ -1,0 +1,164 @@
+{% extends '@Backend/layout/layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset("remark/global/vendor/intro-js/introjs.min.css") }}">
+    <link rel="stylesheet" href="{{ asset('remark/global/css/widgets/social.css') }}">
+
+    <!-- Page -->
+    <link rel="stylesheet" href="{{ asset('remark/global/fonts/font-awesome/font-awesome.css') }}">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="{{ asset('remark/global/fonts/web-icons/web-icons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('remark/global/fonts/brand-icons/brand-icons.min.css') }}">
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+
+    <style>
+        .site-menu-title {
+            overflow: visible !important;
+        }
+
+        .input-daterange .input-group {
+            float: left;
+            width: 50%;
+        }
+
+        .btn-floating.btn-sm {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            font-size: 15px;
+        }
+        .widget-content{
+            padding: 20px;
+        }
+    </style>
+{% endblock %}
+{% block page %}
+
+<!-- Page -->
+<div class="page" onLoad=" reloadIt()">
+    <div class="page-header">
+        <h1 class="page-title">{{ "Dashboard"|trans }} </h1>
+    </div>
+
+    <div class="page-content container-fluid">
+        <div class="row" data-plugin="matchHeight" data-by-row="true">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel">
+                <div class="widget widget-shadow"  style="cursor: pointer;">
+                    <div class="widget-content bg-white padding-20">
+                        <button type="button" class="btn btn-floating btn-sm btn-info">
+                            <i class="icon fa-money"></i>
+                        </button>
+                        <span class="margin-left-15 font-weight-400 font-size-15">{{ "Commandes par jour"|trans }}</span>
+                        <div class="content-text text-center margin-bottom-0">
+                            <span class="font-size-30 font-weight-100">{{ cj }}</span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel">
+                <div class="widget widget-shadow"  style="cursor: pointer;">
+                    <div class="widget-content bg-white padding-20">
+                        <button type="button" class="btn btn-floating btn-sm btn-info">
+                            <i class="icon fa-money"></i>
+                        </button>
+                        <span class="margin-left-15 font-weight-400 font-size-15">{{ "Commandes par semaine"|trans }}</span>
+                        <div class="content-text text-center margin-bottom-0">
+                            <span class="font-size-30 font-weight-100">{{ cs }}</span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel">
+                <div class="widget widget-shadow"  style="cursor: pointer;">
+                    <div class="widget-content bg-white padding-20">
+                        <button type="button" class="btn btn-floating btn-sm btn-info">
+                            <i class="icon fa-money"></i>
+                        </button>
+                        <span class="margin-left-15 font-weight-400 font-size-15">{{ "Commandes par mois"|trans }}</span>
+                        <div class="content-text text-center margin-bottom-0">
+                            <span class="font-size-30 font-weight-100">{{ cm }}</span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel">
+                <div class="widget widget-shadow" style="cursor: pointer;">
+                    <div class="widget-content bg-white padding-20">
+                        <button type="button" class="btn btn-floating btn-sm btn-info">
+                            <i class="icon fa-money"></i>
+                        </button>
+                        <span class="margin-left-15 font-weight-400 font-size-15">{{"Commandes par année"|trans}}</span>
+                        <div class="content-text text-center margin-bottom-0">
+                            <span class="font-size-30 font-weight-100">{{ ca }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel" onclick="location.href='{{ path('produit_gerant_index') }}';" style="cursor: pointer;">
+                <div class="widget widget-shadow">
+                    <div class="widget-content bg-white padding-20">
+                        <button type="button" class="btn btn-floating btn-sm btn-dark">
+                            <i class="icon fa-cubes"></i>
+                        </button>
+                        <span class="margin-left-15 font-weight-400 font-size-15">{{ "Produits"|trans }} </span>
+                        <div class="content-text text-center margin-bottom-0">
+                            <span class="font-size-30 font-weight-100">{{ produits|length }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel" onclick="location.href='{{ path('client_gerant_index') }}';" style="cursor: pointer;">
+                <div class="widget widget-shadow">
+                    <div class="widget-content bg-white padding-20">
+                        <button type="button" class="btn btn-floating btn-sm btn-primary">
+                            <i class="icon fa-users"></i>
+                        </button>
+                        <span class="margin-left-15 font-weight-400 font-size-15">{{ "Clients"|trans }}</span>
+                        <div class="content-text text-center margin-bottom-0">
+                            <span class="font-size-30 font-weight-100">{{ clients|length }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+    </div>
+
+</div>
+<!-- End Page -->
+{% endblock page %}
+{%  block javascripts %}
+    {{ parent() }}
+    <script>
+        jQuery(document).ready(function() {
+            $('.input-daterange').datepicker({
+                format: "yyyy/mm/dd",
+                language: "fr"
+            });
+        });
+
+        function reloadIt() {
+            var pGress = setInterval(function() {
+                var pVal = $('#progressbar').progressbar('option', 'value');
+                var pCnt = !isNaN(pVal) ? (pVal + 1) : 1;
+                if (pCnt > 100) {
+                    clearInterval(pGress);
+                } else {
+                    $('#progressbar').progressbar({value: pCnt});
+                }
+            },10);
+
+            if (window.location.href.substr(-2) !== "?r") {
+                window.location = window.location.href + "?r";
+            }
+        }
+
+        setTimeout('reloadIt()', 1)();
+
+    </script>
+{% endblock %}

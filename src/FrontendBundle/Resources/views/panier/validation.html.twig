@@ -1,0 +1,385 @@
+{% extends 'FrontendBundle:Layouts:layoutBreadcrumps.html.twig' %}
+
+
+{% block breadcrump %}
+    <div class="row" style="margin-right: 2%;margin-left: 2%">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+
+
+                <li><a style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #ED0000 !important;" href="/">{{ "Accueil" | trans }}</a></li>
+                <li><a style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #ED0000 !important;" href="{{ path("panier") }}">{{ "Panier" | trans }}</a></li>
+                <li><a style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #ED0000 !important;" href="{{ path("livraison") }}">{{ "Adresse" | trans }}</a></li>
+
+                <li style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #374649 !important;">
+                    {{ "Conf" | trans }}</li>
+
+
+            </ul>
+        </div>
+    </div>
+{% endblock breadcrump %}
+{% block content %}
+
+
+
+    <div class="row"  >
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <div class="row userInfo">
+
+                <div class="col-xs-12 col-sm-12"  >
+
+                    <div class="w100 clearfix">
+                        <ul class="orderStep orderStepLook2">
+
+
+                            <li>
+                                <a  class="inputtitle" style="cursor: default;"> <i class="fa fa-map-marker"></i> <span> 1.{{ "Point de retrait" | trans }}</span></a>
+                            </li>
+                            <li>
+                                <a  class="inputtitle"  href="{{ path("panier") }}"> <i class="glyphicon glyphicon-shopping-cart"></i> <span> 2.{{ "Panier" | trans }}</span></a>
+                            </li>
+
+                            {% if station.isDelivered %}
+                                <li>
+                                    <a  class="inputtitle"  href="{{ path("modereception") }}"> <i class="fa fa-calendar"></i><span> 3.{{ "Mode de reception" | trans }} </span></a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a  class="inputtitle"  href="{{ path("livraison") }}"> <i class="fa fa-calendar"></i><span> 3.{{"Crénau" | trans}} </span></a>
+                                </li>
+                            {% endif %}
+
+
+                            <li class="active">
+                                <a ><i class="fa fa-check-square "> </i><span>4.{{ "Conf" | trans }}</span></a>
+                            </li>
+
+                        </ul>
+                        <!--/.orderStep end-->
+                    </div>
+
+                    <div class="w100 clearfix">
+
+                        {% for message in app.session.flashBag.get('errorpayzen') %}
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        <div class="row userInfo">
+
+                            <div class="col-lg-12">
+                                <h2 class="titlered"> {{ "Valider mon panier" | trans }} </h2>
+
+                            </div>
+
+
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="cartContent w100 checkoutReview ">
+                                    <table class="cartTable table-responsive" style="width:100%">
+                                        <tbody>
+                                            <tr class="CartProduct cartTableHeader">
+                                                <th style="width:15%"> {{ "Produit" | trans }}</th>
+                                                <th class="checkoutReviewTdDetails" colspan="2"  style="width: 45%">
+                                                    {{"Détails" | trans}}</th>
+                                                <th class="hidden-sm hidden-xs" style="width:10%">{{ "Prix unitaire" | trans }}</th>
+                                                <th class="hidden-xs " style="width:5%">{{ "QT" | trans }}</th>
+                                                <th style="width:15%">{{ "Total" | trans }}</th>
+                                            </tr>
+
+                                            {% for produit in produits %}
+                                                <tr class="CartProduct">
+                                                    <td class="CartProductThumb">
+                                                        <div><a href="/">
+                                                                <img  style=" object-fit: contain !important; display: inline;width: auto"  data-original="{{ asset('/assets/img/default_t_e.jpg') }}"
+                                                                      src="{%  if  produit.produit.image  and produit.produit.image != "" %}/uploads/produits/{{ produit.produit.image }}
+                                                                              {% else %}{{ asset('/assets/img/default_t_e.jpg') }}{% endif %}"
+                                                                      alt="{{ produit.produit.id }}">
+
+                                                            </a>
+                                                        </div>
+
+
+                                                    </td>
+                                                    <td  style=" width :15%">
+                                                        <div class="CartDescription">
+                                                            <h4>
+                                                                <a href="#">{{ produit.produit.nom }}</a>
+                                                            </h4>
+                                                        </div>
+                                                    </td>
+                                                    <td   style=" width :30%" >
+                                                        {% if size[produit.produit.id] is defined %}
+                                                            {% for s in produit.produit.sizes %}
+                                                                {% if size[produit.produit.id] is defined and  size[produit.produit.id][s.id] is defined %}
+                                                                    <div class="row" style="padding-left: 10px;" >
+                                                                        <p style=" float:left;display: inline-block;border: 2px solid #ddd;background-color: {{s.couleur.codeCouleur}};color: transparent;height: 30px;width: 30px;"></p>
+                                                                        <h5  style=" padding-left: 10px; padding-top: 4px;display: inline-block; float:left;color: #a1a5a9">
+                                                                            {{ "Taille" | trans }} :{{ s.libelle }}
+                                                                            {{ "QT" | trans }} :{{ size[produit.produit.id][s.id] }}</h5>
+                                                                    </div>
+
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </td>
+
+                                                    <td class="hidden-sm hidden-xs">
+                                                        <span class="price" style="color: #374649" >    {{ formated_price(produit.produit.finalPrice["prix"],app.session.get("pays"))}}</span>
+                                                        <br>
+                                                        {% if produit.produit.finalPrice["is_promo"] and produit.produit.numProduitPromo == 1 %}
+                                                            <span class="old-price">
+                                                                 {{ formated_price(produit.produit.finalPrice["old_prix"],app.session.get("pays"))}}
+                                                             </span>
+                                                        {% elseif produit.produit.finalPrice["is_promo"]  and produit.produit.prixPromo and produit.produit.prixPromo > 0  %}
+                                                             <span class="old-price">
+                                                            {{ formated_price(produit.produit.finalPrice["old_prix"],app.session.get("pays"))}}
+
+                                                              </span>
+                                                        {% endif %}
+                                                    </td>
+
+                                                    <td class="hidden-xs spanText">{{ produit.quantite }}</td>
+
+                                                    <td class="price">
+                                                        {{ formated_price(produit.produit.getTotalPrice(produit.quantite)["prix"],app.session.get("pays"))}}
+                                                        <br>
+                                                        {% if produit.produit.finalPrice["is_promo"] and produit.quantite >=   produit.produit.numProduitPromo %}
+                                                            <span class="old-price">
+                                                                {{ formated_price(produit.produit.getTotalPrice(produit.quantite)["old_prix"],app.session.get("pays"))}}
+                                                            </span>
+                                                        {% elseif produit.produit.finalPrice["is_promo"]  and produit.produit.prixPromo and produit.produit.prixPromo > 0  %}
+                                                            <span class="old-price">
+                                                            {{ formated_price(produit.produit.getTotalPrice(produit.quantite)["old_prix"],app.session.get("pays"))}}
+
+                                                            </span>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            {% if commande.coupon.type is defined %}
+
+                                                <tr class="cartTotalTr">
+                                                    <td >
+                                                        <div></div>
+                                                    </td>
+                                                    <td colspan="2" ><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ "Prix initial"|trans }}</font></font></td>
+                                                    <td colspan="2" style="padding-right: 10px;">
+                                                    <span><font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">
+                                                        {% if commande.coupon.type == 1 %}
+                                                             {{ formated_price(commande.prix+commande.coupon.montant,app.session.get("pays"))}}
+                                                        {% endif %}
+                                                        {% if commande.coupon.type ==2 %}
+                                                           {% set calculated_price =  commande.prix+(commande.prix/ (100 - commande.coupon.pourcentage)  * commande.coupon.pourcentage) %}
+                                                            {{ formated_price(calculated_price,app.session.get("pays"))}}
+
+                                                        {% endif %}
+
+                                                         </font>
+                                                     </font>
+                                                  </span>
+                                                    </td>
+
+                                                </tr>
+                                                <tr class="cartTotalTr">
+                                                    <td >
+                                                        <div></div>
+                                                    </td>
+                                                    <td colspan="2"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{ "Coupon"|trans }}</font></font></td>
+                                                    <td colspan="2" style="padding-right: 10px;">
+                                                     <span><font style="vertical-align: inherit;">
+                                                         <font style="vertical-align: inherit;">
+                                                        {% if commande.coupon.type == 1 %}
+                                                            réduction de {{ formated_price( commande.coupon.montant,app.session.get("pays"))}}
+                                                        {% endif %}
+                                                        {% if commande.coupon.type ==2 %}
+                                                            réduction de {{  commande.coupon.pourcentage }} %
+                                                        {% endif %}
+
+                                                         </font>
+                                                         </font>
+                                                       </span>
+                                                    </td>
+
+                                                </tr>
+                                                <tr class="cartTotalTr">
+
+                                                    <td ></td>
+                                                    <td class="" colspan="2">
+                                                       <span class="labell">{{ "TOTAL"|trans}}  </span>
+                                                    </td>
+                                                    <td class=""colspan="2"  style="padding-right: 10px;" >
+                                                        <span class="price">
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">  {{ formated_price( commande.prix,app.session.get("pays"))}}
+                                                    </font>
+                                                </font>
+                                            </span>
+                                                    </td>
+
+                                                </tr>
+
+                                            {% else %}
+
+
+                                                <tr class="cartTotalTr">
+
+                                                    <td ></td>
+                                                    <td class="" colspan="2">
+                                                        <span class="labell">{{ "TOTAL"|trans}}  </span>
+
+                                                    </td>
+                                                    <td class="" style="padding-right: 10px;" colspan="2" >
+                                                        <span class="price">
+                                                          <font style="vertical-align: inherit;">
+                                                             <font style="vertical-align: inherit;"> {{ formated_price( commande.prix,app.session.get("pays"))}}
+                                                            </font>
+                                                          </font>
+                                                        </span>
+                                                    </td>
+
+                                                </tr>
+                                            {% endif%}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--cartContent-->
+
+                                <div class="w100 costDetails">
+                                    <div class="table-block" id="order-detail-content">
+                                        <table class="std table" id="cart-summary">
+                                            <tr>
+
+                                            </tr>
+
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!--/costDetails-->
+
+
+                                <!--/row-->
+
+                                {% if commande.adresselivraison %}
+                                    <div class="row" style="margin: 25px 0px">
+                                        <div class="col-md-6">
+
+                                            <h3 class="titlered"> {{ "Adresse de livraison"|trans }}: </h3>
+                                            <dt>{{ commande.adresselivraison.prenom }} {{ commande.adresselivraison.nom }}</dt>
+                                            <dt>{{ commande.adresselivraison.adresse }}</dt>
+                                            <dt>{{ commande.adresselivraison.cp }} {{ commande.adresselivraison.ville }}
+                                                - {{ commande.adresselivraison.pays }}</dt>
+
+                                        </div>
+
+
+                                    </div>
+                                {% else %}
+                                <div class="row" style="margin: 25px 0px">
+                                    <div class="col-md-8">
+
+                                        <h4 class="titlered"> {{ "Point de retrait" | trans }}: </h4>
+                                        <h5 class="labell">{{station.nom}}</h5>
+                                        <h5 class="labell">{{station.adresse}}</h5>
+                                        {% if  station.tel %}
+                                        <h5 class="labell">{{ "Téléphone"  | trans}}: {{station.tel}}</h5>
+                                        {% endif %}
+                                        {% if email and email !="" %}
+                                        <h5 class="labell"> {{ "Email" | trans }}: {{ email }}</h5>
+                                            <br style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+                                            <br style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+                                        {% endif %}
+
+                                    </div>
+
+                                    <div class="col-md-4">
+
+                                        <h4  class="titlered"> {{ "Date et heure de retrait" | trans }}: </h4>
+                                        <h5 class="labell">  {{ commande.dateReception | date("Y-m-d") }} {{ commande.periodeToString  }}</h5>
+
+                                    </div>
+                                </div>
+                                {% endif %}
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <!--/row end-->
+
+                    <div class="cartFooter w100">
+                        <div class="box-footer">
+
+
+                            <div class="pull-left">
+                                <a href="{{ path('modereception') }}" class="btn  "
+                                   style="padding-right: 10px;padding-left: 10px;line-height: 40px">
+                                    <i class="fa fa-arrow-left"></i>&nbsp; {{ "Créneau" | trans }}
+                                </a>
+                            </div>
+                            <div class="pull-right">
+                                <a href="{{ path('validation_commande') }}" >
+
+                                    <button type="submit" class="btn btn_card w100" >
+                                        {{ "Confirmer" | trans }} &nbsp; <i class="fa fa-check"></i>
+                                    </button>
+                                </a>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                    <!--/ cartFooter -->
+                </div>
+
+
+            </div>
+        </div>
+        <!--/row end-->
+
+
+        <div class="col-lg-3 col-md-3 col-sm-12 rightSidebar">
+
+            <div class="w100 cartMiniTable">
+                <table id="cart-summary" class="std table">
+                    <tbody>
+                        <tr>
+                            <td><h4 class="spanText"> {{ "Total commande"|trans }}</h4></td>
+                        </tr>
+                        <tr>
+                            <td class=" site-color" >
+                                <span class="price" id="total-price">{{ formated_price( commande.prix  ,app.session.get("pays"),false)}}</span>
+                                <span class=" site-color">  {{ app.session.get("pays").devise }}</span>
+                                {% if station.isDelivered %}
+                                    <span class="priceeee">  {{ "dont" | trans }} {{ formated_price( station.prixLivraison,app.session.get("pays"))}}  {{ "prix de livraison" | trans }} </span>
+                                {% endif %}
+
+                            </td>
+                        </tr>
+
+
+                    </tbody>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <!--/rightSidebar-->
+    </div>
+    <!--/row-->
+
+    <div style="clear:both"></div>
+{% endblock %}

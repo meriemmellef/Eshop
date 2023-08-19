@@ -1,0 +1,430 @@
+{% extends '@Backend/layout/layout.html.twig' %}
+{% block page %}
+	<div class="page">
+
+
+		<div class="page-header">
+			<h1 class="page-title">{{ "Liste Des Commandes"|trans }}</h1>
+
+			<div class="page-header-actions">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="media-body text-center">
+							<h4 class="mt-0 mb-5"   style="color: #f02138;margin-bottom: -5px!important;"> {{ nbcommandes|length }}</h4>
+							<small style="color: #505050;">{{ "Commandes"|trans }}</small>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="page-content" style="padding-top: 0 !important;padding-bottom: 0 !important;">
+			<!-- Panel -->
+			<div class="panel" >
+				<div class="panel-body container-fluid" style="padding: 0 !important;">
+					<div class="row row-lg">
+
+
+						<div class="col-lg-12">
+							<!-- Example Bordered Table -->
+							<table class="table table-bordered" style="border: none;">
+								<thead>
+								<tr style="border-bottom: 1px solid #f3f3f3;">
+									<th style="border: none;padding-left: 20px">{{ "Filtre"|trans }}</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<td style="border: none;padding: 10px 20px">
+
+											<form style="align-items: center"  action="{{ path('commande_index') }}" method="get">
+                                             <div class="row" >
+											<div  class="col-lg-3  col-md-3 col-xs-3">
+												<div style="width: 80%">
+													<label class="control-label">Station</label>
+													<select class="form-control" name="station" placeholder="choisir une station">
+														<option value="" disabled selected hidden>{{ "choisir une station"|trans }}</option>
+														{% if station == '' %}
+															<option class="dropdown-item" value="" role="menuitem" selected>
+																{{ "Toutes les stations"|trans }}
+															</option>
+														{% else %}
+															<option class="dropdown-item" value="" role="menuitem" >
+																{{ "Toutes les stations"|trans }}
+															</option>
+														{% endif %}
+
+														{% for s in stations %}
+															{% if station is defined   %}
+																{% if station == s.id %}
+																	<option class="dropdown-item" value="{{ s.id }}" role="menuitem" selected>
+																		{{ s.nom }}
+																	</option>
+																{% else %}
+																	<option class="dropdown-item" value="{{ s.id }}" role="menuitem">
+																		{{ s.nom }}
+																	</option>
+																{% endif %}
+															{% else %}
+																<option class="dropdown-item" value="{{ s.id }}" role="menuitem">
+																	{{ s.nom }}
+																</option>
+															{% endif %}
+														{% endfor %}
+													</select>
+
+												</div>
+											</div>
+											<div class="col-lg-3  col-md-3 col-xs-3">
+												<div style="width: 80%" >
+
+												<label class="control-label">{{ "Statut Commande"|trans }}</label>
+												<select class="form-control" name="statutcommande">
+													<option class="btn btn-block btn-default waves-effect waves-classic" value=""  selected>
+														{{ "Tous"|trans }}</option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="0" {% if statutcommande is defined and statutcommande == '0' %} selected {% endif %}>
+														{{"Non Traitée"|trans}}</option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="1" {% if statutcommande is defined and statutcommande == '1' %} selected {% endif %}>
+														{{ "En cours de traitement"|trans }}</option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="2" {% if statutcommande is defined and statutcommande == '2' %} selected {% endif %}>
+														{{"Traitée"|trans}}</option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="3" {% if statutcommande is defined and statutcommande == '3' %} selected {% endif %}>
+														{{"Livrée"|trans}}</option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="4" {% if statutcommande is defined and statutcommande == '4' %} selected {% endif %}>
+														{{"Annulée"|trans}}</option>
+												</select>
+												</div>
+
+											</div>
+											<div class="col-lg-3  col-md-3 col-xs-3">
+												<div style="width: 80%" >
+
+												<label class="control-label">{{ "Statut Payement"|trans }}</label>
+												<select class="form-control" name="statutpayement">
+													<option class="btn btn-block btn-default waves-effect waves-classic" value=""  selected>
+														{{ "Tous"|trans }}</option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="0" {% if statutpayement is defined and statutpayement == '0' %} selected {% endif %}>
+														{{"Non payée"|trans}}</option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="1" {% if statutpayement is defined and statutpayement == '1' %} selected {% endif %}>
+														{{"Payée"|trans}}</option>
+
+												</select>
+												</div>
+											</div>
+												 {#
+												 	<div class="col-lg-3  col-md-3 col-xs-3">
+												<label class="control-label">{{ "Remboursement"|trans }} </label>
+												<select class="form-control" name="remboursement">
+													<option class="btn btn-block btn-default waves-effect waves-classic" value=""  selected>
+														{{ "Tous"|trans }}</option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="0" {% if remboursement is defined and remboursement == '0' %} selected {% endif %}>
+														{{"Non remboursée"|trans}}</option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="1" {% if remboursement is defined and remboursement == '1' %} selected {% endif %}>
+														{{"Remboursée"|trans}}</option>
+
+												</select>
+											</div>
+												 #}
+											<div style="padding-top: 10px" class="col-lg-3  col-md-3 col-xs-3">
+												<div style="width: 80%">
+
+												<label class="control-label">{{ "Periode de reception"|trans }} </label>
+												<select class="form-control" name="periode">
+													<option class="btn btn-block btn-default waves-effect waves-classic" value=""  selected>
+														{{ "Tous"|trans }}</option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="1" {% if periode is defined and periode == '1' %} selected {% endif %}>
+														{{"De 8h à 10h"|trans}} </option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="2" {% if periode is defined and periode == '2' %} selected {% endif %}>
+														{{"De 10h à 12h"|trans}} </option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="2" {% if periode is defined and periode == '3' %} selected {% endif %}>
+														{{"De 12h à 14h"|trans}} </option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="4" {% if periode is defined and periode == '4' %} selected {% endif %}>
+														{{"De 14h à 16h"|trans}} </option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="5" {% if periode is defined and periode == '5' %} selected {% endif %}>
+														{{"De 16h à 18h"|trans}} </option>
+													<option class="btn btn-block btn-default waves-effect waves-classic" value="6" {% if periode is defined and periode == '6' %} selected {% endif %}>
+														{{"De 18h à 20h"|trans}} </option>
+
+												</select>
+												</div>
+
+											</div>
+
+
+
+
+
+											<div class="col-lg-6  col-md-6 col-xs-6">
+												<label class="control-label">Date </label>
+												<div class="input-daterange" data-plugin="datepicker">
+													<div class="input-group">
+                                                                <span class="input-group-addon">
+                                                                    <i class="icon md-calendar" aria-hidden="true"></i>
+                                                                </span>
+														<input type="text" class="form-control" name="start" value="{% if start is defined  and start !=''%} {{ start }} {% endif %}" />
+													</div>
+													<div class="input-group">
+														<span class="input-group-addon">{{ "to"|trans }}</span>
+														<input type="text" class="form-control" name="end" value="{% if end  is defined and end !='' %} {{ end }} {% endif %}" />
+													</div>
+												</div>
+
+											</div>
+											<div class="col-lg-3  col-md-3 col-xs-3">
+												<label class="control-label">{{"Réferencecmd"|trans}} </label>
+												<input type="text" class="form-control" name="reference" value="{% if reference is defined %}{{reference}}{% endif %}" placeholder={{ "Réference"|trans }}>
+											</div>
+
+											<div style="padding-top: 10px" class="col-lg-3  col-md-3 col-xs-3">
+												<label class="control-label">{{ "Client"|trans }} </label>
+												<input type="text" class="form-control" name="client" value="{% if client is defined %}{{client}}{% endif %}" placeholder={{ "Client"|trans }}>
+											</div>
+
+											<div  class="col-lg-12  col-md-12 col-xs-12 text-right">
+												<br>
+												<button style="margin-right: 10px;" type="submit" class=" btn btn-icon social-evernote waves-effect waves-classic">
+													<i class="icon icon md-search" aria-hidden="true"></i></button>
+
+												<a href="{{ path('ExportCommande') }}"  style="margin-right: 10px;" class="float-right btn  btn-icon  btn-dark waves-effect waves-classic waves-effect waves-classic">
+													<i class="icon md-download" aria-hidden="true"></i> {{ "exporter"|trans }}</a>
+
+											</div>
+											 </div>
+											</form>
+
+
+									</td>
+								</tr>
+								</tbody>
+							</table>
+
+							<!-- End Example Bordered Table -->
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- End Panel -->
+		</div>
+		<div class="page-content" style="padding-top: 0px " >
+			<!-- Panel -->
+			<div class="panel">
+				<div class="panel-body container-fluid"  style="padding-left: 0px !important;padding-right: 0px !important;padding-top: 0px !important;padding-bottom: 0px !important;">
+					<div class="row row-lg">
+
+						<div style=" padding-left: 48px;" class="col-lg-12  col-md-12 col-xs-12 text-left">
+{#
+
+	<button onclick="remboursercommande()"
+									id="rembourser" name="rembourser"
+									class="float-left  btn btn-icon social-evernote waves-effect waves-classic"
+							style="background-color: #616161!important;border-color: #616161;box-shadow: none;">
+								<i class="icon md-download" aria-hidden="true"></i> {{ "rembourser"|trans }}</button>
+#}
+
+
+						</div>
+						<div class="col-lg-12">
+							<!-- Example Bordered Table -->
+
+							<table class="table table-striped" id="produits">
+								<thead>
+								<tr class="">
+									<th style="padding-left: 20px;width: 5%">
+										{{"Réference"|trans}}
+									</th>
+									<th style="width: 13%">{{ "Client/Station"|trans }}</th>
+									<th style="width: 7%">{{"Mode de réception"|trans}}</th>
+									<th style="width: 5%">{{ "Nbr Produits"|trans }}</th>
+									<th style="width: 8%">{{ "Statut Commande"|trans }}</th>
+									<th style="width: 8%">{{ "Statut Paiement"|trans }}</th>
+									{#
+																		<th style="width: 10%">{{ "Remboursement"|trans }} </th>
+
+									#}
+									<th style="width: 15%">{{ "Date de la commande"|trans }}</th>
+									<th style="width: 14%">{{"Date de retrait"|trans}} </th>
+									<th class="text-center text-nowrap" style="padding-right:20px;width: 10%">Action</th>
+
+								</thead>
+								<tbody>
+
+								{% for c in commandes %}
+									<tr id="{{ c.0.commande.id }}">
+										<td  style="padding-left: 20px;">
+											{#
+											<div class="checkbox-custom checkbox-primary text-left">
+													{% set key = c.0.commande.id  %}
+												<input type="checkbox" name="checkbox[]"  value="{{ key }}" id="checkbox{{ key }}" {% if checkbox[ key ] is defined %} checked="" {% endif %}>
+
+
+												<label>{{ c.0.commande.reference }}</label>
+											</div>
+											#}
+											<div class="text-left">
+
+
+												<label>{{ c.0.commande.reference }}</label>
+											</div>
+
+										</td>
+										<td>
+											<div class="media-body">
+												<h5 class="mt-0 mb-5">{{ c.0.commande.utilisateur.firstName }} {{ c.0.commande.utilisateur.lastName }}</h5>
+												<small>{{ c.0.commande.utilisateur.tel }}</small>
+												<small>{{ c.0.commande.station.nom }}</small>
+											</div>
+
+										</td>
+
+										<td  style="padding-left: 20px; " style="width: 100px;">
+											{% if c.0.commande.adresselivraison %}
+											{{ "Livraison"|trans }}
+											{% else %}
+											{{ "Drive"|trans }}
+											{% endif %}
+										</td>
+										<td>
+											{{ c.nbproduit }}
+										</td>
+										<td>
+											<span class="badge {{ c.0.commande.statusCommandeCssClass }}">{{ c.0.commande.statutCommandeToString|trans }}</span>
+
+										</td>
+										<td>
+											<span class="badge {{ c.0.commande.statusPayementCssClass }}">{{ c.0.commande.statutPayementToString|trans }}</span>
+
+										</td>
+										{#
+											<td id="remboursement{{ c.0.commande.id }}">
+											<span class="badge {{ c.0.commande.remboursementCssClass }}">{{ c.0.commande.remboursementToString }}</span>
+										</td>
+										#}
+
+										<td >
+											{% if c.0.commande.adresselivraison == null %}
+												<h6> <i class="icon md-calendar" aria-hidden="true" style="margin-right:0 !important;"></i>
+													{{ c.0.commande.dateReservation|date("d/m/Y") }}
+												</h6>
+												<h6><i class="icon md-alarm" aria-hidden="true" style="margin-right:0 !important;"></i>
+													{{ c.0.commande.createdAt|date("h:i") }}
+												</h6>
+
+											{% else %}
+												<h6> <i class="icon md-calendar" aria-hidden="true" style="margin-right:0 !important;"></i>
+													{{ c.0.commande.dateReservation|date("d/m/Y") }}
+												</h6>
+												<h6><i class="icon md-alarm" aria-hidden="true" style="margin-right:0 !important;"></i>
+													{{ c.0.commande.createdAt|date("h:i") }}
+												</h6>
+											{% endif %}
+										</td>
+										<td>
+											{% if c.0.commande.adresselivraison == null %}
+												<h6> <i class="icon md-calendar" aria-hidden="true" style="margin-right:0 !important;"></i>
+													{{ c.0.commande.dateReception|date("d/m/Y")  }}
+												</h6>
+												{% if c.0.commande.periodeReception %}
+												<h6><i class="icon md-alarm" aria-hidden="true" style="margin-right:0 !important;"></i>
+													{{ c.0.commande.periodeToString }}
+												</h6>
+												{% endif %}
+
+											{% endif %}
+										</td>
+										<td class="text-right" style="min-width: 115px;padding-right:20px;">
+
+									{#
+											<div class="btn-group">
+												<a href=""
+												   class="btn btn-pure btn-default  md-edit waves-effect waves-classic "
+												   style="color: #b1b1b1;border: 1px solid;"
+												   id="exampleHoverDropdown1" data-hover="dropdown" data-delay="1000" data-toggle="dropdown" aria-expanded="false"></a>
+
+												<div class="dropdown-menu" aria-labelledby="exampleHoverDropdown1" role="menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 36px, 0px); top: 0px; left: 0px; will-change: transform;">
+													<a href="{{ path('commnde_edit', { 'id': c.0.commande.id,'remboursement' :0 }) }}" class="dropdown-item" role="menuitem">
+														<font style="vertical-align: inherit;">
+															<font style="vertical-align: inherit;">{{"Non remboursée"|trans}}</font>
+														</font>
+													</a>
+													<a href="{{ path('commnde_edit', { 'id': c.0.commande.id,'remboursement' :1 }) }}"
+													   class="dropdown-item"
+													   role="menuitem">
+														<font style="vertical-align: inherit;">
+															<font style="vertical-align: inherit;">{{"Remboursée"|trans}}</font>
+														</font>
+													</a>
+
+												</div>
+
+											</div>
+									#}
+
+											<a class="btn btn-pure btn-danger md-plus waves-effect waves-classic"
+											   style="color: #46bf8c!important;border: 1px solid;"
+											   href="{{ path('commande_show', { 'id': c.0.commande.id }) }}">
+											</a>
+										</td>
+									</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+							<div class="navigation">
+								{{ knp_pagination_render(commandes) }}
+							</div>
+
+							<!-- End Example Bordered Table -->
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<!-- End Panel -->
+		</div>
+
+		</div>
+	<script>
+		var checkbox = document.querySelector("input:checked");
+
+		checkbox.addEventListener( 'change', function() {
+			if($("input:checked").length>0){
+				alert($("input:checked").length)
+				document.getElementById('rembourser').style.backgroundColor = "#46bf8c!important";
+				document.getElementById('rembourser').style.borderColor = "#46bf8c!important";
+			}
+			else{
+				alert($("input:checked").length)
+				document.getElementById('rembourser').style.backgroundColor = "#616161!important";
+				document.getElementById('rembourser').style.borderColor = "#616161!important";
+			}
+		})
+		function remboursercommande() {
+
+			var array_produit = new Array();
+			$("input:checked").each(function () {
+				array_produit.push($(this).val());
+			});
+			//array_tenant_id = ["1000", "1002"]
+			$.ajax({
+				url: "{{ path('rembourserCommande') }}",
+				method: 'GET',
+				dataType: 'json',
+				data: {"checkbox": array_produit},
+				success: function (data) {
+
+					for (let i = 0; i < data.produits.length; i++)
+                   {
+                   	console.log('#produits #'+ data.produits[i]+' #remboursement'+data.produits[i])
+					   $('#produits #'+ data.produits[i]+' #remboursement'+data.produits[i]).html("<span class='badge badge-success'>Remboursée</span>");
+
+					  // $("#" + produits + " td.remboursement"+data.produits[i]).html("<span class='badge badge-success'>Remboursée</span>");
+					  // $("#produits"  + " td.remboursement"+data.produits[i]).html("<span class='badge badge-success'>Remboursée</span>");
+
+				   }
+					//read response: data
+				}
+			});
+		}
+	</script>
+{% endblock %}

@@ -1,0 +1,818 @@
+{% extends 'FrontendBundle:Layouts:layoutBreadcrumps.html.twig' %}
+
+
+{% block breadcrump %}
+	<ul class="breadcrumb" style="margin-right: 2%;margin-left: 2%">
+
+		<li><a style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #ED0000 !important;" href="/">{{ "Home" | trans }}</a></li>
+		<li><a style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #ED0000 !important;" href="{{ path("compte") }}">{{ app.user }}</a></li>
+		<li style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #374649 !important;"> {{ "Favoris" | trans }}</li>
+	</ul>
+{% endblock breadcrump %}
+{% block content %}
+
+	<div class="container">
+
+		{% for key,produit in favoris %}
+
+			<div class="item col-lg-3 col-md-4 col-sm-6 col-xs-12" style="margin-top: 15px;margin-bottom: 15px" >
+				<div class="product" >
+
+
+					<a 	onclick="deletefavoris({{ produit.produit.id }},{{key}})"
+						  class=" add-fav tooltipHere
+                                   active"
+						  data-placement="left" >
+						<i class="glyphicon glyphicon-heart"></i>
+					</a>
+					<div class="image" style="width: 100%!important;height: 70%!important;">
+						{% if produit.produit.description or produit.produit.descriptionen %}
+
+						<div class="quickview" >
+							<a  class="btn btn-xs btn-quickview" href="{{ path("detail_produits",{'produitid':produit.produit.id}) }}"
+							>{{ "Details" | trans }} </a>
+						</div>
+						{% endif %}
+
+						<img style="width: 100%!important;border-top-left-radius: 10px;border-top-right-radius: 10px;max-height: 300px;min-height:300px;height: 100%!important;object-fit: contain  !important"
+							 src="{{ asset('/assets/img/default_t_e.jpg') }}"
+							 data-original="{% if produit.produit.image and produit.produit.image and produit.produit.image != "" %}/uploads/produits/{{ produit.produit.image }}
+                                        {% else %}{{ asset('/assets/img/default_t_e.jpg') }} {% endif %}" alt="img"
+							 class="img-responsive lazy" >
+						{% if produit.produit.quantite >0 %}
+
+							{% if produit.produit.finalPrice["is_promo"] and produit.produit.prixPromo and produit.produit.prixPromo > 0 %}
+								<div class="promotion">
+									<span class="discount" >{{ "Promotion" | trans }}</span>
+								</div>
+							{% elseif produit.produit.finalPrice["is_promo"] and produit.produit.numProduitPromo == 1 %}
+								<div class="promotion">
+										<span class="discount" >{{ "Promotion" | trans }}
+											{{ formated_price(produit.produit.finalPrice["percentage"],app.session.get('pays'),false) }}%
+										</span>
+								</div>
+
+							{% elseif produit.produit.finalPrice["is_promo"] and produit.produit.numProduitPromo > 1 %}
+								<div class="promotion">
+										<span class="discount" >
+                                            {{ formated_price(produit.produit.finalPrice["percentage"],app.session.get('pays'),false) }}%
+																						                                        {{ "sur le" | trans }}
+											{{ produit.produit.numProduitPromo }}{{"ème" | trans}}
+										</span>
+								</div>
+							{% endif %}
+						{% else %}
+							<div class="promotion">
+								<span class="horsstock" style="    font-weight: 400;">	{{ "HORS STOCK" | trans }}	</span>
+							</div>
+						{% endif %}
+					</div>
+					<div style="height: 30%!important;position: relative">
+
+
+						<div class="line_gradient"></div>
+
+
+						<div class="description" >
+							{% if app.request.getLocale()  == 'en' %}{{ produit.produit.nomen }}{% else %}{{ produit.produit.nom }}{% endif %}
+
+						</div>
+						<span class="cat_badge" >
+                                        {% if app.request.getLocale()  == 'en' %}{{ produit.produit.categorie.nomEn }}{% else %}{{ produit.produit.categorie.nom }}{% endif %}
+                                    </span>
+
+
+
+
+
+						<div class="row" style="position: absolute;  bottom: 10px;left: 0;right: 0">
+							<div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+								<div class=" price  div_card" style="padding-left: 14px;
+								{% if (produit.produit.finalPrice["is_promo"] == false) or( produit.produit.finalPrice["is_promo"] == true and produit.produit.numProduitPromo>1 ) %}
+										padding-bottom: 22px;
+								{% endif %}">
+                                            <span class="old-price" style="float:left">
+                                              {% if produit.produit.finalPrice["is_promo"] and produit.produit.numProduitPromo == 1 %}
+												  {{ formated_price( produit.produit.finalPrice["old_prix"],app.session.get("pays"))}}
+											  {% elseif produit.produit.finalPrice["is_promo"] and produit.produit.prixPromo and produit.produit.prixPromo > 0 %}
+												  {{ formated_price( produit.produit.finalPrice["old_prix"],app.session.get("pays"))}}
+											  {% endif %}
+                                                </span>
+									<br>
+									<span  class="" style="float:left"> {{ formated_price( produit.produit.finalPrice["prix"],app.session.get("pays"))}}</span>
+
+
+
+								</div>
+							</div>
+							<div class="div_card col-lg-6 col-md-6 col-xs-6 col-sm-6 text-right"
+								 style="padding-right: 20px;padding-left: 23px;">
+								<div class="row" id="quantite{{ produit.produit.id }}"    name="quantite{{ produit.produit.id }}" disabled="none" hidden>
+
+									<div class="col-lg-12 col-md-12 col-xs-12" style="">
+										<div class="input-group group_qt">
+
+                                                            <span class="input-group-btn">
+                                                                <button id="deleteArticle{{ produit.produit.id }}"
+																		onclick="deleteArticleQuantity({{ produit.produit.id }},{{ produit.produit.prix }})"
+																		type="button"
+																		class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+																		data-type="minus" data-field="">
+										                             	<span class="glyphicon glyphicon-minus"></span>
+									                        	</button>
+                                                            </span>
+											<input style=" height: 4.5rem;!important;" type="text"
+												   id="qte{{ produit.produit.id }}"
+												   name="qte{{ produit.produit.id }}"
+												   class="form-control input-number text-center" {% if app.session.get('panier')[produit.produit.id] is defined %} value="{{ app.session.get('panier')[produit.produit.id] }}" {% else %} value="0" {% endif %}
+												   min="1" max="100" disabled>
+											<span class="input-group-btn">
+                                                                <button id="addArticle{{ produit.produit.id }}"
+																		onclick="addArticle({{ produit.produit.id }},{{ produit.produit.quantite }},{{ produit.produit.maxcommande }})"
+																		type="button"
+																		class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+																		data-type="plus" data-field="">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+                                                            </span>
+										</div>
+									</div>
+
+								</div>
+
+
+								<div class="" id="addcart{{ produit.produit.id }}"   name="addcart{{ produit.produit.id }}">
+									{% if produit.produit.quantite == 0 %}
+										<button disabled type="button"
+												style=" background-color: #8c8586; color: white; border: 1px solid #8c8586; padding: 0 0;
+    height: 43px;
+    width: 43px;
+    margin-bottom: 8px;
+
+"
+												data-loading-text="<i class='fa fa-spinner fa-spin '> </i> Chargement">
+								                        	<span class="add2cart">
+									                      	<i style="font-size: 17px;" class="glyphicon glyphicon-shopping-cart"></i>
+									                       </span>
+										</button>
+									{% else %}
+
+										{% if  produit.produit.couleurs|length > 0 %}
+
+											<a class=" btn_card" style="padding-top: 15px; padding-bottom: 15px;"
+											   href="{{ path("detail_produits",{'produitid':produit.produit.id}) }}"  >
+                                                         <span class="add2cart">
+                                                            <span class="btnspanadd"> {{ "Acheter" | trans }} <i
+																		class="fa fa-shopping-cart"></i></span>
+                                                        </span>
+											</a>
+
+										{% else %}
+
+											<button type="submit" class="btn_card"
+													{#
+
+                                                      {% if  produit.couleurs|length > 0 %}
+                                                        data-toggle="modal"
+                                                        data-target="#productSetailsModalAjax{{ produit.id }}"
+                                                    {% else %}
+                                                        id="btn-panier{{ produit.id }}"
+                                                        onclick="enabledivquantity({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }})"
+
+                                                    {% endif %}
+                                                    #}
+
+													id="btn-panier{{ produit.produit.id }}"
+													onclick="enabledivquantity({{ produit.produit.id }},{{ produit.produit.quantite }},{{ produit.produit.maxcommande }})"
+
+													data-loading-text="<i class='fa fa-spinner fa-spin '> </i> Chargement">
+                                                        <span class="add2cart">
+                                                            <span class="btnspanadd"> {{ "Acheter" | trans }} <i class="fa fa-shopping-cart"></i></span>
+                                                        </span>
+											</button>
+										{% endif %}
+
+
+									{% endif %}
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+
+
+			<div class="modal fade  " id="modal-panier{{ produit.produit.id }}"
+				 aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header" style="background: #ED0000;">
+							<h4 class="modal-title" id="exampleModalLongTitle"
+								style="margin-top: 11px;">{{ "Acheter" | trans }} <i
+										class="fa fa-shopping-cart"></i>
+							</h4>
+							<button style="opacity: 1.2;margin-top: -36px;margin-right: -10px;background-color: #ED0000"
+									type="button" class=" close" data-dismiss="modal" aria-label="Close">
+								<span style="color: #ffffff" aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body text-center">
+
+							<h3>{{ "quantite_demander_indispo" | trans }}
+								{% if app.request.getLocale()  == 'en' %}{{ produit.produit.nomen }}{% else %}{{ produit.produit.nom }}{% endif %} {{ "est" | trans }}
+								<span id="idinputtwo{{ produit.produit.id }}">  </span></h3>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+			</div>
+			<div class="modal fade" id="modal-quantity-max{{ produit.produit.id }}" tabindex="-1" role="dialog"
+				 aria-labelledby="productSetailsModalAjaxLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header" style="background: #ED0000;">
+							<h4 class="modal-title text-left" id="exampleModalLongTitle"
+								style="margin-top: 11px;">
+
+							</h4>
+							<button style="opacity: 1.2;margin-top: -26px;margin-right: -10px;background-color: #ED0000"
+									type="button" class=" close" data-dismiss="modal" aria-label="Close">
+								<span style="color: #ffffff" aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body text-center">
+							<h3>
+								{{ "pouvez_commander_au_max" | trans }}{{ produit.produit.maxcommande }}
+								{% if app.request.getLocale()  == 'en' %}{{ produit.produit.nomen }}{% else %}{{ produit.produit.nom }}{% endif %}</h3>
+
+
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+				<!-- /.modal-dialog -->
+			</div>
+		{% endfor %}
+	</div>
+
+	{# <div class="row" style="margin-right: 2%;margin-left: 2%">
+	{% set pays = app.session.get('pays') %}
+	<div class="row">
+		<div class="col-lg-8 col-md-9 col-sm-12">
+			<div class="col-lg-12">
+
+			</div>
+
+			<div class="row userInfo">
+					<div style="clear:both"></div>
+
+				<div class="col-xs-12 col-sm-12">
+					<table id='favoris'>
+						<tbody>
+						<tr class="CartProduct cartTableHeader">
+							<td style="width:20%"> {{ "Product"|trans }}</td>
+							<td style="width:15%" >{{"Details"|trans}}</td>
+							<td style="width:35%" ></td>
+							<td style="width:10%" class="delete">&nbsp;</td>
+						</tr>
+							{% for key,fav in favoris %}
+								<tr class="CartProduct" id='fav{{fav.produit.id}}'>
+									<td style="width:10%" class="CartProductThumb">
+										<div>
+											<img style="  background-repeat: no-repeat;  background-size: contain;height: 86px" alt="{{ fav.produit.nom }}"
+												 data-original="/uploads/produits/{{ fav.produit.image }}"
+												 src="{% if fav.produit.image and fav.produit.image != "" %}/uploads/produits/{{ fav.produit.image }}
+                                                         {% else %}{{ asset('/assets/img/default_t_e.jpg') }}{% endif %}">
+										</div>
+									</td>
+									<td style="width:40%">
+										<div class="CartDescription">
+											<h4>
+												<a style="font-size: 13px" href="{{ path('list_produit',{'keyword':fav.produit.nom}) }}" >{{fav.produit.nom}}</a>
+
+											</h4>
+											<div class="price">
+												<span>
+													{{ formated_price(fav.produit.prix ,app.session.get('pays')) }}
+
+													</span>
+											</div>
+										</div>
+									</td>
+									<td style="width:40%" class="delete">
+										<a title="Delete" onclick="deletefavoris({{ fav.produit.id }},{{key}})">
+											<i class="glyphicon glyphicon-trash fa-2x"></i>
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+
+
+						</tbody>
+					</table>
+				</div>
+
+								<div style="clear:both"></div>
+
+				<div class="col-lg-12 clearfix" hidden>
+					<ul class="pager">
+						<li class="previous pull-right">
+							<a href="{{ path("homepage_frontend") }}">
+								<i class="fa fa-home"></i>
+								{{ "Continuer vos achats" | trans }}
+							</a>
+						</li>
+						<li class="next pull-left">
+							<a href="{{ path("compte") }}">
+								&larr; {{ "Mon compte" | trans }}</a>
+						</li>
+					</ul>
+				</div>
+
+
+
+
+			</div>
+			<!--/row end-->
+
+		</div>
+		<div class="col-lg-3 col-md-3 col-sm-5"></div>
+	</div>
+	#}
+	<!--/row-->
+
+
+	<style>
+		.owl-buttons {
+			display: block;
+		}
+
+		.owl-carousel:hover .owl-buttons {
+			display: block;
+		}
+
+		.owl-item {
+			text-align: center;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+
+
+		.owl-theme .owl-controls .owl-buttons div {
+			background: transparent;
+			color: #869791;
+			font-size: 40px;
+			line-height: 50px;
+			margin-top: 150px;
+			position: absolute;
+			top: 0;
+
+		}
+
+
+		.owl-theme .owl-controls .owl-buttons .owl-prev {
+			left: 0;
+			padding-left: 20px;
+		}
+
+		.owl-theme .owl-controls .owl-buttons .owl-next {
+			right: 0;
+			padding-right: 20px;
+		}
+
+		.modalerror {
+			top: 50px;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			z-index: 10052;
+		}
+
+	</style>
+
+	<!-- /main container -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+
+			var owl = $("#owl-demo");
+			owl.owlCarousel({
+
+				//  itemsDesktop : true,
+				//  itemsDesktopSmall : false,
+				/// itemsTablet: false,
+				// itemsMobile : false,
+				startPosition: 0,
+				rtl: false,
+
+				items: 4,
+				navigation: true,
+				loop: false,
+				autoplay: true,
+				autoplayHoverPause: true,
+				navigationText: ['<span class="fa-stack"><i class="fa fa-circle fa-stack-1x"></i><i class="fa fa-chevron-circle-left fa-stack-1x fa-inverse"></i></span>', '<span class="fa-stack"><i class="fa fa-circle fa-stack-1x"></i><i class="fa fa-chevron-circle-right fa-stack-1x fa-inverse"></i></span>'],
+
+				itemsDesktop: [1100, 3], //5 items between 1100px and 901px
+				itemsDesktopSmall: [900, 2], // betweem 900px and 601px
+				itemsTablet: [700, 1], //2 items between 600 and 0
+				itemsMobile: [500, 1] // itemsMobile disabled - inherit from itemsTablet option
+
+			});
+
+			// Custom Navigation Events
+			$(".owl-carousel-arrows .next").click(function () {
+				owl.trigger('owl.next');
+			});
+
+			$(".owl-carousel-arrows .prev").click(function () {
+				owl.trigger('owl.prev');
+			});
+		});
+	</script>
+	<script>
+		$(document).ready(function () {
+
+			var owl = $("#owl-demopromos");
+			owl.owlCarousel({
+
+				//  itemsDesktop : true,
+				//  itemsDesktopSmall : false,
+				/// itemsTablet: false,
+				// itemsMobile : false,
+				startPosition: 0,
+				rtl: false,
+
+				items: 4,
+				navigation: true,
+				loop: false,
+				autoplay: true,
+				autoplayHoverPause: true,
+				navigationText: ['<span class="fa-stack"><i class="fa fa-circle fa-stack-1x"></i><i class="fa fa-chevron-circle-left fa-stack-1x fa-inverse"></i></span>', '<span class="fa-stack"><i class="fa fa-circle fa-stack-1x"></i><i class="fa fa-chevron-circle-right fa-stack-1x fa-inverse"></i></span>'],
+
+				itemsDesktop: [1100, 3], //5 items between 1100px and 901px
+				itemsDesktopSmall: [900, 2], // betweem 900px and 601px
+				itemsTablet: [700, 1], //2 items between 600 and 0
+				itemsMobile: [500, 1] // itemsMobile disabled - inherit from itemsTablet option
+
+			});
+
+			// Custom Navigation Events
+			$(".owl-carousel-arrows .next").click(function () {
+				owl.trigger('owl.next');
+			});
+
+			$(".owl-carousel-arrows .prev").click(function () {
+				owl.trigger('owl.prev');
+			});
+		});
+	</script>
+	<script>
+		function changeCouleur(id) {
+		}
+
+		function addfavnonConnect() {
+			$("#myModal").modal({backdrop: true});
+
+		}
+
+		$('#couleur').on('click', 'li', function () {
+			$(this).addClass("selected"); // Assign the class here
+			//   var value = $('#couleur').val();
+			var value = $(this).attr('value');
+			var produit = parseInt($("#idproduit").val());
+			$.ajax({
+				url: "{{ (path('getSizeCouleur')) }}",
+				dataType: 'Json',
+				data: {"couleurid": value, "produitid": produit},
+				type: 'GET',
+				success: function (data) {
+					var nameselect = "sizes" + produit
+					$('select[name=nameselect]').empty();
+					if (data[0]) {
+						student = data[0];
+						$('select[name=nameselect]').append('<option selected value="' + student['id'] + '">' + student['libelle'] + '</option>');
+
+					}
+
+					for (i = 1; i < data.length; i++) {
+						student = data[i];
+						$('select[name="sizes').append('<option  value="' + student['id'] + '">' + student['libelle'] + '</option>');
+					}
+					$("select").select2();
+					//	$("#quantitymodal" + produit).val(1);
+				}
+			});
+		});
+
+		function changeImagecouleur(produitid, couleurid, image) {
+			if (image) {
+				changeImage(image, produitid)
+			}
+			var produit = parseInt(produitid);
+			var couleur = parseInt(couleurid);
+
+			$("#quantitymodal" + produitid).val(1);//rahma addd to
+
+			$.ajax({
+				url: "{{ (path('getSizeCouleur')) }}",
+				dataType: 'Json',
+				data: {"couleurid": couleur, "produitid": produit},
+				type: 'GET',
+				success: function (data) {
+					var nameselect = "sizes" + produitid
+					$('select[name=' + nameselect + ']').empty();
+
+					if (data[0]) {
+						size = data[0];
+						$('select[name=' + nameselect + ']').append('<option selected value="' + size['id'] + '">' + size['libelle'] + '</option>');
+					}
+
+					for (i = 1; i < data.length; i++) {
+						size = data[i];
+						$('select[name=' + nameselect + ']').append('<option  value="' + size['id'] + '">' + size['libelle'] + '</option>');
+					}
+
+					//	$("#quantitymodal" + produit).val(1);
+				}
+			});
+
+		}
+
+		function changeImage(image, id) {
+
+			document.getElementById("imageproduit" + id).src = '/uploads/produits/' + image;
+			var images = document.getElementsByName("img");
+			for (i in images) {
+				images[i].style = 'width: 100px;\n' +
+						'    height: 100px;\n' +
+						'    background-size: cover;\n' +
+						'    border-width: 2px;\n' +
+						'    border-color: #dcdbdb;\n' +
+						'    border-style: solid;';
+			}
+			document.getElementById(image).style = 'width: 100px;\n' +
+					'    height: 100px;\n' +
+					'    background-size: cover;\n' +
+					'    border-width: 2px;\n' +
+					'    border-color: #ED0000;\n' +
+					'    border-style: solid;';
+
+		}
+	</script>
+	<script type="text/javascript">
+		function addArticleSize(id) {
+
+			var selectsizes = document.getElementById("sizes" + id);
+			var sizeid = selectsizes.options[selectsizes.selectedIndex].value;
+			var qte = parseInt($("#quantitymodal" + id).val());
+			//alert(qte);
+
+			$.ajax({
+				url: "{{ (path('size_from_id')) }}",
+				dataType: 'Json',
+				data: {"sizeid": sizeid},
+				type: 'GET',
+				success: function (data) {
+					var quantite = data
+					if (qte > quantite) {
+
+						//  alert("Vous ne pouvez commander que " +quantite+" produit" )
+						document.getElementById("idinputtwo" + id).innerHTML = quantite;
+
+						$("document").ready(function () {
+
+							//was  $('#modal-panier' + id).modal({backdrop: 'static', keyboard: false});
+							$('#modal-panier' + id).modal("show");
+
+
+						})
+
+
+					} else {
+						addArticlewithsize(id, sizeid, qte);
+						$('#productSetailsModalAjax' + id).modal('hide');
+
+					}
+
+				}
+			});
+
+		}
+
+		function changeSize(id) {
+			//$("#quantitymodal" + id).val(1);
+		}
+
+		function goToProdDetail(produitid) {
+			console.log("produitid" + produitid)
+			console.log(produitid)
+			$.ajax({
+				'url': Routing.generate('detail_produits', {'produitid': produitid}),
+				'success': function (r) {
+					$('#div1').html(r);
+				}
+			});
+
+
+		}
+
+		function enabledivquantity(id, quantite, max) {
+			var qte = parseInt($("#qte" + id).val());
+
+			if (qte + 1 > quantite) {
+
+				//alert("Vous ne pouvez commander que " +quantite+" produit" )
+				document.getElementById("idinputtwo" + id).innerHTML = quantite;
+
+				$("document").ready(function () {
+					//wasss $('#modal-panier' + id).modal({backdrop: 'static', keyboard: false});
+					$('#modal-panier' + id).modal("show");
+
+				})
+			} else if (qte + 1 > max) {
+				$("document").ready(function () {
+					//was $('#modal-quantity-max' + id).modal({backdrop: 'static', keyboard: false});
+					$('#modal-quantity-max' + id).modal("show");
+				})
+			} else if (qte >= 0) {
+				var quantities = document.querySelectorAll("[id=quantite" + id + "]");
+				var btncarts = document.querySelectorAll("[id=addcart" + id + "]");
+				for (var i = 0; i < btncarts.length; i++) {
+					btncarts[i].style.display = "none";
+				}
+				for (var i = 0; i < quantities.length; i++) {
+					quantities[i].style.display = "block";
+				}
+
+
+				addArticle(id, quantite, max);
+			}
+		}
+
+		function plusquantity(id) {
+
+			var selectsizes = document.getElementById("sizes" + id);
+			var sizeid = selectsizes.options[selectsizes.selectedIndex].value;
+			var qte = parseInt($("#quantitymodal" + id).val());
+
+			$.ajax({
+				url: "{{ (path('size_from_id')) }}",
+				dataType: 'Json',
+				data: {"sizeid": sizeid},
+				type: 'GET',
+				success: function (data) {
+					var quantite = data;
+					var qtee = parseInt($("#quantitymodal" + id).val()) + 1;
+
+					if (qtee > quantite) {
+
+						//alert("Vous ne pouvez commander que " +quantite+" produit" )
+						document.getElementById("idinputtwo" + id).innerHTML = quantite;
+
+						$("document").ready(function () {
+
+							//wass $('#modal-panier' + id).modal({backdrop: 'static', keyboard: false});
+							$('#modal-panier' + id).modal("show");
+
+						})
+
+					} else {
+						var qte = parseInt($("#quantitymodal" + id).val()) + 1;
+						var qte_input = document.querySelectorAll("[id=quantitymodal" + id + "]");
+						for (var i = 0; i < qte_input.length; i++) {
+							qte_input[i].value = qte;
+						}
+					}
+
+				}
+			});
+
+
+			/*
+            was befor my change
+            var qte = parseInt($("#quantitymodal" + id).val()) + 1;
+            var qte_input = document.querySelectorAll("[id=quantitymodal" + id+"]");
+            for(var i = 0; i < qte_input.length; i++){
+                qte_input[i].value = qte;
+            }*/
+		}
+
+		function moinsquantity(id) {
+			var qte = parseInt($("#quantitymodal" + id).val()) - 1;
+			if (qte > 0) {
+				$("#quantitymodal" + id).val(qte);
+			} else {
+				$("document").ready(function () {
+					$('#modal-quantity').modal({backdrop: 'static', keyboard: false});
+				})
+
+			}
+		}
+
+		<!-- ---- -->
+
+		function plusquantityD(id, quantity, max) {
+
+			var qte = parseInt($("#qte" + id).val()) + 1;
+			if (qte > quantity) {
+				document.getElementById("idinputtwo" + id).innerHTML = quantity;
+
+				$("document").ready(function () {
+					//was  $('#modal-panier' + id).modal({  backdrop: 'static',    keyboard: false  });
+					$('#modal-panier' + id).modal("show");
+
+
+				})
+			} else if (qte > max) {
+				$("document").ready(function () {
+					//was  $('#modal-quantity-max'+id).modal({ backdrop: 'static',   keyboard: false});
+
+					$('#modal-quantity-max' + id).modal("show");
+
+				})
+			} else {
+				//  $("#qte" + id).val(qte);
+				var qte_input = document.querySelectorAll("[id=qte" + id + "]");
+
+				for (var i = 0; i < qte_input.length; i++) {
+					qte_input[i].value = qte;
+				}
+			}
+
+		}
+
+		function moinquantityD(id, quantity, max) {
+
+			var qte = parseInt($("#qte" + id).val()) - 1;
+			//  $("#qte" + id).val(qte);
+			var qte_input = document.querySelectorAll("[id=qte" + id + "]");
+
+			if (qte > 0) {
+				for (var i = 0; i < qte_input.length; i++) {
+					qte_input[i].value = qte;
+				}
+			} else {
+				$("document").ready(function () {
+					$('#modal-quantity').modal({backdrop: 'static', keyboard: false});
+				})
+
+			}
+		}
+
+		function addArticlee(id, quantity, max) {
+			var qte = parseInt($("#qte" + id).val());
+			var qte_input = document.querySelectorAll("[id=qte" + id + "]");
+
+			//  console.log("eeeee");
+			//   console.log(qte)
+
+
+			if (qte > quantity) {
+				document.getElementById("idinputtwo" + id).innerHTML = quantity;
+
+				$("document").ready(function () {
+					//wasss  $('#modal-panier' + id).modal({                         backdrop: 'static',                         keyboard: false                     });
+
+					$('#modal-panier' + id).modal("show");
+
+				})
+			} else if (qte > max) {
+				$("document").ready(function () {
+					//was  $('#modal-quantity-max'+id).modal({  backdrop: 'static',  keyboard: false});
+
+					$('#modal-quantity-max' + id).modal("show");
+
+				})
+			} else {
+				for (var i = 0; i < qte_input.length; i++) {
+					qte_input[i].value = qte;
+				}
+				//   alert("qtettee"+qte)
+				var $this = $("#addArticlee" + id);
+				$.ajax({
+					url: Routing.generate('add_many_quantity_to_cart', {id: id, qte: qte}), success: function (result) {
+						$(".my_nav_bar").html(result);
+						$(".total_price_cart_empty").html($(".total_price_cart").html());
+						$("img.lazy").lazyload({
+							threshold: 50
+						});
+						$(window).load(function () {
+							$("html,body").trigger("scroll");
+						});
+						$this.button('reset');
+						//hide modal after add to cart
+						// $('#productSetailsModalAjax'+id).modal('hide');
+						$('.modal').modal('hide');
+
+					}
+				});
+			}
+		}
+	</script>
+{% endblock %}

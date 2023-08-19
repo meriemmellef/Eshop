@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;font-family: sans-serif;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;font-size: 10px;-webkit-tap-highlight-color: rgba(0,0,0,0);">
+<head style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+    <style style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+
+        .invoice-title h2, .invoice-title h3 {
+            display: inline-block;
+        }
+
+        .table > tbody > tr > .no-line {
+            border-top: none;
+        }
+
+        .table > thead > tr > .no-line {
+            border-bottom: none;
+        }
+
+        .table > tbody > tr > .thick-line {
+            border-top: 2px solid;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"
+          style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"
+          style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+
+</head>
+<body style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;margin: 0;font-family: Roboto-Regular,sans-serif;font-size: 14px;line-height: 1.42857143;color: #374649;background-color: #fff;">
+<div class="container"
+     style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding-right: 15px;padding-left: 15px;margin-right: auto;margin-left: auto;">
+
+
+    <div class="row"
+         style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;margin-right: -15px;margin-left: -15px;">
+        <div class="col-md-12"
+             style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;width: 100%;">
+            <div class="panel panel-default"
+                 style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;margin-bottom: 20px;background-color: #fff;border: 1px solid transparent;border-radius: 4px;-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);box-shadow: 0 1px 2px rgba(0,0,0,.05);border-color: #ddd;">
+                <div class="panel-heading"
+                     style=" min-height: 250px;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 0px 15px;border-bottom: 1px solid transparent;border-top-left-radius: 3px;border-top-right-radius: 3px;color: #333;  ">
+                    <div class="row"
+                         style=" padding-right:13px;padding-left:13px;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;margin-right: -15px;margin-left: -15px;">
+                        <div class="row"
+                             style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;margin-right: -15px;margin-left: -15px;">
+                            <div class="col-xs-12"
+                                 style="background-color:#ED0000;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;float: left;width: 100%;border-top-left-radius: 3px;border-top-right-radius: 3px">
+                                <div class="invoice-title"
+                                     style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+                                    <h3 class="pull-left"
+                                        style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;orphans: 3;widows: 3;page-break-after: avoid;font-family: Roboto-Regular, sans-serif;font-weight: 500;line-height: 1.1;color: #ffffff;margin-top: 20px;margin-bottom: 10px;font-size: 24px;display: inline-block;float: left!important;">
+                                        {{ "Commande" | trans({}, 'messages') }} #{{ commande.reference }}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"
+                             style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;margin-right: -15px;margin-left: -15px;">
+                            <div class="col-lg-6 col-xs-6"
+                                 style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;float: left;width: 50%;">
+                                <address
+                                        style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;margin-bottom: 20px;font-style: normal;line-height: 1.42857143;">
+                                    <strong style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;font-weight: 700;font-family: Roboto-Regular, sans-serif;color:#374649">{{ "Client" | trans({}, 'messages') }}
+                                        :</strong>
+                                    <br style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+                                    {% if client.firstName %}
+                                        <span style="font-family: Roboto-Regular, sans-serif;color:#374649">
+                         {{ client.firstName }}
+                    </span>
+                                    {% endif %}
+                                    {% if client.lastName %}
+                                        <span style="font-family: Roboto-Regular, sans-serif;color:#374649">
+                      {{ client.lastName }}
+                    </span>
+                                    {% endif %}
+                                    {% if client.tel %}
+                                        <br style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+
+                                        <span style="font-family: Roboto-Regular, sans-serif;color:#374649">
+                        {{ client.tel }}
+                    </span>
+                                    {% endif %}
+                                    <br style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+
+                                    <span style="font-family: Roboto-Regular, sans-serif;color:#374649">
+                        {{ client.email }}
+                    </span>
+                                    <br style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+
+                                </address>
+                                <address
+                                        style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;margin-bottom: 20px;font-style: normal;line-height: 1.42857143;">
+                                    <strong style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;font-weight: 700; font-family: Roboto-Regular, sans-serif;color: #374649">{{ "Details de la commande" | trans({}, 'messages') }}
+                                        :</strong>
+                                    <br style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+                                    {% if commande.coupon.type is defined %}
+
+                                        <span style="font-family: Roboto-Regular, sans-serif;color:#374649">
+                         {{ "Prix initial" | trans({}, 'messages') }}:
+                       </span>
+                                        {% if commande.coupon.type == 1 %}
+
+                                            <span style="font-family: Roboto-Regular, sans-serif;color:#374649">
+                                                {{ formated_price( commande.prix+commande.coupon.montant,app.session.get('pays')) }}
+                       </span>
+                                        {% endif %}
+                                        {% if commande.coupon.type ==2 %}
+
+                                            <span style="font-family: Roboto-Regular, sans-serif;color:#374649">
+                                                {{ formated_price(commande.prix+(commande.prix/ (100 - commande.coupon.pourcentage)  * commande.coupon.pourcentage),app.session.get('pays')) }}
+                                             </span>
+                                        {% endif %}
+                                        <br style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+
+                                        <span style="font-family: Roboto-Regular, sans-serif;color:#374649"> {{ "Coupon" | trans({}, 'messages') }}:</span>
+
+                                        {% if commande.coupon.type == 1 %}
+
+                                            <span style="font-family: Roboto-Regular, sans-serif;color:#374649"> {{ "réduction de" | trans({}, 'messages') }} {{ formated_price(commande.coupon.montant,app.session.get('pays')) }}</span>
+
+                                        {% endif %}
+                                        {% if commande.coupon.type ==2 %}
+
+                                            <span style="font-family: Roboto-Regular, sans-serif;color:#374649"> {{ "réduction de" | trans({}, 'messages') }} {{ commande.coupon.pourcentage }} %</span>
+                                        {% endif %}
+                                        <br style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+
+                                        <span style="font-family: Roboto-Regular, sans-serif;color:#ED0000">{{ "TOTAL" | trans({}, 'messages') }}: {{ formated_price(commande.prix,app.session.get('pays')) }}</span>
+
+                                    {% else %}
+
+                                        <span style="font-family: Roboto-Regular, sans-serif;color:#ED0000"> {{ "TOTAL" | trans({}, 'messages') }}: {{ formated_price(commande.prix,app.session.get('pays')) }}</span>
+
+                                    {% endif %}
+
+                                </address>
+                            </div>
+                            <div class="col-lg-6 col-xs-6 text-right"
+                                 style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;text-align: right;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;float: right;width:50%;">
+                                <address
+                                        style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;margin-bottom: 20px;font-style: normal;line-height: 1.42857143;">
+                                    <strong style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;font-weight: 700;font-family: Roboto-Regular, sans-serif;color: #374649 ">{{ "Date et Heure de retrait" | trans({}, 'messages') }}
+                                        :</strong><br
+                                            style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+                                    <span style="font-family: Roboto-Regular, sans-serif;color: #374649 ;font-weight: normal">   {{ commande.dateReception | date("Y-m-d") }}  {{ commande.periodeToString }}</span>
+
+
+                                </address>
+                            </div>
+                            <br style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-body"
+                     style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 15px;">
+                    <div class="table-responsive"
+                         style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;min-height: .01%;overflow-x: auto;">
+                        <table class="table table-condensed"
+                               style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;border-spacing: 0;border-collapse: collapse!important;background-color: transparent;width: 100%;max-width: 100%;margin-bottom: 0;">
+                            <thead style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;display: table-header-group;">
+                            <tr style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;page-break-inside: avoid;">
+                                <td style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 5px;line-height: 1.42857143;vertical-align: top;border-top: 1px solid #ddd;white-space: nowrap;background-color: #fff!important;">
+                                    <strong style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;font-weight: 700;font-family: Roboto-Regular, sans-serif;color: #374649">{{ "Product" | trans }}</strong>
+                                </td>
+                                <td class="text-center"
+                                    style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 5px;text-align: center;line-height: 1.42857143;vertical-align: top;border-top: 1px solid #dddddd;white-space: nowrap;background-color: #fff!important;">
+                                    <strong style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;font-weight: 700;font-family: Roboto-Regular, sans-serif;color: #374649">{{ "Prix unitaire" | trans }}</strong>
+                                </td>
+                                <td class="text-center"
+                                    style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 5px;text-align: center;line-height: 1.42857143;vertical-align: top;border-top: 1px solid #ddd;white-space: nowrap;background-color: #fff!important;">
+                                    <strong style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;font-weight: 700;font-family: Roboto-Regular, sans-serif;color: #374649">{{ "Quantité" | trans }}</strong>
+                                </td>
+                                <td class="text-right"
+                                    style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 5px;text-align: right;line-height: 1.42857143;vertical-align: top;border-top: 1px solid #ddd;white-space: nowrap;background-color: #fff!important;">
+                                    <strong style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;font-weight: 700;font-family: Roboto-Regular, sans-serif;color: #374649">{{ "Total" | trans }}</strong>
+                                </td>
+                            </tr>
+                            </thead>
+                            <tbody style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+                            <!-- foreach ($order->lineItems as $line) or some such thing here -->
+                            {% for produit in produits %}
+                                <tr style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;page-break-inside: avoid;">
+                                    <td style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 5px;line-height: 1.42857143;vertical-align: top;border-top: 1px solid #ddd;white-space: nowrap;background-color: #fff!important;font-family: Roboto-Regular, sans-serif;color: #374649">{{ produit.produit.nom }}</td>
+                                    <td class="text-center"
+                                        style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 5px;text-align: center;line-height: 1.42857143;vertical-align: top;border-top: 1px solid #ddd;white-space: nowrap;background-color: #fff!important;font-family: Roboto-Regular, sans-serif;color: #ED0000">
+                                        {{ formated_price(produit.produit.finalPrice["prix"],app.session.get('pays')) }}
+                                    </td>
+                                    <td class="text-center"
+                                        style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 5px;text-align: center;line-height: 1.42857143;vertical-align: top;border-top: 1px solid #ddd;white-space: nowrap;background-color: #fff!important;font-family: Roboto-Regular, sans-serif;color: #374649">{{ produit.quantite }}</td>
+                                    <td class="text-right"
+                                        style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;padding: 5px;text-align: right;line-height: 1.42857143;vertical-align: top;border-top: 1px solid #ddd;white-space: nowrap;background-color: #fff!important;font-family: Roboto-Regular, sans-serif;color: #ED0000">
+
+                                        {{ formated_price(produit.prix,app.session.get('pays')) }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+{{ "Cordialement"|trans }}.
+</body>
+</html>

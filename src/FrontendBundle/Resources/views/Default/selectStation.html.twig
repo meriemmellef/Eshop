@@ -1,0 +1,454 @@
+<style>
+    span.station-title {
+        color: #ed0000;
+        display: block;
+    }
+
+    span.station-address {
+        color: gray;
+        display: block;
+    }
+
+    .col-station {
+        margin-bottom: 40px;
+    }
+
+    .station-region {
+        padding: 12px;
+    }
+
+
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1050;
+        padding: 0 !important; /* override inline padding-right added from js */
+        width: 100vw !important;
+        height: 100vh !important;
+        outline: 0;
+    }
+    .modal-dialog-scrollable{ /* add this if you want to use modal-dialog-scrollable */
+        max-height: none !important;
+    }
+    .modal .modal-dialog-scrollable .modal-content {
+        max-height: calc(100vh - 1rem) !important;
+    }
+    .modal-dialog.modal-xl {
+        max-width: 100vw !important;
+        margin: 0;
+    }
+    .modal .modal-content{
+        position: relative;
+        width: 100%;
+        border-radius: 0;
+        height: 90vh;
+    }
+
+
+    {#
+    fuul screen dialog
+    .modal-dialog {
+        max-width: 100%;
+        margin: 0;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100vh;
+        display: flex;
+    }
+    #}
+
+
+</style>
+<!-- choose station -->
+<div class="modal" tabindex="-1" role="dialog" id="chooseStationModal">
+    <div class="modal-dialog" role="document" >
+        <div class="modal-content " style="background-color: #F7F9FA">
+
+            <div class="modal-body" style="padding-top: 0px;padding-bottom: 0px;">
+                <div class="row">
+                    <div class="col-lg-12 col-xs-12" style="padding: 25px;">
+                        {% if app.session.get("station_id","") == "" %}
+                            <h1 class="sectionchoix  no-margin">
+                                <span>{{ app.session.get("pays").StationPopupTitle }} </span>
+                            </h1>
+
+                            <p class="itempopupDesc" style="margin-top: 30px;  white-space: pre-line;">
+                                {{ app.session.get("pays").StationPopupDescription |nl2br }}
+                            </p>
+                            <br/>
+                        {% endif %}
+
+                        {% if app.session.get("station_id","")  != "" %}
+
+                        <div id='wrapper' onclick="ShowMapsmodal()" hidden>
+                            <img id='img' style="background-size: cover;width: 70px;height: 70px" src="{{ asset('/assets/img/google_maps.png') }}" alt="">
+
+                        </div>
+                        {% endif %}
+
+                        <br>  <br>
+                        <h3 class="spandesc  no-margin" >
+                            <span>
+                                {% if app.session.get("pays").FrontLanguage == 'en' %}Choose your station from the list below{% else %} Choisissez votre Station dans la liste ci-dessous{% endif %}
+                            </span>
+                        </h3>
+
+                        {#
+                               {% for key, station in stations %}
+
+                            <div class="row" >
+                                <div class="station-region"><b>{{ key }}</b></div>
+                                {% for s in station %}
+                                    <a href="{{ path("setStation") }}?station_id={{ s.id }}">
+                                        <div class="col-lg-4 col-station">
+                                            <span class="station-title"><i
+                                                        class="fa fa-map-marker"></i> {{ s.nom }}</span>
+                                            <span class="station-address"> {{ s.adresse }}</span>
+                                        </div>
+                                    </a>
+                                {% endfor %}
+                            </div>
+
+                        {% endfor %}
+                        #}
+
+
+
+                        <form action="{{ path("setStation") }}">
+
+                            <select class="selectpicker"  id="stationList"  name="station_id"
+                                    style=" width: 100%;border-radius: 10px;border: 1px solid #B7CBD3;height: 38px; font-family: Roboto-Regular,sans-serif; color: #B7CBD3;">
+
+                                <option class="optionp" selected  disabled >{{" Choisissez votre station" | trans({}, 'messages') }}</option>
+
+                                {% for key, station in stations %}
+                                    <optgroup   label="{{ key }}" style="color: #ED0000">
+                                        {% for s in station %}
+                                            <option class="optionpopup "  value="{{ s.id }}"  data-icon="glyphicon glyphicon-shopping-cart" data-subtext="Heinz" >
+                                                {{ s.nom }}
+                                            </option>
+
+
+
+                                        {% endfor %}
+                                    </optgroup>
+                                {% endfor %}
+                            </select>
+                            <br>  <br>
+
+                            <button class="btnpopup" type="submit" style=" width: 100%;margin-top: 10px;font-size: 17px;font-family: Roboto-Regular,sans-serif;height: 38px">{{ "Valider"|trans }}</button>
+                        </form>
+
+
+
+
+
+                        {#
+                          <form action="{{ path("setStation") }}">
+                    <select id="stationList" name="station_id" style=" width: 78%;border-radius: 0px;height: 33px; font-family: Roboto-Regular,sans-serif">
+                        <option></option>
+                        {% for key, station in stations %}
+                        <option class="optionpopup" selected  disabled>{{" Choisissez votre station" | trans }}</option>
+                        <optgroup   label="{{ key }}">
+                            {% for s in station %}
+                                <option class="optionpopup"  value="{{ s.id }}">{{ s.nom }}</option>
+
+                            {% endfor %}
+                        </optgroup>
+                        {% endfor %}
+                    </select>
+
+                    <button class="btnpopup" type="submit" style="">{{ "Valider"|trans }}</button>
+                </form>
+
+                        #}
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Show  map  station -->
+<div class="modal" tabindex="-1" role="dialog" id="chooseStationModalMap">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body" style="padding-top: 0px;padding-bottom: 0px;">
+                <div class="row">
+                    <div id='wrapper' onclick="ShowStationmodal()">
+
+                    </div>
+                    <div class="" id="googleMap" style="width:100%;min-height:500px;"></div>
+
+                    {#
+
+
+    <script >
+
+
+
+        function showPosition(position) {
+
+
+            var mapProp= {
+                center:new google.maps.LatLng( position.coords.latitude, position.coords.longitude),
+                zoom:10,
+            };
+            var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+
+            <!-- get list stations ajax  getliststation -->
+            var LocationStations =[] ;
+
+            var infowindow = new google.maps.InfoWindow();
+            var marker, i;
+
+            $.ajax({
+                type: "GET",
+                data:'' ,
+                url: "getliststation",
+                dataType: "json",
+                cache: false,
+                success: function (response) {
+                    LocationStations = response.results ;
+
+                    <!-- JSON.parse('')-->
+                    if (LocationStations){
+                        for (i = 0; i < LocationStations.length; i++) {
+                            // var cascades = locations[i];
+                            var myLatLng =  new google.maps.LatLng( LocationStations[i]['latitude'],  LocationStations[i]['longitude']) ;
+
+                            var marker = new google.maps.Marker({
+                                position: myLatLng,
+                                map: map,
+                                title:   LocationStations[i]['nom'],
+                            });
+
+
+                            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                                return function() {
+                                    infowindow.setContent(LocationStations[i]['nom']+"<br />"+LocationStations[i]['address']);
+                                    infowindow.open(map, marker);
+                                }
+                            })(marker, i));
+
+
+
+
+
+                        }
+
+                    }            },
+                error: function (response) {
+                }
+            });
+
+        }
+        function myMap() {
+
+
+
+                var mapProp= {
+                    center:new google.maps.LatLng( 0, 0),
+                    zoom:10,
+                };
+
+                var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+
+                <!-- get list stations ajax  getliststation -->
+
+                var LocationStations =[] ;
+
+                var infowindow = new google.maps.InfoWindow();
+                var marker, i;
+
+                $.ajax({
+                    type: "GET",
+                    data:'' ,
+                    url: "getliststation",
+                    dataType: "json",
+                    cache: false,
+                    success: function (response) {
+                        console.log("rahmaaa");
+                        LocationStations = response.results ;
+
+                        <!-- JSON.parse('')-->
+                        if (LocationStations){
+                            for (i = 0; i < LocationStations.length; i++) {
+                                // var cascades = locations[i];
+                                var myLatLng =  new google.maps.LatLng( LocationStations[i]['latitude'],  LocationStations[i]['longitude']) ;
+
+                                var marker = new google.maps.Marker({
+                                    position: myLatLng,
+                                    map: map,
+                                    title:   LocationStations[i]['nom'],
+                                });
+
+
+                                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                                    return function() {
+                                        infowindow.setContent(LocationStations[i]['nom']+"<br />"+LocationStations[i]['address']);
+                                        infowindow.open(map, marker);
+                                    }
+                                })(marker, i));
+
+
+
+
+
+                            }
+
+                        }            },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+
+
+
+
+
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.")
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.")
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.")
+
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.")
+                    break;
+            }
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYhfYs2iY5PFut6nyg40SkRzC4iiJk98A&callback=myMap"></script>
+
+                    #}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% if app.session.get("station_id","") == "" %}
+    <script>
+        $("document").ready(function () {
+            $('#chooseStationModal').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+            //  $('select').select2();
+        })
+
+    </script>
+    <!-- choose station -->
+{% endif %}
+{% block script %}
+
+<script>
+    function showSelectStation() {
+        $('#chooseStationModal').modal();
+
+    }
+
+    function ShowMapsmodal() {
+        $('#chooseStationModalMap').modal();
+        $('#chooseStationModal').modal('hide');
+
+    }
+
+    function ShowStationmodal() {
+        $('#chooseStationModal').modal('show');
+        $('#chooseStationModalMap').modal('hide');
+
+    }
+</script>
+
+
+
+
+{% endblock %}
+
+
+<style>
+    .itempopupDesc {
+        font-family: Roboto-Regular, sans-serif;
+        color: #374649;
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+
+    .titlepopup {
+        font-family: Roboto-Regular, sans-serif;
+        font-size: 16px;
+        background: -webkit-linear-gradient(left, rgba(239, 111, 0), rgba(237, 0, 0)) !important;
+
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+    }
+
+    .btnpopup {
+
+
+        color: #ffffff;
+        border: 1px solid #ED0000;
+
+        padding: 0;
+        height: 34px;
+        width: 58px;
+        font-family: Roboto-Regular, sans-serif;
+        font-weight: normal;
+        font-size: 14px;
+
+        background: #ED0000;
+        text-align: center;
+        border-radius: 15px;
+
+
+    }
+
+    .btnpopup:hover {
+        color: #ED0000;
+        background: #ffffff;
+
+
+    }
+
+    .optionpopup {
+        font-family: Roboto-Regular, sans-serif;
+        font-weight: 400;
+        color: #374649;
+        font-size: 14px;
+
+
+    }
+
+    /* .optionpopup{
+          font-family: Roboto,sans-serif;
+          font-weight: normal;
+          font-size: 14px;
+
+
+      }*/
+</style>
+

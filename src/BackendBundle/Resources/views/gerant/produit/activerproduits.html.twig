@@ -1,0 +1,389 @@
+{% extends '@Backend/layout/layout.html.twig' %}
+
+
+{% block page %}
+    <div class="page">
+
+
+        <div class="page-header">
+            <h1 class="page-title">{{ "Catalogue"|trans }}</h1>
+
+            <div class="page-header-actions">
+                <div class="row ">
+                    <div class="col-lg-8 ">
+                        <div class="media-body text-center">
+                            <h4 class="mt-0 mb-5" style="color: #f02138;margin-bottom: 0px!important;"> {{ nbproduits|length }}</h4>
+                            <small style="">{{ "Produits"|trans }}</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 " >
+                        <!--
+                         <a href="{{ path('new_produit_gerant') }}" style="margin-top: 3px;" class="float-right btn btn-sm btn-icon social-evernote waves-effect waves-classic">
+                            <i class="icon md-plus" aria-hidden="true"></i> Ajouter
+                        </a>
+                        -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form  action="{{ path('produit_toactivate_index') }}" method="get">
+
+        <div class="page-content" style="padding-top: 0 !important;padding-bottom: 0 !important;">
+            <!-- Panel -->
+            <div class="panel" >
+                <div class="panel-body container-fluid" style="padding: 0 !important;">
+                    <div class="row row-lg">
+
+
+                        <div class="col-lg-12">
+                            <!-- Example Bordered Table -->
+                            <table class="table table-bordered" style="border: none;">
+                                <thead>
+                                <tr style="border-bottom: 1px solid #f3f3f3;">
+                                    <th style="border: none;">{{ "Filtre"|trans }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class="row" style="border: none;">
+                                            <div class="col-lg-3  col-md-3 col-xs-3">
+                                                <label class="control-label">{{ "Produit"|trans }}</label>
+                                                <input type="text" class="form-control" name="search" value="{% if search is defined %}{{search}}{% endif %}" placeholder={{ "Produit"|trans }}>
+                                            </div>
+                                            <div class="col-lg-3  col-md-3 col-xs-3">
+                                                <label class="control-label">{{"Catégorie"|trans}}</label>
+                                                <select class="form-control" name="categorie" placeholder={{"choisir une catégorie"|trans}}>
+                                                    <option value="" disabled selected hidden>{{"choisir une catégorie"|trans}}</option>
+                                                    {% if categorie == '' %}
+                                                        <option class="dropdown-item" value="" role="menuitem" selected>
+                                                            {{ "Toutes les categories"|trans }}
+                                                        </option>
+                                                    {% else %}
+                                                        <option class="dropdown-item" value="" role="menuitem" >
+                                                            {{ "Toutes les categories"|trans }}
+                                                        </option>
+                                                    {% endif %}
+
+                                                    {% for c in categories %}
+                                                        {% if categorie is defined   %}
+                                                            {% if categorie == c.id %}
+                                                                <option class="dropdown-item" value="{{ c.id }}" role="menuitem" selected>
+                                                                    {% if pays.frontLanguage  == 'en' or pays.frontLanguage  == 'EN' %}
+                                                                        {{ c.nom_en }}
+                                                                    {% else %}
+                                                                        {{ c.nom }}
+                                                                    {% endif %}                                                                </option>
+                                                            {% else %}
+                                                                <option class="dropdown-item" value="{{ c.id }}" role="menuitem">
+                                                                    {% if pays.frontLanguage  == 'en' or pays.frontLanguage  == 'EN' %}
+                                                                        {{ c.nom_en }}
+                                                                    {% else %}
+                                                                        {{ c.nom }}
+                                                                    {% endif %}                                                                </option>
+                                                            {% endif %}
+                                                        {% else %}
+                                                            <option class="dropdown-item" value="{{ c.id }}" role="menuitem">
+
+                                                                {%  if pays.frontLanguage  == 'en' or pays.frontLanguage  == 'EN' %}
+                                                                    {{ c.nom_en }}
+                                                                {% else %}
+                                                                    {{ c.nom }}
+                                                                {% endif %}
+                                                            </option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-3  col-md-3 col-xs-3">
+                                                <label class="control-label">{{"Sous Catégorie"|trans}}</label>
+                                                <select class="form-control"  name="souscategorie" placeholder="{{"choisir une sous catégorie"|trans}}">
+                                                    <option value="" disabled selected hidden>
+                                                        {{"choisir une sous catégorie"|trans}}</option>
+                                                    {% if souscategorie== '' %}
+                                                        <option class="dropdown-item" value="" role="menuitem" selected>
+                                                            {{ "Toutes les sous categories"|trans }}
+                                                        </option>
+                                                    {% else %}
+                                                        <option class="dropdown-item" value="" role="menuitem" >
+                                                            {{ "Toutes les sous categories"|trans }}
+                                                        </option>
+                                                    {% endif %}
+
+                                                    {% for sc in souscategories %}
+                                                        {% if souscategorie is defined   %}
+                                                            {% if souscategorie == sc.id %}
+                                                                <option class="dropdown-item" value="{{ sc.id }}" role="menuitem" selected>
+                                                                    {% if  pays.frontLanguage  == 'en' or pays.frontLanguage  == 'EN' %}
+                                                                        {{ sc.nom_en }}
+
+                                                                    {% else %}
+                                                                        {{ sc.nom }}
+                                                                    {% endif %}
+                                                                </option>
+                                                            {% else %}
+                                                                <option class="dropdown-item" value="{{ sc.id }}" role="menuitem">
+                                                                    {% if  pays.frontLanguage  == 'en' or pays.frontLanguage  == 'EN' %}
+                                                                        {{ sc.nom_en }}
+
+                                                                    {% else %}
+                                                                        {{ sc.nom }}
+                                                                    {% endif %}                                                                </option>
+                                                            {% endif %}
+                                                        {% else %}
+                                                            <option class="dropdown-item" value="{{ sc.id }}" role="menuitem">
+                                                                {% if  pays.frontLanguage  == 'en' or pays.frontLanguage  == 'EN' %}
+                                                                    {{ sc.nom_en }}
+
+                                                                {% else %}
+                                                                    {{ sc.nom }}
+                                                                {% endif %}                                                            </option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div style="padding-top: 10px"  class="col-lg-3  col-md-3 col-xs-3 text-right">
+                                                <button type="submit" style="margin-right: 10px;"  class="btn btn-icon social-evernote waves-effect waves-classic">
+                                                    <i class="icon icon md-search" aria-hidden="true"></i>
+                                                </button>
+                                                <a hidden href="{{ path('ExportProduit_gerant') }}"  style="margin-right: 10px;" class="float-right btn  btn-icon  btn-dark waves-effect waves-classic waves-effect waves-classic">
+                                                    <i class="icon md-download" aria-hidden="true"></i> {{ "exporter"|trans }}</a>
+
+
+
+
+
+                                            </div>
+
+
+
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- End Example Bordered Table -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+        <div class="page-content" style="padding-top: 0px " >
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid"  style="padding-left: 0px !important;padding-right: 0px !important;padding-top: 0px !important;padding-bottom: 0px !important;">
+                    <div class="row row-lg">
+                        <form  action="{{ path('activate_checked') }}" method="get">
+
+
+                        <div class="col-lg-12">
+                            <!-- Example Bordered Table -->
+                            {#
+
+                                 <a href="{{ path('produit_toactivate_index') }}"    type="submit" style="margin-right: 10px;" class="float-right btn  btn-icon  btn-outline-success waves-effect waves-classic waves-effect waves-classic">
+                                    <i class="icon md-lock-open" aria-hidden="true"></i>Activer</a>
+#}
+
+
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr >
+
+                                    <th style="width: 15%;padding-left: 20px;" >
+                                        <div class="checkbox-custom checkbox-primary center-block " style="text-align: left;" >
+
+                                            <input id="checkAll" type="checkbox" value="checkAll"  name='checkAll'>
+                                            <label for="checkAll"  style="font-weight: bold"> {{ "Check All"|trans }}</label>
+
+                                        </div>
+                                    </th>
+                                    <th style="width: 15%;padding-left: 20px;" >{{ "Image"|trans }}</th>
+                                    <th style="width: 15%">{{ "Nom/Code"|trans }}</th>
+                                    <th style="width: 12%">{{"Catégorie"|trans}}</th>
+                                    <th style="width: 13%">{{"Sous Catégorie"|trans}}</th>
+                                    <th class="text-center" style="width: 10%">{{ "Action"|trans }}?
+                                        <a  hidden type="submit"  href="{{ path('activateall') }}" title="{{ "cloneallproducts"|trans }}"  style="margin-left: 10px;font-size: 11px;text-transform: capitalize;"  class="btn btn-icon social-evernote waves-effect waves-classic">
+                                            {{ "ActiverAll"|trans }}   </a>
+
+                                               <button     type="submit" style="margin-right: 10px;width: 70px;font-size: 13px" class="float-right btn  btn-icon  btn-outline-danger waves-effect waves-classic waves-effect waves-classic">
+                                               <i class="icon md-lock-open" aria-hidden="true"></i>Activer</button>
+
+
+                                    </th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+
+                                {% for produit in produits %}
+
+                                    {% if  produit.sous_categorie is not null  and produit.categorie is not null  %}
+
+
+                                    <tr >
+
+                                        <td  style="padding-left: 20px ;vertical-align: middle" >
+                                            <div class="checkbox-custom checkbox-primary center-block float-left">
+                                                <input id="{{ produit.id }}" type="checkbox" value="{{ produit.id }}"
+                                                       name='checkboxvar[]'>
+
+                                                <label for="{{ produit.id }}" class="namecategorie"></label>
+                                            </div>
+
+                                        </td>
+
+
+                                        <td style="vertical-align: middle" >
+                                            {% if produit.image %}
+                                                <img class="navbar-brand-logo" style="height: 50px;width: auto;"
+                                                     src="{{ asset('uploads/produits/') }}{{ produit.image }}">
+                                            {% endif %}
+                                        </td>
+                                        <td style="    vertical-align: middle;">
+                                            <div class="media-body">
+                                                <h5 class="mt-0 mb-5">
+                                                    {% if pays.frontLanguage  == 'en' or pays.frontLanguage  == 'EN' %}
+                                                        {{ produit.nomen}}
+                                                    {% else %}
+                                                        {{ produit.nom}}
+                                                    {% endif %}
+
+                                                </h5>
+                                                <small>{{ produit.code}}</small>
+                                            </div>
+                                        </td>
+                                        <td style="    vertical-align: middle;">
+                                            {% if pays.frontLanguage  == 'en' or pays.frontLanguage  == 'EN' %}
+
+                                                {% if produit.categorie is not null and produit.categorie is defined %}
+                                                    {{ produit.categorie.nom_en}}
+
+
+
+                                                {% endif %}
+
+                                            {% else %}
+                                                {% if produit.categorie is not null and produit.categorie is defined %}
+
+                                                    {{ produit.categorie.nom}}
+
+
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td style="    vertical-align: middle;">
+
+                                            {% if  pays.frontLanguage  == 'en' or pays.frontLanguage  == 'EN' %}
+                                                {{ produit.sous_categorie.nom_en}}
+
+                                            {% else %}
+                                                {{ produit.sous_categorie.nom}}
+                                            {% endif %}
+                                        </td>
+
+                                        <td class="text-center" style="    vertical-align: middle;">
+                                            <a class="btn md-lock-open" href="{{ path('activateproduit_gerant',{'id':produit.id}) }}" title="{{ "activer"|trans }}"
+                                               style="color: #46bf8c!important;background-color: #ffffff !important;border: 1px solid;"></a>
+                                        </td>
+
+                                    </tr>
+
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                            <div class="navigation">
+                                {{ knp_pagination_render(produits) }}
+                            </div>
+
+                            <!-- End Example Bordered Table -->
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+
+        </form>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+-->
+
+    <script>
+        $( "select[name='categorie']" ).change(function () {
+            var matiereID = $(this).val();
+          console.log('aaaaa'+matiereID);
+            if(matiereID) {
+
+
+                $.ajax({
+                    url: "{{ path('get_sous_categorie_from_categorie_gerant') }}",
+                    dataType: 'Json',
+                    data: {'categorieid':matiereID},
+                    type:'GET',
+                    success: function(data) {
+                        $('select[name="souscategorie"]').empty();
+                        $('select[name="souscategorie').append('<option value="" selected hidden>'+ '' +'</option>');
+
+                        for(i = 0; i < data.length; i++) {
+                            student = data[i];
+                            $('select[name="souscategorie').append('<option value="'+ student['id'] +'">'+ student['nom'] +'</option>');
+                        };
+                    }
+                });
+
+
+            }else{
+                $('select[name="produit[sous_categorie]"]').empty();
+            }
+        });
+        (function (document, window, $) {
+            'use strict';
+
+            var Site = window.Site;
+            $(document).ready(function () {
+                Site.run();
+            });
+
+            $( "select[name='categorie']" ).select2();
+            $( "select[name='souscategorie']" ).select2();
+
+        })(document, window, jQuery);
+
+
+
+       /* $(document).ready(function() {
+            //set initial state.
+            $("input[name='check[]']").change(function () {
+                var len = $("input[name='check[]']:checked").length;
+                console.log("len "+len);
+            });
+        });*/
+
+
+        $(document).ready(function() {
+            //set initial state.
+            $('#checkAll').click(function () {
+
+                $('input:checkbox').not(this).prop('checked', this.checked);
+               // alert(";)");
+                /* if ($('#CheckAll').is(':checked') == true) {
+
+                     alert(";)");
+                 }*/
+            });
+        });
+
+
+    </script>
+{% endblock %}

@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="{{ asset('remark/global/vendor/flag-icon-css/flag-icon.css') }}">
+<nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega " role="navigation">
+
+    <div class="navbar-header" style="background-color: white">
+    </div>
+
+    <div class="navbar-container container-fluid">
+        <!-- Navbar Collapse -->
+        <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+            <!-- Navbar Toolbar channge language  -->
+            <ul class="nav navbar-toolbar">
+
+            </ul>
+            <!-- End Navbar Toolbar -->
+            <!--
+                                <div class="dropdown-menu " style="width: fit-content" >
+                                    <a class="dropdown-item" style="font-family: Roboto-Regular, sans-serif" href="{{ path('fr_en') }}?to=en" role="menuitem">
+                                     <span class="flag-icon flag-icon-gb"></span>EN</a><br>
+                                   <a class="dropdown-item" href="{{ path('fr_en') }}?to=fr" role="menuitem">
+                                    <span class="flag-icon flag-icon-fr"></span>FR</a>
+                                </div>
+                        -->
+            <!-- Navbar Toolbar Right -->
+            <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+
+                {% if app.user.hasRole("ROLE_SUPER_ADMIN") %}
+
+                <li class="nav-item dropdown">
+                        <a class="nav-link navbar-avatar" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
+                           aria-expanded="false" role="button">
+                            {% if app.request.getLocale()  == 'en' %}<span class="flag-icon flag-icon-gb"></span>{% elseif app.request.getLocale()  == 'fr' %}<span class="flag-icon flag-icon-fr"></span>{% endif %}
+
+
+                        </a>
+                    <div class="dropdown-menu" role="menu">
+                        <a class="dropdown-item" href="{{ path('fr_en') }}?to=en" role="menuitem">
+                            <span class="flag-icon flag-icon-gb"></span>English</a>
+                        <a class="dropdown-item" href="{{ path('fr_en') }}?to=fr" role="menuitem">
+                            <span class="flag-icon flag-icon-fr"></span>Français</a>
+                    </div>
+                </li>
+
+                {% endif %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link navbar-avatar" data-toggle="dropdown" href="#" aria-expanded="false"
+                       data-animation="scale-up" role="button">
+                       <span class="avatar avatar-online">
+                        <img src="{{ asset('remark/images/user.png')}}" alt="...">
+                       <i></i>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu" role="menu">
+                        {% if  app.user.hasRole("ROLE_GESTIONNAIRE") or app.user.hasRole("ROLE_GERANT") %}
+
+                            <a class="dropdown-item" href="{{ path('update_password') }}" role="menuitem"><i class="icon md-account" aria-hidden="true"></i>
+                                {{ "profile"|trans }}</a>
+                        {% endif %}
+
+
+
+                        <a class="dropdown-item" href="{{ path('admin_logout') }}" role="menuitem"><i class="icon md-power" aria-hidden="true"></i>
+                            {{ "Logout"|trans }}</a>
+                    </div>
+                </li>
+            </ul>
+            <!-- End Navbar Toolbar Right -->
+        </div>
+        <!-- End Navbar Collapse -->
+
+        <!-- Site Navbar Seach -->
+        <div class="collapse navbar-search-overlap" id="site-navbar-search">
+            <form role="search">
+                <div class="form-group">
+                    <div class="input-search">
+                        <i class="input-search-icon md-search" aria-hidden="true"></i>
+                        <input type="text" class="form-control" name="site-search" placeholder="Search...">
+                        <button type="button" class="input-search-close icon md-close" data-target="#site-navbar-search"
+                                data-toggle="collapse" aria-label="Close"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- End Site Navbar Seach -->
+    </div>
+</nav>
+
+<style>
+    @media screen and (max-width: 767px) {
+        .site-navbar{
+            visibility: hidden;
+
+        }
+    }
+
+</style>

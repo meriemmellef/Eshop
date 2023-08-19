@@ -1,0 +1,242 @@
+{% extends 'FrontendBundle:Layouts:layoutBreadcrumps.html.twig' %}
+
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css">
+{% endblock stylesheets %}
+{% form_theme form  'FrontendBundle:Form:form_errors.html.twig' %}
+    {% block content %}
+
+        <div class="container main-container">
+
+            <div class="row">
+                <div class="breadcrumbDiv col-lg-12">
+                    <ul class="breadcrumb">
+
+                        <li>
+                            <a style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #ED0000 !important;"
+                               href="/">{{ "Home" | trans }}</a></li>
+
+                        <li style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #374649 !important;">
+                            {{ "Inscription" | trans }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row" style=" display: flex;  justify-content: center;  align-items: center;">
+
+                <div class="col-lg-6  col-xs-12  col-md-12 col-sm-12">
+                    <h1 class="section-title-inner"><span hidden><i class="fa fa-lock"></i> {{ "Inscription" | trans }}</span></h1>
+
+                    <div class="row userInfo">
+
+                        <div class="col-xs-12 col-sm-12">
+
+                            <form role="form" class="logForm " id="myForm"
+                                  action="{{ path('fos_user_registration_register') }}"
+                                  method="post">
+                                {#
+                                      {% if form.vars.errors is not empty %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ form_errors(form) }}
+                                    </div>
+                                {% endif %}
+                                #}
+
+
+
+
+                                {% for message in  app.session.flashBag.get('register') %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                        {{ message}}
+                                    </div>
+
+                                {% endfor %}
+
+
+
+                                <div class="form-group">
+                                    <label class="inputtitletxt">{{ "Nom" | trans({}, 'messages') }} <sup> * </sup></label>
+                                    {{ form_widget(form.firstName,{"attr" : {"class":"form-control","placeholder":""} } ) }}
+
+
+                                    <span style="color: #ed0000"> {{ form_errors(form.firstName) }}</span>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="inputtitletxt">{{"Prénom" | trans({}, 'messages')}} <sup> * </sup></label>
+                                    {{ form_widget(form.lastName,{"attr" : {"class":"form-control","placeholder":""} } ) }}
+
+                                    <span style="color: #ed0000"> {{ form_errors(form.lastName) }}</span>
+
+                                </div>
+
+
+                              {#
+                                   <div class="form-group">
+                                    <label class="inputtitletxt">{{ "Date de naissance" | trans({}, 'messages') }} <sup> * </sup></label>
+                                    {{ form_widget(form.date_naissance ,{"attr" : {"class":"form-control ","placeholder":"Date de naissance"} } ) }}
+                                    {{ form_errors(form.date_naissance) }}
+                                </div>
+                              #}
+
+
+
+                                <div class="form-group">
+                                    <label class="inputtitletxt">{{ "Téléphone" | trans({}, 'messages') }}<sup> * </sup></label>
+                                    {{ form_widget(form.tel,{"attr" : {"class":"form-control","placeholder":""} } ) }}
+                                    <span style="color: #ed0000"> {{ form_errors(form.tel) }}</span>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="inputtitletxt">{{ "Email" | trans({}, 'messages') }} <sup> * </sup></label>
+                                    {{ form_widget(form.email,{"attr" : {"class":"form-control","placeholder":""} } ) }}
+
+                                  {#  {%if form_errors(form.email)  %}
+                                        <span style="color: #ed0000"> {{"email.exist"|trans({}, 'messages') }} </span>
+
+                                    {%  endif %}#}
+
+
+
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="inputtitletxt">{{ "Mot de passe" | trans({}, 'messages') }} <sup> * </sup></label>
+                                    {{ form_widget(form.plainPassword.first,{"attr" : {"class":"form-control ","placeholder":""} } ) }}
+                                   {#
+                                    {{ form_errors(form.plainPassword.first) }}
+                                     <span class="error"> {{"passwordpattern"|trans({}, 'messages') }} </span>
+
+                                   #}
+
+                                    <span style="color: #ed0000">{{ form_errors(form.plainPassword.first) }}</span>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="inputtitletxt">{{"Vérificationfront" | trans({}, 'messages')}} <sup> * </sup></label>
+                                    {{ form_widget(form.plainPassword.second,{"attr" : {"class":"form-control","placeholder":""} } ) }}
+                                    <br><br>
+                                    <span  style="color: #ed0000">{{ form_errors(form.plainPassword.second) }}</span>
+
+                                </div>
+                                {#
+                                 <img hidden src="/interdiction.png" style="margin-bottom: 10px;width: 100%">
+                                #}
+                                <div style="">
+                                    <input type="checkbox" class="inputtitletxt" style="width: 10%"
+                                           name="fos_user_registration_form[accept_pub]"/>
+                                    <label  class="inputtitletxt" style="width: 90%">
+                                    {{"J'accepte de recevoir par email" | trans({}, 'messages')}}</label>
+                                </div>
+
+
+                                <div style="">
+                                    <input type="checkbox" class="inputtitletxt" style="width: 10%"  name="fos_user_registration_form[accept_pub]"/>
+                                    <label  class="inputtitletxt" style="width: 90%">
+                                        {{"J'accepte de recevoir par sms" | trans({}, 'messages')}}</label>
+                                </div>
+
+
+                                <br> <br>
+
+                                <div class="form-group">
+
+                                    <input type="checkbox" required/>
+                                    <label  class="inputtitletxt"> {{ "J'accepte" | trans({}, 'messages')}}</label>
+                                    <a href="{{ condition_general_directory }}/{{ app.session.get('pays').CguFile }}" target="_blank"
+                                       style="color: #ED0000;font-family: Roboto-Regular, sans-serif !important;font-size: 17px">
+                                        {{"les conditions générales d’utilisation" | trans({}, 'messages')}}</a>
+
+                                </div>
+                               {# <div class="input-group" style="padding-top: 14px;padding-bottom: 5px;">
+                                    <div class="g-recaptcha" data-sitekey="6LedckodAAAAAAE-j3jaEd9gBOEFaaM7xxW3FKN0"></div>
+                                                   <script type="text/javascript"
+                                            src="https://www.google.com/recaptcha/api.js?hl=en">
+                                    </script>
+                                </div>#}
+                                <div style="display: block;text-align: center;">
+                                    <button class="btn  btn_card" type="submit"     style="margin-top: 20px;margin-bottom: 10px;width: 100%">
+                                        {{ "Valider"|trans({}, 'messages') }}
+                                    </button>
+                                    <br>
+                                    {% if  app.session.get("pays").MentionLegaleFile %}
+                                    <a href="{{ legal_notice_directory }}/{{ app.session.get("pays").MentionLegaleFile }}" target="_blank"
+                                           style="color: #ED0000;font-family: Roboto-Regular, sans-serif">{{"Mentions légales" | trans({}, 'messages')}}</a>
+                                    {% endif %}
+
+                                    <div style="display:none;">{{ form_rest(form) }}</div>
+
+                                </div>
+
+                            </form>
+
+
+                        </div>
+
+
+                    </div>
+                    <!--/row end-->
+
+                </div>
+
+            </div>
+            <!--/row-->
+
+            {% if app.session.get("pays").RappelRgpdText %}
+                <hr>
+                <div style="margin-bottom: 20px;color: #374649;font-size: 14px;font-family: Roboto-Regular, sans-serif !important;">
+                    {{ app.session.get("pays").RappelRgpdText | nl2br }}
+                    {% if app.session.get("pays").PersonelDataFile %}
+                    <a href="{{ personal_data_directory }}/{{ app.session.get('pays').PersonelDataFile }}" target="_blank" style="font-family: Roboto-Regular, sans-serif;color:#ED0000 ">
+                        <br/>   {{"La charte données personnelles et cookies" | trans({}, 'messages')}}</a>
+                    {% endif %}
+
+                </div>
+            {% endif %}
+
+            <div style="clear:both"></div>
+        </div>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <!-- /wrapper -->
+
+
+
+        <style>
+            .footer{
+                visibility: hidden;
+            }
+        </style>
+    {% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.min.js"></script>
+    <script>
+     jQuery(document).ready(function() {
+            $('.js-datepicker').datepicker();
+        });
+        $(function () {
+            $("#fos_user_registration_form_date_naissance").datepicker(
+                {
+                    format: 'dd/mm/yyyy',
+                    startDate: new Date('1940-1-1'),
+
+                }
+            );
+        });
+        jQuery(document).ready(function () {
+            $('.js-datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                startDate: new Date('01/01/1975'),
+            });
+        });
+    </script>
+{% endblock javascripts %}

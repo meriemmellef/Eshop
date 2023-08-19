@@ -1,0 +1,165 @@
+{% xlsdocument %}
+    {% xlssheet 'Worksheet' {
+        columnDimension: {
+            'default': {
+                autoSize: true
+            }
+        }
+    } %}
+        {% xlsrow %}
+            {% xlscell { style: { font: { size: '14' } }, margin: { left: '140' } } %}Reference{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Statut Commande{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Statut Payement {% endxlscell %}
+            {#
+                        {% xlscell { style: { font: { size: '14' } } } %}Remboursement {% endxlscell %}
+
+            #}
+            {% xlscell { style: { font: { size: '14' } } } %}Date Reservation {% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Periode Reception {% endxlscell %}
+            {% if commande.statutcommande == 3 %}
+            {% xlscell { style: { font: { size: '14' } } } %}Date Livraison {% endxlscell %}
+            {% endif %}
+            {% if commande.statutcommande == 4 %}
+                {% xlscell { style: { font: { size: '14' } } } %}Date Annulation {% endxlscell %}
+            {% endif %}
+            {% xlscell { style: { font: { size: '14' } } } %}Client{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Produit{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %} Quantité{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Prix Unitaire{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Prix Total{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Prix Final{% endxlscell %}
+
+        {% endxlsrow %}
+        {% xlsrow %}
+            {% xlscell { style: { font: { size: '10' } } } %}{{commande.reference}}{% endxlscell %}
+
+
+            {% xlscell { style: { font: { size: '10' } } } %}
+                {% if  commande.statutcommande == 0 %}
+                    Non traitée
+                {% endif %}
+                {% if  commande.statutcommande == 1 %}
+                   En cours de traitement
+                {% endif %}
+                {% if  commande.statutcommande == 2 %}
+                 Traitée
+                {% endif %}
+                {% if  commande.statutcommande == 3 %}
+                  Livrée
+                {% endif %}
+                {% if  commande.statutcommande == 4 %}
+                   Annulée
+                {% endif %}
+            {% endxlscell %}
+
+
+            {% xlscell { style: { font: { size: '10' } } } %}
+                {% if  commande.statutpayement == 0 %}
+                   Non payée
+                {% endif %}
+                {% if  commande.statutpayement == 1 %}
+                   Payée
+                {% endif %}
+            {% endxlscell %}
+
+
+   {% xlscell { style: { font: { size: '10' } } } %}
+                {% if  commande.remboursement == 0 %}
+                   Non remboursée
+                {% endif %}
+
+                {% if commande.remboursement == 1 %}
+                  Remboursée
+                {% endif %}
+            {% endxlscell %}
+
+
+            {% xlscell { style: { font: { size: '10' } } } %}{{commande.dateReservation|date("m/d/Y h:i") }}{% endxlscell %}
+            {% xlscell { style: { font: { size: '10' } } } %}
+                {% if  commande.periodeReception == 1 %}
+                de 8h à 10h
+            {% endif %}
+                {% if  commande.periodeReception == 2 %}
+                    de 10h à 12h
+                {% endif %}
+                {% if  commande.periodeReception == 3 %}
+                    de 12h à 14h
+                {% endif %}
+                {% if commande.periodeReception == 4 %}
+                    de 14h à 16h
+                {% endif %}
+                {% if  commande.periodeReception == 5 %}
+                    de 16h à 18h
+                {% endif %}
+                {% if commande.periodeReception == 6 %}
+                    de 18h à 20h
+                {% endif %}
+            {% endxlscell %}
+
+            {% if commande.statutcommande == 3 %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{commande.dateReception|date("m/d/Y h:i") }}{% endxlscell %}
+            {% endif %}
+            {% if commande.statutcommande == 4 %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{commande.dateAnnulation|date("m/d/Y h:i") }}{% endxlscell %}
+            {% endif %}
+            {% xlscell { style: { font: { size: '10' } } } %}{{commande.utilisateur.firstName }} {{ commande.utilisateur.lastName}}{% endxlscell %}
+            {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+            {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+            {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+            {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+            {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+
+        {% endxlsrow %}
+
+        <!--
+        {% set pt = 0 %}
+        {% for produit in produits %}
+            {% xlsrow %}
+            {% set pt = pt + produit.produit.prix * produit.quantite %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+
+                {% if commande.statutcommande == 3 %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                 {% endif %}
+                 {% if commande.statutcommande == 4 %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                 {% endif %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ produit.produit.nom }}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %} {{ produit.quantite }}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ produit.produit.prix }}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ produit.produit.prix * produit.quantite  }}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+
+            {% endxlsrow %}
+        {% endfor %}
+        {% xlsrow %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+
+                {% if commande.statutcommande == 3 %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                 {% endif %}
+                 {% if commande.statutcommande == 4 %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                 {% endif %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}{{pt}} {% endxlscell %}
+
+        {% endxlsrow %}
+        -->
+    {% endxlssheet %}
+{% endxlsdocument %}

@@ -1,0 +1,101 @@
+<div class="container">
+    <div class=' well-sm col-md-6 col-md-offset-3'>
+        <H1><b class="titleiscrit">{{ "Mot de Passe Perdu"|trans({}, 'messages') }}</b></H1>
+        {#
+                {% if  app.session.flashBag.has('forgetpassword')  %}
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {{ "Please check your email to get your new password"|trans({}, 'messages') }}
+            </div>
+
+        {% endif %}
+        {% if  app.session.flashBag.has('forgetpswdfail')  %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {{ "user Not found"|trans({}, 'messages') }}
+            </div>
+
+        {% endif %}
+        #}
+        {% if success is defined %}
+            <div class="col-lg-12 text-center">
+                {% if  success==1  %}
+
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        {{ "forget_password_msg"|trans({}, 'messages') }}
+                    </div>
+                {% endif %}
+                {% if   success==0   %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        {{ "forget_password_msg"|trans({}, 'messages') }}
+                    </div>
+
+
+                {% endif %}
+
+                {% if   success==2   %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        {{ "captchincorect"|trans({}, 'messages') }}
+                    </div>
+
+
+                {% endif %}
+            </div>
+        {% endif %}
+
+
+        <form role="form" action="{{ path('updatePasswordApi') }}" method="post">
+            {% if invalid_username is defined %}
+                <p>{{ 'resetting.request.invalid_username'|trans({'%email%': invalid_username}, 'FOSUserBundle') }}</p>
+            {% endif %}
+            <div class="form-group">
+                <label  class="inputtitletxt" for="exampleInputEmail1">{{ 'Email'|trans({}, 'messages') }}</label>
+                <input  type="email" id="username" name="username" required="required" class="form-control" placeholder="Entre votre adresse Email">
+            </div>
+            <p hidden>{{"Renseignez votre adresse mail utilisé pour un lien de reinistialisation du mot de passe"|trans}}.</p>
+
+
+            <div class="input-group" style="padding-top: 14px;padding-bottom: 5px;">
+                <div class="g-recaptcha" data-sitekey="6LedckodAAAAAAE-j3jaEd9gBOEFaaM7xxW3FKN0"></div>
+
+                {#
+                                                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+
+                                                    <div class="g-recaptcha" data-sitekey="6Lc5D-wUAAAAAG7zVXP608ZJNL0HncaFG7jLsj2v"></div>
+
+                #}
+
+                <script type="text/javascript"
+                        src="https://www.google.com/recaptcha/api.js?hl=en">
+                </script>
+            </div>
+
+            <br>
+
+            <input type="submit" class="btn  btn_card" style="font-weight: 500 !important;width: 100%" value="{{ 'resetting.request.submit'|trans({}, 'FOSUserBundle') }}">
+
+
+        </form>
+
+    </div>
+
+
+    <style>
+        .footer{
+            visibility: hidden;
+        }
+    </style>
+    </div>

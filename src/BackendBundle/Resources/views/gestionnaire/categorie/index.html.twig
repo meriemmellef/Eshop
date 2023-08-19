@@ -1,0 +1,268 @@
+{% extends '@Backend/layout/layout.html.twig' %}
+
+{% block page %}
+    <div class="page">
+        <div class="page-header">
+            <h1 class="page-title">{{"Gestion Des Catégories"|trans}}</h1>
+
+            <div class="page-header-actions">
+                <div class="row">
+                    <div class="col-lg-6 ">
+                        <div class="media-body text-center">
+                            <h4 class="mt-0 mb-5" style="color: #f02138;margin-bottom: -5px!important;"> {{ nbcategories|length }}</h4>
+                            <small style="color: #505050;">{{"Catégories"|trans}} </small>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 ">
+                        <a href="{{ path('categorie_new') }}" style="margin-top: 3px;" class="float-right btn btn-sm btn-icon social-evernote waves-effect waves-classic">
+                            <i class="icon md-plus" aria-hidden="true"></i> {{ "Ajouter"|trans }}
+                        </a>
+                    </div>
+
+                    {#
+                     <div class="col-lg-4 " >
+                        <a  href="{{ path('categorie_activer') }}" style="margin-top: 3px;" class="float-right btn btn-sm btn-icon social-evernote waves-effect waves-classic">
+                            <i class="icon md-plus" aria-hidden="true"></i> {{ "Activer"|trans }}
+                        </a>
+                    </div>
+                    #}
+
+
+                </div>
+            </div>
+        </div>
+        <div class="page-content" style="padding-top: 0 !important;padding-bottom: 0 !important;">
+            <!-- Panel -->
+            <div class="panel" >
+                <div class="panel-body container-fluid" style="padding: 0 !important;">
+                    <div class="row row-lg">
+
+
+                        <div class="col-lg-12">
+                            <!-- Example Bordered Table -->
+                            <table class="table table-bordered" style="border: none;">
+                                <thead>
+                                <tr style="border-bottom: 1px solid #f3f3f3;">
+                                    <th style="border: none;padding-left: 20px">{{ "Filtre"|trans }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td style="border: none;padding: 0px 20px;">
+                                        <form  class="row" style="align-items: center;max-width: 1520px;" action="{{ path('categorie_index') }}" method="get">
+                                            <div class="col-lg-4  col-md-4 col-xs-4">
+                                                <label class="control-label">{{"Catégorie"|trans}}</label>
+                                                <input type="text" class="form-control" name="search" value="{% if search is defined %}{{search}}{% endif %}" placeholder={{ "CategoryName"|trans }}>
+
+                                            </div>
+                                            <div  class="col-lg-8  col-md-8 col-xs-8 text-right">
+                                                <button type="submit" style="margin-right: 10px;" class=" btn btn-icon social-evernote waves-effect waves-classic">
+                                                    <i class="icon icon md-search" aria-hidden="true"></i></button>
+
+                                                <a href="{{ path('ExportCategorie') }}"  style="margin-right: 10px;" class="float-right btn  btn-icon  btn-dark waves-effect waves-classic waves-effect waves-classic">
+                                                    <i class="icon md-download" aria-hidden="true"></i> {{ "exporter"|trans }}</a>
+                                            </div>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- End Example Bordered Table -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+
+
+        <div class="page-content" style="padding-top: 0px " >
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid"  style="padding-left: 0px !important;padding-right: 0px !important;padding-top: 0px !important;padding-bottom: 0px !important;">
+                    <div class="row row-lg">
+
+
+                        <div class="col-lg-12">
+                            <!-- Example Bordered Table -->
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr class="">
+                                    <th style="width: 70%;padding-left: 20px;">{{ "Nom"|trans }}</th>
+                                    <th  style="width: 10%">{{ "Est Active" | trans }}?</th>
+                                    {#
+                                     <th class="text-center" style="width: 15%">{{ "Alimentaire"|trans }}?</th>
+                                    <th class="text-center" style="width: 15%">{{ "Auto"|trans }}?</th>
+                                    <th class="text-center" style="width: 15%">{{"Vêtements"|trans}}?</th>
+                                    <th class="text-center" style="width: 15%">{{"Autre"|trans}}?</th>
+
+                                    #}
+                                    <th class="text-center" style="padding-right: 20px;width: 20%" >Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for categorie in categories %}
+                                    <tr >
+                                        <td  style="padding-left: 20px;">
+                                            {% if pays.frontLanguage  == 'fr' or pays.frontLanguage  == 'FR' %}
+                                                {% if categorie.nom is defined and categorie.nom is not null %}
+                                                    {{ categorie.nom }}
+
+                                                {% else %}
+                                                    {{ categorie.nom_en }}
+
+                                                {% endif %}
+                                            {% else %}
+                                                {% if categorie.nom_en is defined and categorie.nom_en is not null %}
+                                                    {{ categorie.nom_en }}
+
+                                                {% else %}
+                                                    {{ categorie.nom }}
+
+                                                {% endif %}
+
+                                            {% endif %}
+                                        </td>
+                                        {#
+
+                                        <td class="text-center">
+                                            {% if categorie.isFood == false %}
+                                                <i class="md-close text-danger" style="font-size: 25px;"></i>
+                                            {% else %}
+                                                <i class="md-check text-success" style="font-size: 25px;"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            {% if categorie.isAuto == false %}
+                                                <i class="md-close text-danger" style="font-size: 25px;"></i>
+                                            {% else %}
+                                                <i class="md-check text-success" style="font-size: 25px;"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            {% if categorie.isClothing == false %}
+                                                <i class="md-close text-danger" style="font-size: 25px;"></i>
+                                            {% else %}
+                                                <i class="md-check text-success" style="font-size: 25px;"></i>
+                                            {% endif %}
+                                        </td>
+
+                                        <td class="text-center">
+                                            {% if (categorie.isClothing == false) and  (categorie.isAuto == false) and (categorie.isFood == false) %}
+                                                <i class="md-check text-success" style="font-size: 25px;"></i>
+
+                                            {% else %}
+
+                                                <i class="md-close text-danger" style="font-size: 25px;"></i>
+                                            {% endif %}
+                                        </td>
+                                        #}
+
+                                        <td >
+
+                                            {% if categorie.pays is null %}
+                                                <i class="md-close text-danger" style="font-size: 25px;"></i>
+
+                                            {% else %}
+
+
+
+                                                {% if categorie.isActive %}
+                                                    <i class="md-check text-success" style="font-size: 25px;"></i>
+
+                                                {% else %}
+
+                                                    <i class="md-close text-danger" style="font-size: 25px;"></i>
+
+                                                {% endif %}
+
+                                            {% endif %}
+
+
+
+                                        </td>
+
+
+                                        <td class="text-center" style="min-width: 130px;padding-right: 10px;">
+
+                                            {% if categorie.pays is null  %}
+                                                <a href="{{ path('categorie_activer',{'checkboxvar':categorie.id ,'page':page}) }}" title="{{ "activer"|trans }}" class="btn md-lock-open" style="color: #46bf8c!important;background-color: #ffffff !important;border: 1px solid;"></a>
+
+                                            {% else %}
+
+                                                {% if categorie.isActive %}
+                                                    <a href="{{ path('categorie_disable',{'id':categorie.id,'page':page}) }}" title="{{ "deactivate"|trans }}"
+                                                       class="btn btn-pure btn-default  md-lock "
+                                                       style="color: #b1b1b1;border: 1px solid;"></a>
+                                                {% else %}
+                                                    <a href="{{ path('categorie_disable',{'id':categorie.id,'page':page}) }}" title="{{ "activer"|trans }}"
+                                                       class="btn btn-pure btn-default  md-lock-open  waves-effect waves-classic "
+                                                       style="color: #46bf8c;border: 1px solid;"></a>
+                                                {% endif %}
+
+
+                                                <a href="{{ path('categorie_edit',{'id':categorie.id,'page':page}) }}" title="{{ "edit"|trans }}"
+                                                   class="btn btn-pure btn-default  md-edit waves-effect waves-classic "
+                                                   style="color: #b1b1b1;border: 1px solid;"></a>
+
+                                                <a data-target="#categorie_disable{{ categorie.id }}" data-toggle="modal" title="{{ "delete"|trans }}"
+                                                   class="btn btn-pure btn-danger  md-delete waves-effect waves-classic"
+                                                   style="color: #f02038;border: 1px solid;"></a>
+
+
+                                                <div class="modal fade" id="categorie_disable{{ categorie.id }}" aria-hidden="true"
+                                                     aria-labelledby="exampleModalTabs"
+                                                     role="dialog" tabindex="-1">
+                                                    <div class="modal-dialog modal-simple">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                                <h4 class="modal-title" id="categorie_disable{{ categorie.id }}">{{ 'conf_delete'|trans }}</h4>
+                                                            </div>
+                                                            <form action="{{ path('categorie_delete', { 'id': categorie.id ,'page':page}) }}" method="get">
+                                                                <div class="modal-body">
+                                                                    <h4 style="text-align:center" >{{ 'msg_conf_delete'|trans }}</h4>
+                                                                </div>
+                                                                <div class="panel-footer">
+                                                                    <button style="margin-left: 80%;width: 100px" type="submit"
+                                                                            class="pull-right btn btn-block btn-danger">{{ 'label_delete'|trans }}
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            {% endif %}
+
+
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="navigation">
+                                {{ knp_pagination_render(categories) }}
+                            </div>
+
+                            <!-- End Example Bordered Table -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,79 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_FRONTEND: [ROLE_CLIENT]
+        ROLE_BACKEND:  [ROLE_CLIENT,ROLE_GERANT, ROLE_GESTIONNAIRE, ROLE_SUPER_ADMIN]
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+
+    firewalls:
+
+        admin:
+            access_denied_handler: app.security.access_denied_handler
+            pattern:            /log_back_end/(.*)
+            form_login:
+                provider:       fos_userbundle
+                login_path:     admin_login
+                check_path:     admin_login_check
+                default_target_path: /log_back_end/dashboard
+               #was  use_referer: true
+                always_use_default_target_path: true #rahma add to work on server
+                #success_handler: authentication.handler.login_success_handler
+            logout:
+                path:           admin_logout
+                target:         admin_login
+            anonymous:        true
+            context:          application
+            
+        main:
+            access_denied_handler: app.security.access_denied_handler
+            pattern: ^/
+            form_login:
+                login_path: fos_user_security_login #added by rahma
+                check_path: fos_user_security_check  #added by rahma
+                provider: fos_userbundle
+                default_target_path: /
+                csrf_provider: form.csrf_provider
+                use_referer: false
+            logout:       true
+            anonymous:    true
+
+
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/commandes, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/produit, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/livraison, role: ROLE_USER }
+        - { path: "/profile.*", role: ROLE_USER }
+        - { path: ^/log_back_end/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/log_back_end/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/log_back_end/login_check$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^/log_back_end/pays/, role:  [ROLE_SUPER_ADMIN ,ROLE_GESTIONNAIRE]  }
+        - { path: ^/log_back_end/user/, role:  ROLE_SUPER_ADMIN  }
+
+        - { path: ^/log_back_end/produit/get_sous_categorie_from_categorie, role: [  ROLE_GESTIONNAIRE ,ROLE_GERANT ] }
+
+        - { path: ^/log_back_end/dashboard/, , role: [  ROLE_GESTIONNAIRE , ROLE_SUPER_ADMIN ] }
+        - { path: ^/log_back_end/station/, role:  ROLE_GESTIONNAIRE  }
+        - { path: ^/log_back_end/gerant/, role:  ROLE_GESTIONNAIRE  }
+        - { path: ^/log_back_end/categorie/, role:  ROLE_GESTIONNAIRE  }
+        - { path: ^/log_back_end/sous_categorie/, role:  ROLE_GESTIONNAIRE  }
+        - { path: ^/log_back_end/commande/, role:  ROLE_GESTIONNAIRE  }
+        - { path: ^/log_back_end/client/, role:  ROLE_GESTIONNAIRE  }
+        - { path: ^/log_back_end/produit/, role:  ROLE_GESTIONNAIRE  }
+        - { path: ^/log_back_end/coupon/, role:  ROLE_GESTIONNAIRE  }
+        - { path: ^/log_back_end/parametre/, role:  ROLE_GESTIONNAIRE  }
+
+        - { path: ^/log_back_end/dashboard_gerant/, role:  ROLE_GERANT  }
+        - { path: ^/log_back_end/produitgerant/, role:  ROLE_GERANT  }
+        - { path: ^/log_back_end/commandegerant/, role:  ROLE_GERANT  }
+        - { path: ^/log_back_end/horaire_gerant/, role:  ROLE_GERANT  }
+        - { path: ^/log_back_end/, role: [ ROLE_SUPER_ADMIN,ROLE_GESTIONNAIRE ,ROLE_GERANT ] }

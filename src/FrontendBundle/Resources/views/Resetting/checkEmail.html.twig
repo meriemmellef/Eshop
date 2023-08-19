@@ -1,0 +1,9 @@
+{% extends 'FrontendBundle:Layouts:layoutBreadcrumps.html.twig' %}
+
+{% block content %}
+    <center>
+<p>
+{{ 'resetting.check_email'|trans({'%username%': email}, 'FOSUserBundle') }}
+</p>
+    </center>
+{% endblock %}

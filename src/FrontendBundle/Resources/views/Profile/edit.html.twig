@@ -1,0 +1,81 @@
+{% extends 'FrontendBundle:Layouts:layoutBreadcrumps.html.twig' %}
+
+{% form_theme form  'FrontendBundle:Form:form_errors.html.twig' %}
+
+
+    {% block content %}
+<div class="container main-container"  >
+    <div class="row">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb"  >
+
+
+                <li><a style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #ED0000 !important;" href="/">{{ "Home"|trans({}, 'messages') }}</a></li>
+                <li><a style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #ED0000 !important;" href="{{ path("compte") }}">{{ app.user }}</a></li>
+                <li style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #374649 !important;">
+                    {{ "Mesinformations"|trans({}, 'messages') }}</li>
+            </ul>
+
+        </div>
+    </div>
+
+
+  <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="row userInfo"   style=" display: flex;  justify-content: center;  align-items: center;">
+
+
+                <form action="{{ path('fos_user_profile_edit') }}"  method="POST" class="fos_user_profile_edit col-lg-6 col-md-12 col-xs-12 col-sm-12">
+
+                    <div class="">
+                        <div class="form-group required">
+                            <label class="inputtitletxt" for="InputPasswordCurrent"> {{ "Nom"|trans({}, 'messages') }} <sup> * </sup> </label>
+                            {{ form_widget(form.firstName,{"attr" : {"class":"form-control"} }) }}
+                            {{ form_errors(form.firstName) }}
+                        </div>
+
+                        <div class="form-group required">
+                            <label class="inputtitletxt" for="InputPasswordCurrent"> {{"Prénom"|trans}}  <sup> * </sup> </label>
+                            {{ form_widget(form.lastName,{"attr" : {"class":"form-control"} }) }}
+                            {{ form_errors(form.lastName) }}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="inputtitletxt" for="InputPasswordCurrent"> {{ "Téléphone"|trans({}, 'messages') }}  <sup> * </sup> </label>
+                            {{ form_widget(form.tel,{"attr" : {"class":"form-control"} }) }}
+                            {{ form_errors(form.tel) }}
+                        </div>
+
+                        <div class="form-group required">
+                            <label class="inputtitletxt" for="InputPasswordnew"> {{ "Email"|trans({}, 'messages') }}  <sup> * </sup> </label>
+                            {{ form_widget(form.email,{"attr" : {"class":"form-control"} }) }}
+                            {{ form_errors(form.email) }}
+                        </div>
+                        <div class="form-group required">
+                            <label class="inputtitletxt" for="InputPasswordnewConfirm"> {{ "Mot de passe actuel"|trans({}, 'messages') }} <sup> * </sup> </label>
+                            {{ form_widget(form.current_password,{"attr" : {"class":"form-control"} }) }}
+                            {{ form_errors(form.current_password) }}
+                        </div>
+                        <button type="submit" class="btn btn_card" style="margin-top: 15px;margin-bottom: 15px;width: 100%" >
+                            {{"Mettreàjour"|trans}}</button>
+
+                    </div>
+
+                    {{ form_widget(form._token) }}
+                </form>
+            </div>
+            <!--/row end-->
+  </div>
+
+
+
+
+
+        <!--/row-->
+</div>
+
+        <style>
+            .footer{
+                visibility: hidden;
+            }
+        </style>
+    {% endblock %}

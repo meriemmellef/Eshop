@@ -1,0 +1,37 @@
+<div class="catTopBar clearfix">
+    <div class="catTopBarInner clearfix">
+        <div class="col-lg-3 col-md-3 col-sm-12">
+            <div class="f-left hidden-xs">
+                <h4 class="filterToggle "><strong class="txtnbrr">
+                        {% if nb_produit == 1 %}
+                        {{ nb_produit }} Produit
+                        {% else %}
+                            {{ nb_produit }} {{ "Produits" | trans({}, 'messages') }}
+                        {% endif %}
+                    </strong>
+                </h4>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-12" >
+            <div class="f-right">
+                <div class="w100  clearfix center-xs-inner">
+                    <p class="pull-right shrtByP center-xs  btnspanadd"><span class="btnspanadd"> {{ "Trierpar" | trans({}, 'messages') }} :</span>
+                        <a  href="{{ path("list_produit",{"sortby":1,"categorie_id":app.request.query.get('categorie_id'),"sub_categorie_id":app.request.query.get('sub_categorie_id'),"min_price":app.request.query.get('min_price'), "max_price":app.request.query.get('max_price')}) }}"
+
+                                {% if app.request.query.get("sortby") == 1 %} class="active " {% endif %}  style="font-family: Roboto-Regular, sans-serif; color:{% if app.request.query.get("sortby") == 1 %}  #ED0000   {% else %}  #374649  {% endif %} ; font-size: 15px">  {{ "NOUVEAU" | trans }} </a> |
+
+                        <a href="{{ path("list_produit",{"sortby":2,"categorie_id":app.request.query.get('categorie_id'),"sub_categorie_id":app.request.query.get('sub_categorie_id'),"min_price":app.request.query.get('min_price'), "max_price":app.request.query.get('max_price')}) }}"
+
+
+                                {% if app.request.query.get("sortby") == 2 %} class="active" {% endif %} style="font-family: Roboto-Regular, sans-serif; color:{% if app.request.query.get("sortby") == 2 %}  #ED0000   {% else %}  #374649  {% endif %} ;">{{ "POPULAIRE" | trans }} </a>|
+
+                        <a href="{{ path("list_produit",{"sortby":3,"categorie_id":app.request.query.get('categorie_id'),"sub_categorie_id":app.request.query.get('sub_categorie_id'), "min_price":app.request.query.get('min_price'), "max_price":app.request.query.get('max_price')}) }}"
+
+                                {% if app.request.query.get("sortby") == 3 %} class="active" {% endif %}  style="font-family: Roboto-Regular, sans-serif; color:{% if app.request.query.get("sortby") == 3 %}  #ED0000   {% else %}  #374649  {% endif %} ;">{{ "PRIX" | trans }}</a></p>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

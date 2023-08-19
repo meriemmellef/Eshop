@@ -1,0 +1,73 @@
+{% extends 'FrontendBundle:Layouts:layoutBreadcrumps.html.twig' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        
+
+        
+        <div class="span9">
+            
+            
+            <h2>{{ "Valider mon panier"|trans ({}, 'messages')}}</h2>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>{{"Références"|trans({}, 'messages')}}</th>
+                        <th>{{"Quantité"|trans({}, 'messages')}}</th>
+                        <th>{{ "Prix unitaire"|trans ({}, 'messages')}}</th>
+                        <th>{{ "Total"|trans({}, 'messages') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for produit in commande.commande.produit %}
+                    <tr>
+                        <td>{{ produit.reference }}</td>
+                        <td>
+                            {{ produit.quantite }}
+                        </td>
+                        <td>{{ produit.prixHT }} AR</td>
+                        <td>{{ produit.prixHT * produit.quantite }} AR</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <dl class="dl-horizontal pull-right">
+                <dt>{{ "Total"|trans ({}, 'messages')}} :</dt><dd>{{ commande.commande.prixHT }} AR</dd>
+
+            </dl>
+            
+            <div class="span3 pull-left">
+                <dl class="pull-left">
+                    <dt><h4>{{ "Adresse de livraison"|trans({}, 'messages') }}</h4></dt>
+                    <dt>{{ commande.commande.livraison.prenom }} {{ commande.commande.livraison.nom }}</dt>
+                    <dt>{{ commande.commande.livraison.adresse }}</dt>
+                    <dt>{{ commande.commande.livraison.cp }} {{ commande.commande.livraison.ville }} - {{ commande.commande.livraison.pays }}</dt>
+                </dl>
+            </div>
+            
+            <div class="span3 pull-left">
+                <dl class="pull-left">
+                    <dt><h4>{{ "Adresse de facturation"|trans}}</h4></dt>
+                    <dt>{{ commande.commande.facturation.prenom }} {{ commande.commande.facturation.nom }}</dt>
+                    <dt>{{ commande.commande.facturation.adresse }}</dt>
+                    <dt>{{ commande.commande.facturation.cp }} {{ commande.commande.facturation.ville }} - {{ commande.commande.facturation.pays }}</dt>
+                </dl>
+            </div>
+            
+            <div class="clearfix"></div>
+            
+            <form action="{#{ path('validationCommande', { 'id' : commande.id }) }#}" method="POST"/>
+                <input name="token" type="hidden" value="{{ commande.commande.token }}" />
+                <input name="prix" type="hidden" value="{{ commande.commande.prixHT }}" />
+                <input name="date" type="hidden" value="{{ commande.date|date('dmyhms') }}" />
+                <button type="submit" class="btn btn-success pull-right">{{ "Payer"|trans({}, 'messages') }}</button>
+            </form>
+            
+            <a href="{{ path('livraison') }}" class="btn btn-primary">{{ "retour"|trans({}, 'messages') }}</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

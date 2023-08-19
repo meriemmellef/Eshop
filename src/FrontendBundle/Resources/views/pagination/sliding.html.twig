@@ -1,0 +1,52 @@
+
+{% if pageCount > 1 %}
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="dataTables_info" role="status" aria-live="polite"></div>
+        </div>
+        <div class="col-sm-7">
+            <div class=" paging_simple_numbers pull-right">
+                <ul class="pagination">
+
+                    {% if first is defined and current != first %}
+                        <li class="paginate_button previous  ">
+                            <a href="{{ path(route, query|merge({(pageParameterName): first})) }}">
+                                &lt;&lt;
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if previous is defined %}
+                        <li class="paginate_button previous  ">
+                            <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}">
+                                &lt;
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% for page in pagesInRange %}
+                        <li class="paginate_button  {% if page == current %} active {% endif %}">
+                            <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+
+                    {% if next is defined %}
+                        <li class="paginate_button next ">
+                            <a href="{{ path(route, query|merge({(pageParameterName): next})) }}">
+                                &gt;
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if last is defined and current != last %}
+                        <li class="paginate_button next ">
+                            <a href="{{ path(route, query|merge({(pageParameterName): last})) }}">
+                                &gt;&gt;
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endif %}

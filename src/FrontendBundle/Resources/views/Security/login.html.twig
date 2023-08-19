@@ -1,0 +1,162 @@
+
+    {% extends 'FrontendBundle:Layouts:layoutBreadcrumps.html.twig' %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+    {% block content %}
+
+        <div class="container main-container" style="padding-right:2%;padding-left:2%">
+
+            <div class="row" style="display: flex; align-items: center">
+                <div class="breadcrumbDiv col-lg-12">
+                    <ul class="breadcrumb">
+                        <li><a style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #ED0000 !important;" href="/">{{ "Home" | trans({}, 'messages') }} </a></li>
+
+                        <li style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #374649 !important;">
+                             {{ "Authentification" | trans({}, 'messages') }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row"  style=" display: flex;  justify-content: center;  align-items: center;padding-bottom: 20px">
+
+                <div class="col-lg-6  col-xs-12 col-md-12 col-sm-12">
+                    <h1 class="section-title-inner "><span class="titleiscrit" hidden>{{ "Authentification"|trans }}</span></h1>
+
+                    <div class="row userInfo">
+                        
+                        <div class="col-xs-12 col-sm-12">
+
+                            <form role="form" class="logForm " action="{{ path("fos_user_security_check") }}" method="post">
+                                <input type="hidden" name="route" value="1" />
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+
+                                {% if error  or app.session.flashBag.has('danger')  %}
+                                  {% if error==4 %}
+                                      <div class="alert alert-danger alert-dismissible" role="alert">
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                              <span aria-hidden="true">×</span>
+                                          </button>
+                                          {{ "fav_alert" | trans({}, 'messages') }}
+                                      </div>
+                                  {% else %}
+                                    <div class="alert alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                        {{ "Mot de passe ou Email incorrect"|trans({}, 'messages') }}
+                                    </div>
+
+                                {% endif %}
+                                {% endif %}
+
+
+                                <div class="form-group">
+                                    <label class="inputtitletxt">{{ "Email"|trans({}, 'messages') }}</label>
+                                    <input type="email" name="_username" class="form-control input_lay" placeholder={{ "Email"|trans({}, 'messages') }} value="{{ last_username }}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="inputtitletxt">{{ "Mot de passe"|trans({}, 'messages') }}</label>
+                                    <input type="password" name="_password" class="form-control" placeholder={{ "Mot de passe"|trans({}, 'messages') }}>
+                                </div>
+
+                                <div class="form-group">
+                                    <p>
+
+                                        <a title="Recover your forgotten password" style="font-family: Roboto-Regular, sans-serif !important; font-weight: 500!important;color: #ED0000 !important;" href="{{ path('fos_user_resetting_request') }}">{{ "Mot_de_passe_perdu"|trans({}, 'messages')}}? </a>
+                                    </p>
+                                </div>
+                                <div class="input-group" style="padding-top: 14px;padding-bottom: 5px;">
+                                    <div class="g-recaptcha" data-sitekey="6LedckodAAAAAAE-j3jaEd9gBOEFaaM7xxW3FKN0"></div>
+
+                                    {#
+                                                                        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+
+                                                                        <div class="g-recaptcha" data-sitekey="6Lc5D-wUAAAAAG7zVXP608ZJNL0HncaFG7jLsj2v"></div>
+
+                                    #}
+
+                                    <script type="text/javascript"
+                                            src="https://www.google.com/recaptcha/api.js?hl=en">
+                                    </script>
+                                </div>
+
+                                <div  class="checkbox">
+                                    <label style="font-family: Roboto-Regular, sans-serif !important; font-weight: 400">
+                                        <input type="checkbox" name="checkbox"  id="remember_me" name="_remember_me" value="on">
+                                        {{ "Garder ma session active"|trans({}, 'messages') }} </label>
+                                </div>
+                                <button class="btn  btn_card " style="    width: 100%;margin-top: 10px" href="account.html" type="submit"> {{ "Se_connecter"|trans({}, 'messages')}}</button>
+
+
+                            </form>
+
+                            <hr>
+
+                            {#
+
+                            <div class="fb-login-button m_y" scope="email,user_birthday" onlogin="after_click()"></div>
+
+                            <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+                            <script>
+                                window.fbAsyncInit = function() {
+                                    FB.init({
+                                        appId  : '727649985058168', // App ID
+                                        cookie : true,
+                                        xfbml  : true,
+                                        oauth  : true
+                                    });
+                                };
+
+                                function after_click() {
+                                    FB.getLoginStatus(function(response) {
+                                        if (response.status === 'connected') {
+                                          //  window.location = " hwi_oauth_login_url('facebook') }}";
+                                        }
+                                    });
+                                }
+
+                                // Load the SDK Asynchronously
+                                (function(d){
+                                    var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+                                    if (d.getElementById(id)) { window.fbAsyncInit(); return;}
+                                    js = d.createElement('script'); js.id = id; js.async = true;
+                                    js.onload = window.fbAsyncInit;
+                                    js.src = '//connect.facebook.net/fr_FR/all.js';
+                                    ref.parentNode.insertBefore(js, ref);
+                                }(document));
+                            </script>
+                            #}
+
+
+                            <h3 class="section-title style2  text-center">
+                                <span style="background-color: #F7F9FA; font-size:25px !important; ">{{ "create_new_account"|trans({}, 'messages') }} </span>
+                            </h3>
+                            <a  style="margin-top: 25px" href="{{ path('fos_user_registration_register') }}" class="button"><button class="btn  btn_regist">
+                                {{"S’inscrire"|trans({}, 'messages')}}</button></a>
+
+                        </div>
+
+                               
+                        
+                    </div>
+                    <!--/row end-->
+
+                </div>
+
+            </div>
+            <!--/row-->
+
+            <div style="clear:both"></div>
+        </div>
+        <!-- /wrapper -->
+
+
+        <style>
+            .footer{
+                visibility: hidden;
+            }
+        </style>
+    {% endblock content %}
+

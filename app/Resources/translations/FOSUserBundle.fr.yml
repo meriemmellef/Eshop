@@ -1,0 +1,136 @@
+# Group
+group:
+    edit:
+        submit: Mettre à jour le groupe
+    show:
+        name: Nom du groupe
+    new:
+        submit: Créer le groupe
+    flash:
+        updated: Le groupe a été mis à jour
+        created: Le groupe a été créé
+        deleted: Le groupe a été supprimé
+
+# Security
+"Bad credentials": Nom d'utilisateur ou mot de passe incorrect
+
+security:
+    login:
+        username: "Nom d'utilisateur :"
+        password: "Mot de passe :"
+        remember_me: Se souvenir de moi
+        submit: Connexion
+
+# Profile
+profile:
+    show:
+        username: Nom d'utilisateur
+        email: Adresse e-mail
+    edit:
+        submit: Mettre à jour
+    flash:
+        updated: Le profil a été mis à jour
+
+# Password change
+change_password:
+    submit: Modifier le mot de passe
+    flash:
+        success: Le mot de passe a été modifié
+
+password:
+    blank: Veuillez entrer un mot de passe
+    short: "[-Inf,Inf]Le mot de passe est trop court"
+    mismatch: Les deux mots de passe ne sont pas les mêmes
+password_mismatch:
+     blank: Les champs de mot de passe doivent correspondre.
+     short: "Les champs de mot de passe doivent correspondre."
+     invalid: "Les champs de mot de passe doivent correspondre."
+
+
+
+# Registration
+registration:
+    check_email: Un e-mail a été envoyé à l'adresse %email%. Il contient un lien d'activation sur lequel il vous faudra cliquer afin d'activer votre compte.
+    confirmed: Félicitations %username%, votre compte est maintenant activé.
+    back: Retour à la page d'origine.
+    submit: Enregistrer
+    flash:
+        user_created: L'utilisateur a été créé avec succès
+    email:
+        subject: Bienvenue %username% !
+        message: |
+            Bonjour %username% !
+
+            Pour valider votre compte utilisateur, merci de vous rendre sur %confirmationUrl%
+
+            Cordialement,
+            L'équipe.
+    passwordpattern: Votre mot de passe doit comporter au minimum 8 caractères et contenir une majuscule, une minuscule et un chiffre
+# Password resetting
+resetting:
+    password_already_requested: Un nouveau mot de passe a déjà été demandé pour cet utilisateur dans les dernières 24 heures.
+    check_email: Un e-mail a été envoyé à l'adresse %email%. Il contient un lien sur lequel il vous faudra cliquer afin de réinitialiser votre mot de passe.
+    request:
+        invalid_username: Le nom d'utilisateur ou l'adresse e-mail "%username%" n'existe pas.
+        username: "Nom d'utilisateur ou adresse e-mail :"
+        submit: Réinitialiser le mot de passe
+    reset:
+        submit: Modifier le mot de passe
+    flash:
+        success: Le mot de passe a été réinitialisé avec succès
+    email:
+        subject: Réinitialisation de votre mot de passe
+        message: |
+            Bonjour %username% !
+
+            Pour réinitialiser votre mot de passe, merci de vous rendre sur %confirmationUrl%
+
+            Cordialement,
+            L'équipe.
+
+# Global strings
+layout:
+    logout: Déconnexion
+    login: Connexion
+    register: Inscription
+    logged_in_as: Connecté en tant que %username%
+
+# Form field labels
+form:
+    group_name: "Nom du groupe :"
+    username: "Nom d'utilisateur :"
+    email: "Adresse e-mail :"
+    current_password: "Mot de passe actuel :"
+    password: "Mot de passe :"
+    password_confirmation: "Vérification :"
+    new_password: "Nouveau mot de passe :"
+    new_password_confirmation: "Vérification :"
+fos_user:
+    username:
+        already_used: Le nom d'utilisateur est déjà utilisé
+        blank: Entrez un nom d'utilisateur s'il vous plait
+        short: "[-Inf,Inf]Le nom d'utilisateur est trop court"
+        long: "[-Inf,Inf]Le nom d'utilisateur est trop long"
+    email:
+        already_used: L'adresse e-mail est déjà utilisée
+        blank: Entrez une adresse e-mail s'il vous plait
+        short: "[-Inf,Inf]L'adresse e-mail est trop courte"
+        long: "[-Inf,Inf]L'adresse e-mail est trop longue"
+        invalid: L'adresse e-mail est invalide
+    password:
+        blank: Entrez un mot de passe s'il vous plait
+        short: "[-Inf,Inf]Le mot de passe est trop court"
+        mismatch: Les deux mots de passe ne sont pas identiques
+    new_password:
+        blank: Entrez un nouveau mot de passe s'il vous plait
+        short: "[-Inf,Inf]Le nouveau mot de passe est trop court"
+    password_mismatch:
+        blank: Les champs de mot de passe doivent correspondre.
+        short: "Les champs de mot de passe doivent correspondre."
+        invalid: "Les champs de mot de passe doivent correspondre."
+    current_password:
+        invalid: Le mot de passe est invalide
+    group:
+        blank: Entrez un nom s'il vous plait
+        short: "[-Inf,Inf]Le nom est trop court"
+        long: "[-Inf,Inf]Le nom est trop long"

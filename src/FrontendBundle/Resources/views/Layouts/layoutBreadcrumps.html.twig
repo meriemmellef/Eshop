@@ -1,0 +1,14 @@
+{% extends 'FrontendBundle::base.html.twig' %}
+
+{% block body %}
+
+    <div class="container main-container headerOffset" style="max-width: 1600px">
+        <div class="row">
+            <div class="breadcrumbDiv col-lg-12">
+                {% block breadcrump %}{% endblock breadcrump %}
+            </div>
+        </div>
+        {% block content %}{% endblock content %}
+    </div>
+    <!-- /.main-container -->
+{% endblock body %}

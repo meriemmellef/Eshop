@@ -1,0 +1,210 @@
+<div class="example-wrap">
+
+    {{ form_start(form, {'attr': {'class': 'row'}}) }}
+    {% if errors|length > 0 %}
+        <div class="offset-lg-2 col-lg-8" style="padding-top: 20px;">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {% for error in errors %}
+                    <p class="text-danger">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+        </div>
+        <div class="col-lg-4">
+
+        </div>
+    {% endif %}
+
+    <div class="col-lg-6">
+        <label>{{ "SMS réception commande pour le gérant" | trans }}</label>
+        {{ form_widget(form.smsNewCommand, {'attr': {'class': 'form-control','style':'height: 200px;'}}) }}
+        <div class="checkbox-custom checkbox-primary center-block">
+            {{ form_widget(form.isActiveSmsNewCommand, {'attr': {'class': 'form-control'}}) }}
+            <label for="inputChecked">{{ 'Est Active'|trans }} ?</label>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <table class="table table-striped">
+            <thead>
+            <tr >
+                <th>{{ 'Configuration'|trans }}</th>
+                <th>{{ 'Description'|trans }}</th>
+            </tr>
+            </thead>
+            </thead>
+            <tbody>
+
+            <tr>
+
+                <td style="vertical-align: middle;">
+                    %NUM%
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ 'Numéro de la commande'|trans }}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align: middle;">
+                    %PRODUCTNAME%
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ 'Nom du produit'|trans }}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align: middle;">
+                    %DATE%
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ 'Date du RDV'|trans }}
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td style="vertical-align: middle;">
+                    %CLIENTNAME%
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ 'Nom du client'|trans }}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align: middle;">
+                    %CLIENTPHONE%
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ 'Téléphone du client'|trans }}
+                </td>
+
+            </tr>
+
+            <tr>
+                <td style="vertical-align: middle;">
+                    %PRIX%
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ 'Prix'|trans }}
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="col-lg-6">
+        <label>{{ "SMS confirmation commande pour le client" | trans }}</label>
+        {{ form_widget(form.smsConfirmCommand, {'attr': {'class': 'form-control','style':'height: 200px;'}}) }}
+
+
+        <div class="checkbox-custom checkbox-primary center-block">
+            {{ form_widget(form.isActiveSmsConfirmCommand, {'attr': {'class': 'form-control'}}) }}
+            <label for="inputChecked">{{ 'Est Active'|trans }}?</label>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <table class="table table-striped">
+            <thead>
+            <tr >
+                <th>{{ 'Configuration'|trans }}</th>
+                <th>{{ 'Description'|trans }}</th>
+            </tr>
+            </thead>
+            </thead>
+            <tbody >
+
+            <tr>
+
+                <td style="vertical-align: middle;">
+                    %NUM%
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ 'Numéro de la commande'|trans }}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align: middle;">
+                    %PRODUCTNAME%
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ 'Nom du produit'|trans }}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align: middle;">
+                    %DATE%
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ 'Date du RDV'|trans }}
+                </td>
+            </tr>
+
+            <tr>
+                <td style="vertical-align: middle;">
+                    %STATION%
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ 'Station'|trans }}
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td style="vertical-align: middle;">
+                    %PRIX%
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ 'Prix'|trans }}
+                </td>
+
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#
+
+    <div class="col-lg-12 text-center">
+        <button style="margin-top: 3px;" class="float-right btn btn-md social-evernote waves-effect waves-classic">
+            {{ "Enregistrer" | trans }}
+        </button>
+    </div>
+#}
+
+    <div class="row">
+        <div class="col-lg-6 text-right">
+            <button class="btn social-evernote  waves-effect waves-classic">{{ 'Enregistrer'|trans }}</button>
+        </div>
+
+        <div class="col-lg-6 text-left">
+            <a href="{{ path('dashboard_index') }}" style=" background-color: #ed0000 !important;  border-color: #ed0000!important;"  class="btn   btn-danger waves-effect waves-classic">{{ 'back'|trans }}</a>
+        </div>
+    </div>
+    {{ form_end(form) }}
+    <br>
+</div>
+

@@ -1,0 +1,140 @@
+{% extends 'FrontendBundle:Layouts:layoutBreadcrumps.html.twig' %}
+
+{% form_theme form  'FrontendBundle:Form:form_errors.html.twig' %}
+
+    {% block breadcrump %}
+        <div class="row">
+            <div class="breadcrumbDiv col-lg-12">
+                <ul class="breadcrumb">
+                    <li><a href="/">{{ "Home"|trans({}, 'messages') }}</a></li>
+                    <li><a href="{{ path("compte") }}">{{ app.user }}</a></li>
+                    <li class="active"> {{ "Mes adresses"|trans({}, 'messages') }}</li>
+                </ul>
+            </div>
+        </div>
+    {% endblock breadcrump %}
+    {% block content %}
+
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-7">
+                <h1 class="section-title-inner"><span><i
+                            class="fa fa-unlock-alt"></i>{{ "Mes adresses"|trans({}, 'messages') }} </span></h1>
+
+                <div class="row userInfo">
+
+
+
+                    <div class="w100 clearfix"  style="margin-bottom: 20px">
+                        <div class="row userInfo">
+                            <div class="col-lg-6">
+                                <h2 class="block-title-2"> {{ "Liste des adresses"|trans({}, 'messages') }} </h2>
+                                {% if utilisateur.adresses|length != 0 %}
+
+                                        <h4><i class="fa fa-truck "> </i> {{ "Adresse de livraison"|trans({}, 'messages') }}</h4>
+                                        {% for adresse in utilisateur.adresses %}
+                                            <div class="radio-adresse">
+                                                <label class="col-mg-10">
+                                                    {{ adresse.adresse }}, {{ adresse.cp }} {{ adresse.ville }} - {{ adresse.pays }}
+                                                    <br />{{ adresse.prenom }} {{ adresse.nom }}
+                                                </label>
+                                                <a class="col-mg-2" href="{{ path('deleteAdresse', { 'id' : adresse.id, 'from_profile' : 1 }) }}"><i class="fa fa-trash-o" aria-hidden="true"></i></a><br>
+                                            </div>
+                                            <hr>
+                                        {% endfor %}
+
+                                        <br /><br />
+
+
+
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-6">
+                                <h2 class="block-title-2"> {{ "Ajouter une nouvelle adresse"|trans({}, 'messages') }} </h2>
+
+
+                                <form action="" method="POST">
+                                    <div class="form-group">
+                                        <label>{{ "Nom"|trans({}, 'messages') }}</label>
+                                        {{ form_widget(form.nom,{"attr" : {"class":"form-control","placeholder":"Nom" } } ) }}
+                                        {{ form_errors(form.nom) }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>{{ "Prénom"|trans({}, 'messages') }}</label>
+                                        {{ form_widget(form.prenom,{"attr" : {"class":"form-control","placeholder":"Prénom" } } ) }}
+                                        {{ form_errors(form.prenom) }}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>{{"Téléphone"|trans}}</label>
+                                        {{ form_widget(form.telephone,{"attr" : {"class":"form-control","placeholder":"Exp: +216 90909090"} } ) }}
+                                        {{ form_errors(form.telephone) }}
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Adresse</label>
+                                        {{ form_widget(form.adresse,{"attr" : {"class":"form-control","placeholder":"Adresse"} } ) }}
+                                        {{ form_errors(form.adresse) }}
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label>Code Postal</label>
+                                        {{ form_widget(form.cp,{"attr" : {"class":"form-control code","placeholder":"Code Postal"} } ) }}
+                                        {{ form_errors(form.cp) }}
+                                    </div>
+
+
+                                    <div class="form-group delegation_select" >
+                                        <label>Delegation</label>
+                                        {{ form_widget(form.ville,{"attr" : {"class":"form-control delegation","placeholder":"Ville"} } ) }}
+                                        {{ form_errors(form.ville) }}
+                                    </div>
+
+
+                                    {{ form_widget(form) }}
+                                    <button class="btn btn-primary" type="submit" id="btn-add-adress">{{ "Ajouter"|trans({}, 'messages') }}</button>
+                                </form>
+
+
+                            </div>
+
+                        </div>
+                        <!--/row end-->
+
+                    </div>
+
+
+                    <div class="col-lg-12 clearfix">
+                        <ul class="pager">
+                            <li class="previous pull-right"><a href="{{ path("list_produit") }}"> <i class="fa fa-home"></i>
+                                {{ "Continuer vos achats"|trans({}, 'messages') }} </a>
+                            </li>
+                            <li class="next pull-left"><a href="{{ path("compte") }}"> &larr; {{ "Mon compte"|trans({}, 'messages') }}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!--/row end-->
+
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-5"></div>
+        </div>
+        <!--/row-->
+    {% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $("#btn-add-adress").click(function(event){
+            console.log("tteell");
+            var reg = new RegExp(/^\+216 [0-9]*$/);
+            if (!reg.test($("#webbundle_utilisateursadresses_telephone").val())) {
+                event.preventDefault();
+                $("#webbundle_utilisateursadresses_telephone").attr("data-toggle","tooltip");
+                $("#webbundle_utilisateursadresses_telephone").attr("data-placement","bottom");
+                $("#webbundle_utilisateursadresses_telephone").attr("title","Vérifier format du télephone\n Exp: +216 90909090");
+                $("#webbundle_utilisateursadresses_telephone").tooltip("show");
+            }else{
+                $("#webbundle_utilisateursadresses_telephone").tooltip("destroy");
+            }
+        });
+    </script>
+{% endblock javascripts %}

@@ -1,0 +1,33 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="row">
+    <div class="span12">
+        <h2>Connexion</h2>
+        <div id="collapseOne" class="accordion-body collapse in">
+            <div class="accordion-inner">
+                <div class="span4">
+                    <h4>{{ "Pas encore inscrit ?" | trans }}</h4>
+                    <em>
+                        {{"nous vous invitons à vous inscrire" | trans}}<br />
+                        {{"afin de passer votre commande et de manger équilibré." | trans}}
+                    </em>
+                </div>
+
+                <div class="span4 offset2">
+                    <h4>{{ "Inscription" | trans }}</h4>
+                    <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
+                        <input type="text" name="route" value="2" />
+
+
+                        {{ form_widget(form) }}
+                        <br />
+
+                        <br>
+                        <input type="text" name="route" value="2" />
+                        <input class="btn btn-primary" type="submit" value="{{ 'registration.submit'|trans }}" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

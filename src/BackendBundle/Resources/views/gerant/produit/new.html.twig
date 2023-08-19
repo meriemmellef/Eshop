@@ -1,0 +1,586 @@
+{% extends '@Backend/layout/layout.html.twig' %}
+
+
+{% block page %}
+    <div class="page">
+        <div class="page-header">
+            <h1 class="page-title">{{ "Ajout Produit"|trans }}</h1>
+        </div>
+        <div class="page-content">
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid">
+                    <div class="row row-lg">
+                        <div class="col-lg-12">
+                            <div class="example-wrap">
+                                <div class="row row-lg">
+
+
+                                    {{ form_start(form, {'attr': {'class': 'col-lg-12 '}}) }}
+                                    <input type="hidden" name="referer" value="{{app.request.headers.get('referer')}}"/>
+
+                                    {% if  form.categorie is defined%}
+                                        <div class="col-lg-12">
+                                            <div class="row row-lg">
+                                                <div class="col-lg-2 text-left">
+
+                                                </div>
+                                                <div class="col-lg-2 text-left">
+                                                    <label>{{"Catégorie"|trans}} :</label>
+                                                </div>
+                                                <div class="col-lg-6 text-left">
+                                                    {{ form_widget(form.categorie, {'attr': {'class': 'form-control'}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br><br>
+                                    {% endif %}
+                                    {% if  form.sous_categorie is defined%}
+                                        <div class="col-lg-12">
+                                            <div class="row row-lg">
+                                                <div class="col-lg-2 text-left">
+
+                                                </div>
+                                                <div class="col-lg-2 text-left">
+                                                    <label>{{"Sous Catégorie"|trans}} :</label>
+                                                </div>
+                                                <div class="col-lg-6 text-left">
+                                                    {{ form_widget(form.sous_categorie, {'attr': {'class': 'form-control'}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br><br>
+                                    {% endif %}
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-2 text-left">
+
+                                            </div>
+                                            <div class="col-lg-2 text-left">
+                                                <label>{{ "Nom"|trans }} :</label>
+                                            </div>
+                                            <div class="col-lg-6 text-left">
+                                                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-2 text-left">
+
+                                            </div>
+                                            <div class="col-lg-2 text-left">
+                                                <label>{{ "Nom En"|trans }} :</label>
+                                            </div>
+                                            <div class="col-lg-6 text-left">
+                                                {{ form_widget(form.nomen, {'attr': {'class': 'form-control'}}) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-2 text-left">
+
+                                            </div>
+                                            <div class="col-lg-2 text-left">
+                                                <label>{{ "Description"|trans }} :</label>
+                                            </div>
+                                            <div class="col-lg-6 text-left">
+                                                {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-2 text-left">
+
+                                            </div>
+                                            <div class="col-lg-2 text-left">
+                                                <label>{{ "Description En"|trans }} :</label>
+                                            </div>
+                                            <div class="col-lg-6 text-left">
+                                                {{ form_widget(form.descriptionen, {'attr': {'class': 'form-control'}}) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-2 text-left">
+
+                                            </div>
+                                            <div class="col-lg-2 text-left">
+                                                <label>{{ "Prix"|trans }} :</label>
+                                            </div>
+                                            <div class="col-lg-6 text-left">
+                                                {{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
+                                                <br>
+                                                {% if not form.vars.valid %}
+                                                    {% for child in form.children %}
+                                                        {# Display the errors of the form item #}
+                                                        {%for error in child.vars.errors%}
+                                                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                                {{"le prix n'est pas valide"|trans}}
+                                                            </div>
+                                                        {%endfor%}
+                                                    {%endfor%}
+
+                                                {%endif%}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-2 text-left">
+
+                                            </div>
+                                            <div class="col-lg-2 text-left">
+                                            </div>
+
+                                            <div class="col-lg-6 text-left">
+                                                <div class="checkbox-custom checkbox-primary center-block">
+                                                    {{ form_widget(form.is_promo, {'attr': {'class': 'form-control'}}) }}
+                                                    <label for="inputChecked">{{ "Est Promo"|trans }}?</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" id="div_prix_promo">
+                                        <br><br>
+
+                                        <div class="row row-lg">
+                                            <div class="col-lg-2 text-left">
+
+                                            </div>
+                                            <div class="col-xxl-8 col-lg-8">
+                                                <!-- Example Tabs In The Panel -->
+                                                <div class="panel nav-tabs-horizontal" data-plugin="tabs">
+                                                    <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" id="promo_prix"  style="padding: 7px 10px 7px 0px;" data-toggle="tab" href="#promoparprix" aria-controls="exampleTopHome" role="tab" aria-selected="true">
+                                                                {{ "Promotion par prix"|trans }}
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item" style="">
+                                                            <a class="nav-link" id="promo_pourcentage" style="padding: 7px 10px 7px 0px;" data-toggle="tab" href="#promoparpourcentage" aria-controls="exampleTopComponents" role="tab" aria-selected="false">
+                                                                {{ "Promotion en pourcentage"|trans }}
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="panel-body" style="border: 1px solid #d4d4d4;">
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane active" id="promoparprix" role="tabpanel">
+
+                                                                <div class="row row-lg">
+                                                                    <div class="col-lg-3 text-left" style="padding-right: 0px;padding-left: 4px;">
+                                                                        <label>{{ "Prix en promotion"|trans }} :</label>
+                                                                    </div>
+                                                                    <div class="col-lg-9 text-left">
+                                                                        {{ form_widget(form.prix_promo, {'attr': {'class': 'form-control'}}) }}
+
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="tab-pane" id="promoparpourcentage" role="tabpanel">
+                                                                <div class="col-lg-12">
+                                                                    <div class="row row-lg">
+                                                                        <div class="col-lg-3 text-left" style="padding-right: 0px;padding-left: 4px;">
+                                                                            <label>{{ "Pourcentage de promotion"|trans }}:</label>
+                                                                        </div>
+                                                                        <div class="col-lg-9 text-left">
+                                                                            {{ form_widget(form.poucentage_promo, {'attr': {'class': 'form-control'}}) }}
+                                                                            <br>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <br><br>
+                                                                <div class="col-lg-12">
+                                                                    <div class="row row-lg">
+                                                                        <div class="col-lg-3 text-left" style="padding-right: 0px;padding-left: 4px;">
+                                                                            <label>{{"Numéro de produit à reduire"|trans}}:</label>
+                                                                        </div>
+                                                                        <div class="col-lg-9 text-left">
+                                                                            {{ form_widget(form.num_produit_promo, {'attr': {'class': 'form-control'}}) }}
+                                                                            <br>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- End Example Tabs In The Panel -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-2 text-left">
+
+                                            </div>
+                                            <div class="col-lg-2 text-left">
+                                                <label>{{"Quantité"|trans}} :</label>
+                                            </div>
+                                            <div class="col-lg-6 text-left">
+                                                {{ form_widget(form.quantite, {'attr': {'class': 'form-control'}}) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-2 text-left">
+
+                                            </div>
+                                            <div class="col-lg-2 text-left">
+                                                <label>{{ "Maximum de produits par commande"|trans }}  :</label>
+                                            </div>
+                                            <div class="col-lg-6 text-left">
+                                                {{ form_widget(form.maxcommande, {'attr': {'class': 'form-control'}}) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-2 text-left">
+
+                                            </div>
+                                            <div class="col-lg-2 text-left">
+                                                <label>{{ "Image"|trans }}  :</label>
+                                            </div>
+                                            <div class="col-lg-6 text-left">
+                                                {{ form_widget(form.imagefile, {'attr': {'id': 'input-file-now', 'data-plugin':'dropify','data-default-file': '','style' : 'max-height: 100px;max-width:300px'}}) }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br><br>
+
+                                    <div class="col-lg-12" id="divcouleur" >
+
+                                            {%  set i= 0 %}
+
+                                            <div class="row row-lg" >
+                                                <div class="col-lg-2 text-left">
+
+                                                </div>
+                                                <div class="col-lg-2 text-left">
+                                                    <label>{{ "Couleurs"|trans }}  :</label>
+                                                </div>
+                                            </div>
+
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="row row-lg">
+                                            <div class="col-lg-4">
+                                            </div>
+                                            <div class="col-lg-6 " id="divbtnadd" style="margin-top: -33px;">
+                                                <button type="button" onclick="adddivcouleur()"
+                                                        class="btn social-evernote waves-effect waves-classic">
+                                                    <i class="icon md-plus"></i> {{ "Ajouter une couleur"|trans }}
+                                                </button>
+                                                <input type="text" class="form-control" id="couleur" value="-1" hidden>
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br><br>
+                                <div class="col-lg-12">
+                                    <div class="row row-lg">
+                                        <div class="col-lg-2 text-left">
+
+                                        </div>
+                                        <div class="col-lg-2 text-left">
+                                        </div>
+
+                                        <div class="col-lg-6 text-left">
+                                            <div class="checkbox-custom checkbox-primary center-block">
+                                                {{ form_widget(form.is_active, {'attr': {'class': 'form-control'}}) }}
+                                                <label for="inputChecked">{{ "Est Active"|trans }}?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br><br>
+                                {#
+                                <div class="col-lg-12 text-center">
+                                    <button class="float-right btn md-edit social-evernote waves-effect waves-classic waves-effect waves-classic waves-effect waves-classic">{{ 'Enregistrer'|trans }}</button>
+                                </div>
+                                #}
+
+                                <div class="row">
+                                    <div class="col-lg-6 text-right">
+                                        <button class="btn social-evernote  waves-effect waves-classic">{{ 'Enregistrer'|trans }}</button>
+                                    </div>
+                                    <div class="col-lg-6 text-left">
+                                        <button onClick="window.history.back();" style=" background-color: #ed0000 !important;  border-color: #ed0000!important;"  class="btn   btn-danger waves-effect waves-classic">{{ 'back'|trans }}</button>
+                                    </div>
+                                </div>
+                                {{ form_end(form) }}
+
+                                <br>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('remark/global/js/Plugin/input-group-file.js')}}"></script>
+    <script>
+        if ($('#produit_is_promo').is(":checked"))
+        {
+            // it is checked
+            $("#div_prix_promo").show()
+
+        }else {
+            $("#div_prix_promo").hide()
+
+        }
+    </script>
+
+    <script>
+        $("document").ready(function(){
+            $('#promo_prix').on("click",function(){
+
+                $('#produit_poucentage_promo').val('');
+                $('#produit_num_produit_promo').val('');
+            })
+
+            $('#promo_pourcentage').on("click",function(){
+                $('#produit_prix_promo').val('');
+            })
+
+
+
+            $('#titleee a').click(function(evt) {
+                evt.preventDefault();
+                $("#radPromotionP").prop("checked", true);
+                $("#radPromotionPor").prop("checked", false);
+
+
+            });
+
+            $('#titleeeone a').click(function(evt) {
+                evt.preventDefault();
+                $("#radPromotionP").prop("checked", false);
+                $("#radPromotionPor").prop("checked", true);
+
+
+            });
+            $('#produit_is_promo').change(function() {
+                if(this.checked) {
+                    $("#div_prix_promo").show()
+                }else {
+                    $("#div_prix_promo").hide()
+
+                }
+            });
+        })
+
+        $("select").select2();
+        $( "select[name='produit[categorie]']" ).change(function () {
+            var matiereID = $(this).val();
+            if(matiereID) {
+                $.ajax({
+                    url: "{{ path('get_sous_categorie_from_categorie') }}",
+                    dataType: 'Json',
+                    data: {'categorieid':matiereID},
+                    type:'GET',
+                    success: function(data) {
+                        $('select[name="produit[sous_categorie]"]').empty();
+                        $('select[name="produit[sous_categorie]').append('<option value="" selected hidden>'+ 'choisir une sous categorie' +'</option>');
+
+                        for(i = 0; i < data.length; i++) {
+                            student = data[i];
+                            $('select[name="produit[sous_categorie]').append('<option value="'+ student['id'] +'">'+ student['nom'] +'</option>');
+                        };
+                        $("select").select2();
+                    }
+                });
+
+
+            }else{
+                $('select[name="produit[sous_categorie]"]').empty();
+            }
+        });
+        (function (document, window, $) {
+            'use strict';
+
+            var Site = window.Site;
+            $(document).ready(function () {
+                Site.run();
+            });
+
+            $( "select[name='produit_categorie']" ).select2();
+            $( "select[name='produit_sous_categorie']" ).select2();
+
+        })(document, window, jQuery);
+    </script>
+    <script>
+        function updatequantityofsize(id){
+            var quantity = parseInt(  $("#quantityofsize"+id).val());
+            console.log(quantity)
+            if(quantity> 0){
+                $.ajax({
+                    url: "{{ path('edit_size') }}",
+                    dataType: 'Json',
+                    data: {'id':id,'quantite':quantity},
+                    type:'GET',
+                    success: function(data) {
+                        $("#quantityofsize"+id).val(quantity);
+                        alert("la quantité est modifiée avec succes")
+                    }
+                });
+
+            }
+            else{
+                alert("la quantité doit ètre >0")
+            }
+        }
+        var couleur = -1;
+
+        function adddivcouleur(){
+            divinitial=document.getElementById('divbtnadd').style.marginTop = "15px";
+            divinitial=document.getElementById('divbtnadd').style.paddingLeft = "0px";
+            if (  parseInt( $("#couleur").val()) == "undefined" || isNaN(parseInt( $("#couleur").val()))) {
+                couleur++
+                console.log("couleurplus"+couleur);
+            }else {
+                couleur = parseInt( $("#couleur").val()) +  1;
+                // console.log("couleparsint"+couleur);
+
+            }
+            console.log(couleur)
+            const div = document.createElement('div');
+            div.className = 'row row-lg';
+            div.style='padding-top: 10px';
+            div.id='rowcouleur';
+            div.innerHTML =
+                '<div class="col-lg-12">'+
+                '<div class="row row-lg">'+
+
+                '<div class="col-lg-4 text-left"> ' +
+                '<input type="color" class="form-control" name="couleurs[]"> ' +
+                '<input type="text" class="form-control" name="couleur'+couleur+'" value="'+couleur+'" hidden>' +
+                '</div>' +
+                '<div class="col-lg-8 text-left"> ' +
+                '<div class="input-group input-group-file" data-plugin="inputGroupFile"> ' +
+                '<input type="text" class="form-control" readonly=""> ' +
+                '<span class="input-group-btn"> ' +
+                '<span class="btn btn-default btn-file waves-effect waves-classic"> ' +
+                '<i class="icon md-upload" aria-hidden="true"></i> ' +
+                '<input type="file"  accept="image/*" name="images[]"> ' +
+                '</span> ' +
+                '</span> ' +
+                '</div> ' +
+                '</div> ' +
+                '<div class="col-lg-2 text-left"> </div>'+
+                '</div> '+
+                '</div> ' ;
+
+            const divsize = document.createElement('div');
+
+            divsize.className = 'row row-lg';
+            divsize.style='padding-top: 10px';
+            divsize.id='rowsize'+couleur;
+            divsize.innerHTML =
+                '<div class="col-lg-12">'+
+                '<div class="row row-lg">'+
+                '<div class="col-lg-4 text-right">' +
+                '<input type="text" class="form-control" name="sizes'+couleur+'[]" placeholder="size">'+
+                // '<select class="form-control" id="sizes" style="text-align-last: center" name="sizes'+couleur+'[]" > ' +
+                //   '{% for key,size in produit.sizeValue %}'+
+                //  ' <option value="{{ key }}"  >{{ size }}</option>'+
+                //  '  {% endfor %}'+
+                //   '  </select>'+
+                '  </div>'+
+                '  <div class="col-lg-8 text-left">'+
+                '  <span class="input-group-btn">'+
+                ' <input type="number" class="form-control" name="quantity'+couleur+'[]" value="0">'+
+                '<button type="button" style="border-top-left-radius: 0;border-bottom-left-radius: 0;" onclick="adddivsize('+couleur+')" class="btn social-evernote  waves-effect waves-classic">' +
+                '<i class="icon md-plus"></i>' +
+                '</button>'+
+                '   </span>'+
+                '  </div>'+
+                '  <div class="col-lg-3 text-left">'+
+                '   </div>'+
+                '   </div>'+
+                '   </div>';
+
+
+            const divrow = document.createElement('div');
+            divrow.className = 'row row-lg';
+            divrow.style='padding-top: 10px';
+            divrow.innerHTML =
+                '<div class="col-lg-4 text-right"></div>' +
+                '<div class="col-lg-6 text-right" style="border: 1px solid #dcdcdc;padding: 15px 15px 15px 15px;" >' +
+                div.outerHTML+
+                divsize.outerHTML+
+                ' </div>';
+
+
+            document.getElementById('divcouleur').appendChild(divrow);
+            $("#couleur").val(couleur)
+        }
+        function adddivsize(i){
+            var couleur = parseInt(  $("#couleur").val());
+            console.log(couleur)
+            const div = document.createElement('div');
+            div.className = 'col-lg-12';
+            div.style='padding-top: 10px';
+            div.innerHTML =
+
+                '<div class="row row-lg">'+
+                '<div class="col-lg-4 text-right">' +
+                '<input type="text" class="form-control" name="sizes'+i+'[]" placeholder="size">'+
+                //    '<select class="form-control" id="sizes" style="text-align-last: center" name="sizes'+i+'[]" > ' +
+                //    '{% for key,size in produit.sizeValue %}'+
+                //   ' <option value="{{ key }}"  >{{ size }}</option>'+
+                //   '  {% endfor %}'+
+                //   '  </select>'+
+                '  </div>'+
+                '  <div class="col-lg-8 text-left">'+
+                '  <span class="input-group-btn">'+
+                ' <input type="number" class="form-control" name="quantity'+i+'[]" value="0">'+
+                '   </span>'+
+                '  </div>'+
+                '  <div class="col-lg-3 text-left">'+
+                '   </div>'+
+                '   </div>';
+            document.getElementById('rowsize'+i).appendChild(div);
+        }
+
+    </script>
+{% endblock %}

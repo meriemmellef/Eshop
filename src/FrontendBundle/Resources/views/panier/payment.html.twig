@@ -1,0 +1,166 @@
+{% extends 'FrontendBundle:Layouts:layoutBreadcrumps.html.twig' %}
+
+
+{% block breadcrump %}
+    <div class="row">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+                <li><a href="/">{{ "Acceuil" | trans ({}, 'messages')}}</a></li>
+                <li><a href="{{ path("panier") }}">{{ "Panier" | trans({}, 'messages') }}</a></li>
+                <li class="active"> {{ "Paiement" | trans({}, 'messages') }}</li>
+            </ul>
+        </div>
+    </div>
+{% endblock breadcrump %}
+{% block content %}
+<style>
+    button.kr-payment-button {
+        background-color: #df0c36 !important;
+    }
+</style>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-7 col-xs-6 col-xxs-12 text-center-xs">
+            <h1 class="section-title-inner"><span><i class="fa fa-money"></i> {{ "Paiement" | trans ({}, 'messages')}}</span></h1>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar col-xs-6 col-xxs-12 text-center-xs">
+            <h4 class="caps"><a href="{{ path("list_produit") }}"><i class="fa fa-chevron-left"></i> {{ "Continuez vos achats" | trans({}, 'messages') }} </a></h4>
+
+        </div>
+    </div>
+    <!--/.row-->
+
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-12">
+            <div class="row userInfo">
+
+                <div class="col-xs-12 col-sm-12">
+
+
+
+                    <div class="w100 clearfix">
+                        <ul class="orderStep orderStepLook2">
+                            <li>
+                                <a href="#"> <i class="fa fa-map-marker"></i> <span> {{ "Point de retrait" | trans({}, 'messages') }}</span></a>
+                            </li>
+                            <li>
+                                <a href="{{ path("panier") }}"> <i class="glyphicon glyphicon-shopping-cart"></i> <span> {{ "Panier" | trans({}, 'messages') }}</span></a>
+                            </li>
+                            <li>
+                                <a href="{{ path("livraison") }}"> <i class="fa fa-calendar"></i><span> {{"Crénau" | trans}} </span></a>
+                            </li>
+                            <li >
+                                <a href="#"><i class="fa fa-check-square "> </i><span>{{ "Conf" | trans ({}, 'messages')}}</span></a>
+                            </li>
+                            <li class="active">
+                                <a href="#"><i class="fa fa-money"> </i><span>{{ "Paiement" | trans({}, 'messages') }}</span></a>
+                            </li>
+                        </ul>
+                        <!--/.orderStep end-->
+                    </div>
+
+                    <div class="w100 clearfix">
+
+
+                        <div class="row userInfo">
+
+                            <div class="col-lg-12">
+                                <h2 class="block-title-2"> {{"Payez avec votre carte bancaire en toute sécurité" | trans}}</h2>
+                            </div>
+
+
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="cartContent w100 checkoutReview ">
+
+                                </div>
+                                <!--cartContent-->
+
+                                <div class="w100 costDetails">
+                                    <div class="table-block" id="order-detail-content">
+                                        <div class="kr-embedded"
+                                             kr-form-token="{{ formToken }}">
+
+                                            <!-- payment form fields -->
+                                            <div class="kr-pan"></div>
+                                            <div class="kr-expiry"></div>
+                                            <div class="kr-security-code"></div>
+
+                                            <!-- payment form submit button -->
+                                            <button class="kr-payment-button"></button>
+
+                                            <!-- error zone -->
+                                            <div class="kr-form-error"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/costDetails-->
+
+
+                                <!--/row-->
+
+
+
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <!--/row end-->
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+        <!--/row end-->
+
+
+        <div class="col-lg-3 col-md-3 col-sm-12 rightSidebar">
+
+            <div class="w100 cartMiniTable">
+                <table id="cart-summary" class="std table">
+                    <tbody>
+                        <tr>
+                            <td><h4> {{ "Total commande" | trans ({}, 'messages')}}</h4></td>
+                        </tr>
+                        <tr>
+                            <td class=" site-color" ><span id="total-price">{{ formated_price(total_price,app.session.get('pays'),false) }}</span> <span class=" site-color"> {{ app.session.get("pays").devise }} </span></td>
+                        </tr>
+
+
+                    </tbody>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <!--/rightSidebar-->
+    </div>
+    <!--/row-->
+<br/><br/><br/><br/>
+    <div style="clear:both"></div>
+
+
+    <!-- Javascript library. Should be loaded in head section -->
+    <script
+            src="{{ client.clientEndpoint }}/static/js/krypton-client/V4.0/stable/kr-payment-form.min.js"
+            kr-public-key="{{ client.publicKey }}"
+            kr-post-url-success="{{ path("validation_commande") }}">
+    </script>
+
+    <!-- theme and plugins. should be loaded after the javascript library -->
+    <!-- not mandatory but helps to have a nice payment form out of the box -->
+    <link rel="stylesheet"
+          href="{{ client.clientEndpoint }}/static/js/krypton-client/V4.0/ext/classic-reset.css">
+    <script
+            src="{{ client.clientEndpoint }}/static/js/krypton-client/V4.0/ext/classic.js">
+    </script>
+{% endblock %}

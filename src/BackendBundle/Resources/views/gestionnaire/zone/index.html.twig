@@ -1,0 +1,176 @@
+{% extends '@Backend/layout/layout.html.twig' %}
+
+
+{% block page %}
+    <div class="page">
+        <div class="page-header">
+            <h1 class="page-title">{{ "Gestion Des Zones"|trans }}</h1>
+
+            <div class="page-header-actions">
+                <div class="row">
+                    <div class="col-lg-6 ">
+                        <div class="media-body text-center">
+                            <h3 class="mt-0 mb-5"
+                                style="color: #f02138;margin-bottom: -5px!important;"> {{ nbzones|length }}</h3>
+                            <small style="color: #505050;">{{ "Zones"|trans}} </small>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 ">
+                        <a href="{{ path('zone_new') }}" style="margin-top: 3px;"
+                           class="float-right btn btn-sm btn-icon social-evernote waves-effect waves-classic">
+                            <i class="icon md-plus" aria-hidden="true"></i> {{ "Ajouter"|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-content" style="padding-top: 0 !important;padding-bottom: 0 !important;">
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid" style="padding: 0 !important;">
+                    <div class="row row-lg">
+
+
+                        <div class="col-lg-12">
+                            <!-- Example Bordered Table -->
+                            <table class="table table-bordered" style="border: none;">
+                                <thead>
+                                <tr style="border-bottom: 1px solid #f3f3f3;">
+                                    <th style="border: none;padding-left: 20px">{{ "Filtre"|trans }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td style="border: none;padding: 10px 20px;">
+                                        <form class="row" style="align-items: center;max-width: 1520px;"
+                                              action="{{ path('zone_index') }}" method="get">
+                                            <div class="col-lg-4  col-md-4 col-xs-4">
+                                                <label class="control-label">{{ "Zone"|trans }}</label>
+                                                <input type="text" class="form-control" name="search"
+                                                       value="{% if search is defined %}{{ search }}{% endif %}"
+                                                       placeholder={{ "searcharea"|trans }}>
+
+                                            </div>
+                                            <div class="col-lg-8  col-md-8 col-xs-8 text-right">
+                                                <button style="margin-right: 10px;" type="submit"
+                                                        class="btn btn-icon social-evernote waves-effect waves-classic">
+                                                    <i class="icon icon md-search" aria-hidden="true"></i></button>
+
+
+                                            </div>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- End Example Bordered Table -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+
+        <div class="page-content" style="padding-top: 0px ">
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid"
+                     style="padding-left: 0px !important;padding-right: 0px !important;padding-top: 0px !important;padding-bottom: 0px !important;">
+                    <div class="row row-lg">
+
+
+                        <div class="col-lg-12">
+                            <!-- Example Bordered Table -->
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr class="">
+                                    <th style="padding-left: 20px;width: 50%;">{{ "Zone"|trans }}</th>
+                                    <th style="width: 10%;text-align: center;" hidden>{{ "Est Active"|trans }}</th>
+
+                                    <th class="text-center " style="padding-right: 20px;width: 50%" >
+                                        Action
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+                                {% for s in zones %}
+
+
+
+                                    <tr class="">
+                                        <td style="padding-left: 20px;vertical-align: middle;">
+                                            <div class="media-body">
+                                                <h5 class="mt-0 mb-5">{{ s.nom }} </h5>
+                                            </div>
+                                        </td>
+
+                                        <td style="text-align: center;" hidden>
+                                            {% if s.isActive == false %}
+                                                <i class="md-close text-danger" style="font-size: 25px;"></i>
+                                            {% else %}
+                                                <i class="md-check text-success" style="font-size: 25px;"></i>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center" style="padding-right: 20px;min-width: 130px; vertical-align: middle;">
+
+                                            <a href="{{ path('zone_edit', {'id': s.id,'page':page}) }}"
+                                               class="btn btn-pure btn-default  md-edit waves-effect waves-classic "
+                                               style="color: #b1b1b1;border: 1px solid;"></a>
+                                            <a data-target="#zone_disable{{ s.id }}" data-toggle="modal"
+                                               class="btn btn-pure btn-danger  md-delete waves-effect waves-classic"
+                                               style="color: #f02038;border: 1px solid;" ></a>
+
+
+
+                                            <div class="modal fade" id="zone_disable{{ s.id }}" aria-hidden="true"
+                                                 aria-labelledby="exampleModalTabs"
+                                                 role="dialog" tabindex="-1">
+                                                <div class="modal-dialog modal-simple">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="zone_disable{{ s.id }}">{{ 'conf_delete'|trans }}</h4>
+                                                        </div>
+                                                        <form action="{{ path('zone_disable', { 'id': s.id,'page':page }) }}" method="get">
+                                                            <div class="modal-body">
+                                                                <h4>{{ 'msg_conf_delete'|trans }}</h4>
+                                                            </div>
+                                                            <div class="panel-footer">
+                                                                <button style="margin-left: 80%;width: 100px" type="submit"
+                                                                        class="pull-right btn btn-block btn-danger">{{ 'label_delete'|trans }}
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                            <div class="navigation">
+                                {{ knp_pagination_render(zones) }}
+                            </div>
+
+                            <!-- End Example Bordered Table -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+    </div>
+{% endblock %}

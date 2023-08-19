@@ -1,0 +1,578 @@
+/*
+	Project:		--
+	Version:	    --
+	Create Date:	--
+	Last change:	--
+	Primary use:	--
+*/
+
+/*
+	## //- Header
+		- Navigation Menu
+		- Slider Section
+
+		## //- Layout
+		
+	## //- Home Sections
+		#--1--# Section - Introduction
+		#--2--# Section - Call to Action
+		#--3--# Section - About Us
+			- call us
+			- why choose
+		#--4--# Section - Skill
+		#--5--# Section - Service
+		#--6--# Section - Featured
+		#--7--# Section - Quotes
+		#--8--# Section - Team Member
+		#--9--# Section - Our Template
+		#--10--# Section - Our Facts
+		#--11--# Section - Time-line
+		#--12--# Section - Call to Action
+		#--13--# Section - Portfolio
+		#--14--# Section - Client
+		#--15--# Section - Work
+		#--16--# Section - Partners
+		#--17--# Section - Pricing
+		#--18--# Section - Contact
+		#--19--# Section - Footer
+	
+	## //- Blog Sections
+		#-- Blog --#  Section - Blog
+		
+	## //- Widgets Block
+*/
+
+
+
+
+
+
+body {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+}
+
+[class*="-section"] {
+    overflow: hidden;
+}
+
+
+
+a {
+    outline: 0 !important;
+}
+.imagesmile{
+    width: 70%;
+    max-width: 115px;
+    height: auto;
+}
+.ci {
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+
+.skill-section.no-section-header {
+    padding: 100px 0;
+}
+
+
+.section-header {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 40px;
+}
+
+
+
+.ow-section {
+   /* padding-bottom: 20px;*/
+}
+
+.no-section-header {
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+
+.no-section-header .ow-section {
+    padding-bottom: 0;
+}
+/* Logo Block */
+.header-home {
+    width: 100%;
+    background-color: #fff;
+}
+
+.logo-block {
+    padding: 10px 0;
+    max-width: 160px;
+}
+
+.logo-block a img{
+    max-width: 160px;
+}
+
+
+
+
+/* Navigation Menu */
+.menu-block {
+    padding: 11px 0;
+}
+
+.navbar-default {
+    background: none;
+    border: none;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav li > a:hover,
+.navbar-default .navbar-nav li > a:focus {
+    background: none;
+    color: #00c1ef;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #3e3e3e;
+    text-transform: uppercase;
+}
+
+.navbar-default .navbar-nav li a:hover > .dropodown-menu {
+    display: block;
+}
+
+
+
+/*call-to-action*/
+.call-to-action {
+    background-image: url("/assets/images/section/call-action-bg.jpg");
+    text-align: right;
+    color: #fff;
+}
+
+.call-action-subtitle,
+.call-action-title {
+    display: block;
+}
+
+.call-action-subtitle {
+    font-size: 16px;
+}
+
+.call-action-title {
+    font-size: 38px;
+    font-weight: 900;
+    color: #00c1ef;
+}
+
+.call-action-description {
+    font-size: 14px;
+    display: inline-block;
+    width: 80%;
+    margin-top: 20px;
+    line-height: 19.6px;
+}
+
+.get-started {
+    display: inline-block;
+    border: 1px solid #fff;
+    width: 154px;
+    height: 49px;
+    line-height: 49px;
+    margin: 50px auto;
+    color: #fff;
+    font-size: 14px;
+    border-radius: 3px;
+    margin-left: 10px;
+}
+
+.get-started:hover {
+    color: #fff;
+    background-color: #00c1ef;
+    text-decoration: none;
+    border: none;
+}
+
+.call-us .get-started:hover {
+    background-color: #000;
+}
+
+
+
+.slide-title {
+    font-weight: 800;
+    font-size: 40px;
+    text-align: center;
+    display: block;
+    margin-top: 190px;
+    position: relative;
+    display: inline-block;
+    text-align: left;
+
+    background-color: rgba(0, 124, 59, 0.7);
+
+
+    font-weight: bold;
+
+    color: #fff;
+    padding: 26px 20px;
+    position: relative;
+    z-index: 1;
+}
+
+
+.arrow {
+    color: #e4022e !important;
+    font-size: 40px;
+}
+
+
+.contact-section {
+    margin: -15 auto;
+    position: relative;
+
+}
+
+
+.address,
+.email-contact {
+    font-family: arial;
+    font-size: 16px;
+}
+
+.address {
+    margin: 20px 15px 20px 15px;
+    color: #777;
+    text-align: left;
+}
+
+
+
+.contact-information {
+    display: block;
+    color: #777;
+}
+
+.contact-form-liste{
+    margin-top: 100px;
+}
+
+.img-carte img{
+    width: 100% !important;
+
+}
+.img-user{
+    width: 85px !important;
+    height: 85px;
+    border-radius:180px;
+}.img-pompiste{
+     width: 200px !important;
+     height: 200px;
+     border-radius:180px;
+ }
+.col-user{
+    margin-bottom: 40px;
+}
+.user{
+    margin-top: 10px;
+    width: 200px;
+}
+
+.barmenu {
+    background-size: 100% 100%;
+    bottom: 0;
+    content: '';
+    display: block;
+    height: 6px;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    z-index: 10;
+
+}
+
+.text-gagner{
+    color: #666;
+    font-size: 25px;
+    text-transform: uppercase;
+}
+.text-gagner span{
+    color: #DF0C33;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.time span{
+    color: #DF0C33;
+    font-size: 30px;
+    font-weight: bold;
+}
+.end{
+    margin-top: 90px;
+}
+
+
+
+
+
+
+.item {
+    position:relative;
+    padding-top:20px;
+    display:inline-block;
+}
+.notify-badge{
+    position: absolute;
+    right: -1px;
+    top: 15px;
+    background: #28a745;
+    text-align: center;
+    border-radius: 55px 55px 55px 55px;
+    color: white;
+    padding: 0px 6px;
+    font-size: 14px;
+}
+
+
+
+.cam-badge{
+    position: absolute;
+    right: 74px;
+    top: 235px;
+    background: #e4022e;
+    text-align: center;
+    border-radius: 55px 55px 55px 55px;
+    color: white;
+    padding: 3px 13px;
+    font-size: 14px;
+}
+
+.icon-badge{
+    position: absolute;
+    right: 74px;
+    top: 235px;
+    text-align: center;
+    border-radius: 55px 55px 55px 55px;
+    color: white;
+    padding: 3px 13px;
+    font-size: 14px;
+}
+
+/* ## #--16--# Section - Partners ########################################### */
+.partners-section {
+    background-color: #f6f6f6;
+}
+
+/* contact form */
+.contact-form-heading {
+    margin-top: 80px;
+    margin-bottom: 50px;
+    font-weight: 600;
+    font-size: 26px;
+    display: block;
+    text-align: center;
+}
+
+.contact-form {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"], 
+.contact-form textarea {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #eee;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 14px;
+}
+
+.contact-form input[type="text"] {
+    margin-bottom: 14px;
+}
+
+.contact-form textarea {
+    height: 168px;
+}
+
+.contact-form input[type="submit"] {
+    text-transform: uppercase;
+    background-color: #e4022e;
+    color: #fff;
+    display: inline-block;
+    width: 170px;
+    height: 45px;
+    margin-top: 18px;
+    border: none;
+    position: relative;
+
+    font-family: "HelveticaNeueW02-67MdCn 694060";
+    font-size: 100%;
+    min-width: 210px;
+    padding: 10px 10px 11px 35px;
+    box-sizing: border-box;
+}
+.contact-form input[type="submit"] {
+    text-transform: uppercase;
+    background-color: #e4022e;
+    color: #fff;
+    display: inline-block;
+    width: 170px;
+    height: 45px;
+    margin-top: 18px;
+    border: none;
+    position: relative;
+
+    font-family: "HelveticaNeueW02-67MdCn 694060";
+    font-size: 100%;
+    min-width: 210px;
+    padding: 10px 10px 11px 35px;
+    box-sizing: border-box;
+
+
+}
+ .btn-red  {
+    text-transform: uppercase;
+    background-color: #e4022e;
+    color: #fff;
+    display: inline-block;
+    width: 327px;
+    height: 45px;
+    margin-top: 18px;
+    border: none;
+    position: relative;
+    font-size: 100%;
+     max-width:  400px;
+    padding: 10px 10px 10px 10px;
+    box-sizing: border-box;
+  }
+  .btn-red:before {
+    background: url(../../images/fleche-blanche-mega-menu.png) no-repeat;
+    vertical-align: middle;
+    content: "";
+    width: 20px;
+    height: 14px;
+    display: inline-block;
+    padding-right: 12px;
+    position: relative;
+}
+.btn-red button:disabled, button[disabled]{
+    text-transform: uppercase;
+    background-color: #cccccc;
+    color: #666666;
+    display: inline-block;
+    width: 294px;
+    height: 45px;
+    margin-top: 18px;
+    border: none;
+    position: relative;
+    font-size: 100%;
+    max-width:  294px;
+    padding: 10px 10px 10px 10px;
+    box-sizing: border-box;
+    cursor: not-allowed;
+  }
+.btn-red button:disabled, button[disabled]:before {
+    background: url(../../images/interdit-blanche-mega-menu.svg) no-repeat;
+    vertical-align: middle;
+    content: "";
+    width: 30px;
+    height: 20px;
+    display: inline-block;
+    padding-right: 12px;
+    position: relative;
+}
+
+
+.company-name {
+    font-size: 20px;
+    font-weight: 600;
+    display: block;
+    text-transform: uppercase;
+}
+.user-title{
+    text-align: center;
+}
+
+
+/* ## #--19--# Section - Footer ########################################### */
+
+.footer-section {
+    background-color: #333;
+    text-align: center;
+    color: #fff;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: relative;
+    margin-bottom: 0px;
+
+}
+
+.footer-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.footer-title span {
+    color: #00c1ef;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0 13px;
+}
+
+.copyrights {
+    font-family: arial;
+    display: block;
+    font-size: 11px;
+    line-height: 17px;
+}
+
+.selectff{
+    height: 2.573rem;
+    padding: .429rem 1.93rem .429rem 1.072rem;
+    line-height: 1.57142857;
+    background-color: #fff;
+    border-bottom: 1px solid #c7c7c7;
+}
+.station{
+    text-transform: uppercase;
+    color: #666;
+    font-size: 25px;
+    text-transform: uppercase;
+    font-weight: 400;
+    overflow: hidden;
+    line-height: 50px;
+    vertical-align: middle;
+
+
+}
+.stationname{
+    text-transform: uppercase;
+    color: #df0c35;
+    font-weight: 400;
+    overflow: hidden;
+    line-height: 26px;
+    vertical-align: middle;
+    margin-left: 8px;
+    font-size: 25px;
+}
+.username{
+    text-transform: uppercase;
+    color: #666;
+    font-weight: 400;
+    overflow: hidden;
+    line-height: 30px;
+    font-weight: bold;
+    vertical-align: middle;
+    font-size: 13px;
+
+}

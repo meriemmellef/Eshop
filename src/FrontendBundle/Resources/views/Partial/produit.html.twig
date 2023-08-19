@@ -1,0 +1,1238 @@
+<div class=" item col-sm-4 col-lg-3 col-md-4 col-xs-12" style="margin-top: 15px;">
+    <div class="product">
+
+        <a       {% if app.user %}
+                   onclick="addfavoris({{ produit.id }})"
+                {% else %}
+                    {#onclick="addfavnonConnect()"#}
+                    href="{{ path("fos_user_security_login",{'produitid':produit.id})}}"
+                {% endif %}
+                class="add-fav tooltipHere
+			                        {% for favoris in favoris %}
+			                        {% if  favoris.utilisateur == app.user and favoris.produit == produit %} active {% endif %}
+			                        {% endfor %}" data-placement="left">
+            <i class="glyphicon glyphicon-heart"></i>
+        </a>
+
+        <div class="image" style="height: 70%!important;width: 100%">
+
+
+
+            <!-- /.modaldetails -->
+            {% if produit.couleurs|length > 0 %}
+
+                {#
+
+                 <div class="quickview">
+                    <a data-toggle="modal" class="btn btn-xs btn-quickview"
+                       data-target="#productSetailsModalAjax{{ produit.id }}">{{ "Details"|trans }} </a>
+                </div>
+               #}
+
+
+            {% if produit.description or produit.descriptionen %}
+
+                <div class="quickview" >
+                    <a  class="btn btn-xs btn-quickview" href="{{ path("detail_produits",{'produitid':produit.id}) }}"
+                    >{{ "Details" | trans }} </a>
+                </div>
+                {% endif %}
+
+                <!-- Modal -->
+                <div class="modal fade" id="productSetailsModalAjaxx{{ produit.id }}" tabindex="-1" role="dialog"
+                     aria-labelledby="productSetailsModalAjaxLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="row transitionfx text-left" style="padding: 30px;margin-right: 0px!important; margin-left: 0px;!important;">
+                                <div class="col-lg-12">
+                                    <button style="opacity: 1.2;margin-top: -21px;margin-right: -18px;background-color: #ffffff;/* color: #454545; */" type="button" class=" close" data-dismiss="modal" aria-label="Close">
+                                        <span style="color: #454545;" aria-hidden="true">×</span>
+                                    </button></div>
+                                <!-- left column -->
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <!-- product Image and Zoom -->
+                                    <div class="main-image sp-wrap col-lg-12 no-padding style3" style="display: inline-block;">
+
+
+
+                                        <div class="sp-large" style="overflow: hidden; height: auto; left: 0px; top: 0px;max-width: 100% !important">
+                                            <a href="" class="" style="width: 100%;height: 100%;border-radius: 10px!important;">
+                                                <img id="imageproduit{{ produit.id }}"
+                                                     data-original="/uploads/produits/{{ produit.image }}"
+                                                     src="{% if produit.image and produit.image != "" %}/uploads/produits/{{ produit.image }}
+                                                           {% else %}{{ asset('/assets/img/default_t_e.jpg') }}{% endif %}"
+                                                     alt="{{ produit.nom }}" class="img-responsive" style="width: 100%;height: 100%;border-radius: 10px!important;">
+                                            </a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!--/ left column end -->
+
+
+                                <!-- right column -->
+                                <div class="col-lg-8 col-md-6 col-sm-6">
+                                    <input type="text" id="idproduit" value="{{ produit.id }}" hidden>
+
+                                    <h1 class="product-title titleproduitt">
+
+                                        {% if app.request.getLocale()  == 'en' %}{{ produit.nomen }}{% else %}{{ produit.nom }}{% endif %}
+
+                                    </h1>
+
+                                    <div class="description" >
+                                        {% if app.request.getLocale()  == 'en' %}{{ produit.descriptionen }}{% else %}{{ produit.description }}{% endif %}
+
+                                    </div>
+                                    <div class="product-price" style="font-size: 20px;">
+                                        <span class="price-sales price">  {{ formated_price( produit.finalPrice["prix"],app.session.get("pays"))}}</span>
+                                        {% if produit.finalPrice["is_promo"] and produit.numProduitPromo == 1 %}
+                                            <span class="price-standard  old-price" > {{ formated_price( produit.finalPrice["old_prix"],app.session.get("pays"))}} </span>
+                                        {% elseif produit.finalPrice["is_promo"] and produit.prixPromo and produit.prixPromo > 0 %}
+                                            <span class="price-standard old-price"> {{ formated_price( produit.finalPrice["old_prix"],app.session.get("pays"))}}</span>
+                                        {% endif %}
+                                    </div>
+
+                                    {% if produit.couleurs|length>0 %}
+
+                                        <div class="color-details">
+                                            {% if produit.image and produit.image != "" %}
+                                                <img name='img' id='{{ produit.image }}'
+                                                     style="width:  100px;height: 100px;background-size: contain;border-width: 2px; border-color: #ED0000;border-style: solid;"
+                                                     src="/uploads/produits/{{ produit.image }}"
+                                                     onclick="changeImage('{{ produit.image }}','{{ produit.id }}')"
+                                                     alt="img">
+                                            {% endif %}
+                                            {% for c in produit.couleurs %}
+                                                {% if c.image and c.image != "" %}
+
+                                                    <img name='img' id='{{ c.image }}'
+                                                         style="    width:  100px;height: 100px;background-size: cover;border-width: 2px; border-color: #dcdbdb;border-style: solid;"
+                                                         src="/uploads/produits/{{ c.image }}"
+                                                         onclick="changeImage('{{ c.image }}','{{ produit.id }}')"
+                                                         alt="img">
+
+                                                {% endif %}
+
+                                            {% endfor %}
+                                        </div>
+                                        <div class="color-details">
+                                            <span class="selected-color selectedSpan"><strong class="text_details">{{ "Couleurs" | trans }}</strong></span>
+                                            <ul class="swatches Color" name="couleur{{ produit.id }}"
+                                                id="couleur{{ produit.id }}">
+                                                {% set i = 1 %}
+                                                {% for couleur in produit.couleurs %}
+                                                    {% if i == 1 %}
+                                                        <li class="selected" value="{{ couleur.codeCouleur }}"
+                                                            onclick="changeImagecouleur('{{ produit.id }}','{{ couleur.id }}','{{ couleur.image }}')">
+                                                            <a style="background-color:{{ couleur.codeCouleur }};color:transparent"></a>
+                                                        </li>
+                                                    {% else %}
+                                                        <li value="{{ couleur.codeCouleur }}"
+                                                            onclick="changeImagecouleur('{{ produit.id }}','{{ couleur.id }}','{{ couleur.image }}')">
+                                                            <a style="background-color:{{ couleur.codeCouleur }};color:transparent"></a>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% set i = i+1 %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                    <!--/.color-details-->
+
+                                    <div class="color-details">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-xs-6" style="">
+                                                <span class="selected-color selectedSpan"><strong class="text_details">{{"Quantité" | trans}}</strong></span>
+
+
+                                                {% if produit.couleurs|length>0 %}
+                                                    <div class="input-group">
+														<span class="input-group-btn" >
+															<button id="deleteArticle{{ produit.id }}"
+                                                                    onclick="moinsquantity({{ produit.id }})"
+                                                                    type="button"
+                                                                    class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                    style="background-color:#ED0000" data-type="minus"
+                                                                    data-field="">
+																<span class="glyphicon glyphicon-minus"></span>
+															</button>
+														</span>
+                                                        <input style="font-family: Roboto-Regular,sans-serif;font-size: 14px;font-weight: bold; height: 4.5rem;!important;" type="text"
+                                                               id="quantitymodal{{ produit.id }}"
+                                                               name="quantitymodal{{ produit.id }}"
+                                                               class="form-control input-number text-center" {% if app.session.get('panier')[produit.id] is defined %} value="{{ app.session.get('panier')[produit.id] }}" {% else %} value="1" {% endif %}
+                                                               min="1" max="100" disabled>
+
+                                                        <span class="input-group-btn">
+															<button onclick="plusquantity({{ produit.id }})"
+                                                                    type="button"
+                                                                    class="quantity-right-plus btn btn-success btn-number btn_plus_moins"
+                                                                    style="background-color:#ED0000" data-type="plus"
+                                                                    data-field="">
+																<span class="glyphicon glyphicon-plus"></span>
+															</button>
+														</span>
+                                                    </div>
+
+                                                {% else %}
+                                                    <div class="row" id="quantite{{ produit.id }}"
+                                                         name="quantite{{ produit.id }}"  >
+
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="">
+                                                            <div class="input-group group_qt">
+
+                                                            <span class="input-group-btn">
+                                                                <button id="deleteArticle{{ produit.id }}"
+                                                                        onclick="deleteArticleQuantity({{ produit.id }},{{ produit.prix }})"
+                                                                        type="button"
+                                                                        class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                        data-type="minus" data-field="">
+                                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                                </button>
+                                                            </span>
+                                                                <input style=" height: 4.5rem;!important;" type="text"
+                                                                       id="qte{{ produit.id }}"
+                                                                       name="qte{{ produit.id }}"
+                                                                       class="form-control input-number text-center" {% if app.session.get('panier')[produit.id] is defined %} value="{{ app.session.get('panier')[produit.id] }}" {% else %} value="0" {% endif %}
+                                                                       min="1" max="100" disabled>
+                                                                <span class="input-group-btn">
+                                                                <button id="addArticle{{ produit.id }}"
+                                                                        onclick="addArticle({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }})"
+                                                                        type="button"
+                                                                        class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                        data-type="plus" data-field="">
+                                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                                </button>
+                                                        </span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                {% endif %}
+
+                                            </div>
+                                            {% if produit.couleurs|length>0 %}
+
+                                                <div class="col-lg-8 col-sm-6 col-xs-6">
+                                                    <span class="selected-color selectedSpan"><strong class="text_details">{{ "Taille" | trans }}</strong></span>
+                                                    <select class="form-control " id="sizes{{ produit.id }}"
+                                                            name="sizes{{ produit.id }}"
+                                                            onchange="changeSize({{ produit.id }})"
+                                                            style="border-radius: 0px;height: 43px; font-family: Roboto-Regular,sans-serif"  >
+                                                        <option disabled  style=" color:#374649;font-family: Roboto-Regular,sans-serif;font-size: 12px;font-weight: 400 " selected>
+                                                            {{ "choisir la taille" | trans }}</option>
+                                                        {% if  produit.couleurs|length > 0 %}
+                                                            {% set i = 1 %}
+                                                            {% for size in produit.couleurs["0"].sizes %}
+                                                                {% if i == 1 %}
+                                                                    <option value="{{ size.id }}"
+                                                                            selected>{{ size.libelle }}</option>
+                                                                {% else %}
+                                                                    <option value="{{ size.id }}">{{ size.libelle }}</option>
+
+                                                                {% endif %}
+                                                                {% set i = i+1 %}
+
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </select>
+                                                </div>
+
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <!-- productFilter -->
+
+
+                                    <div class="color-details">
+                                        <button onclick="addArticleSize({{ produit.id }})"
+                                                class="  btn_card col-lg-6" type="submit"
+                                                id="btn-panier"
+                                                data-loading-text="<i class='fa fa-spinner fa-spin '> </i> Chargement">
+                                            <span class="add2cart">
+                                                <span class="btnspanadd">{{ "Acheter" | trans }} <i class="fa fa-shopping-cart"></i></span>
+
+											</span>
+                                        </button>
+
+                                        <div class="col-lg-6 fich_technique">
+                                            {% if produit.file %}
+
+                                                <a  target="_blank"
+                                                    href="{{ legal_notice_directory }}/{{ produit.file }}">
+                                                    <svg _ngcontent-dxq-c64="" height="20" viewBox="0 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg"><g _ngcontent-dxq-c64="" id="Solid"><path _ngcontent-dxq-c64="" fill="#ED0000" d="m239.029 384.97a24 24 0 0 0 33.942 0l90.509-90.509a24 24 0 0 0 0-33.941 24 24 0 0 0 -33.941 0l-49.539 49.539v-262.059a24 24 0 0 0 -48 0v262.059l-49.539-49.539a24 24 0 0 0 -33.941 0 24 24 0 0 0 0 33.941z"></path><path _ngcontent-dxq-c64="" fill="#ED0000" d="m464 232a24 24 0 0 0 -24 24v184h-368v-184a24 24 0 0 0 -48 0v192a40 40 0 0 0 40 40h384a40 40 0 0 0 40-40v-192a24 24 0 0 0 -24-24z"></path></g></svg>
+                                                    {{ "Fiche Technique"|trans }}
+                                                </a>
+                                            {% endif %}
+
+                                        </div>
+
+                                    </div>
+
+                                    <!--/.cart-actions-->
+
+                                </div>
+                                <!--/ right column end -->
+
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+            {% else %}
+
+                {#
+                  <div class="quickview" onclick="plusquantityD({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }})">
+                    <a data-toggle="modal" class="btn btn-xs btn-quickview"
+                       data-target="#productSetailsModalAjaxx{{ produit.id }}">{{ "Details"|trans }} </a>
+                </div>
+                #}
+            {% if produit.description or produit.descriptionen %}
+
+                <div class="quickview" >
+                    <a  class="btn btn-xs btn-quickview" href="{{ path("detail_produits",{'produitid':produit.id}) }}"
+                    >{{ "Details" | trans }} </a>
+                </div>
+            {% endif %}
+
+                <div class="modal fade" id="productSetailsModalAjaxx{{ produit.id }}" tabindex="-1" role="dialog"
+                     aria-labelledby="productSetailsModalAjaxLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="row transitionfx text-left" style="padding: 30px;margin-right: 0px!important; margin-left: 0px;!important;">
+                                <div class="col-lg-12">
+                                    <button style="opacity: 1.2;margin-top: -21px;margin-right: -18px;background-color: #ffffff;/* color: #454545; */" type="button" class=" close" data-dismiss="modal" aria-label="Close">
+                                        <span style="color: #454545;" aria-hidden="true">×</span>
+                                    </button></div>
+                                <!-- left column -->
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <!-- product Image and Zoom -->
+                                    <div class="main-image sp-wrap col-lg-12 no-padding style3" style="display: inline-block;">
+
+
+
+                                        <div class="sp-large" style="overflow: hidden; height: auto; left: 0px; top: 0px;max-width: 100% !important">
+                                            <a href="" class="" style="width: 100%;height: 100%;border-radius: 10px!important;">
+                                                <img id="imageproduit{{ produit.id }}"
+                                                     data-original="/uploads/produits/{{ produit.image }}"
+                                                     src="{% if produit.image and produit.image != "" %}/uploads/produits/{{ produit.image }}
+                                                         {% else %}{{ asset('/assets/img/default_t_e.jpg') }}{% endif %}"
+                                                     alt="{{ produit.nom }}" class="img-responsive" style="width: 100%;height: 100%;border-radius: 10px!important;">
+                                            </a>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!--/ left column end -->
+
+
+                                <!-- right column -->
+                                <div class="col-lg-8 col-md-6 col-sm-6">
+                                    <input type="text" id="idproduit" value="{{ produit.id }}" hidden>
+
+                                    <h1 class="product-title titleproduitt">
+
+                                        {% if app.request.getLocale()  == 'en' %}{{ produit.nomen }}{% else %}{{ produit.nom }}{% endif %}
+
+                                    </h1>
+
+                                    <div class="description" >
+                                        {% if app.request.getLocale()  == 'en' %}{{ produit.descriptionen }}{% else %}{{ produit.description }}{% endif %}
+
+                                    </div>
+                                    <div class="product-price" style="font-size: 20px;">
+                                        <span class="price-sales price">  {{ formated_price( produit.finalPrice["prix"],app.session.get("pays"))}}</span>
+                                        {% if produit.finalPrice["is_promo"] and produit.numProduitPromo == 1 %}
+                                            <span class="price-standard  old-price" > {{ formated_price( produit.finalPrice["old_prix"],app.session.get("pays"))}} </span>
+                                        {% elseif produit.finalPrice["is_promo"] and produit.prixPromo and produit.prixPromo > 0 %}
+                                            <span class="price-standard old-price"> {{ formated_price( produit.finalPrice["old_prix"],app.session.get("pays"))}}</span>
+                                        {% endif %}
+                                    </div>
+
+                                    {% if produit.couleurs|length>0 %}
+
+                                        <div class="color-details">
+                                            {% if produit.image and produit.image != "" %}
+                                                <img name='img' id='{{ produit.image }}'
+                                                     style="width:  100px;height: 100px;background-size: contain;border-width: 2px; border-color: #ED0000;border-style: solid;"
+                                                     src="/uploads/produits/{{ produit.image }}"
+                                                     onclick="changeImage('{{ produit.image }}','{{ produit.id }}')"
+                                                     alt="img">
+                                            {% endif %}
+                                            {% for c in produit.couleurs %}
+                                                {% if c.image and c.image != "" %}
+
+                                                    <img name='img' id='{{ c.image }}'
+                                                         style="    width:  100px;height: 100px;background-size: cover;border-width: 2px; border-color: #dcdbdb;border-style: solid;"
+                                                         src="/uploads/produits/{{ c.image }}"
+                                                         onclick="changeImage('{{ c.image }}','{{ produit.id }}')"
+                                                         alt="img">
+
+                                                {% endif %}
+
+                                            {% endfor %}
+                                        </div>
+                                        <div class="color-details">
+                                            <span class="selected-color selectedSpan"><strong class="text_details">{{ "Couleurs" | trans }}</strong></span>
+                                            <ul class="swatches Color" name="couleur{{ produit.id }}"
+                                                id="couleur{{ produit.id }}">
+                                                {% set i = 1 %}
+                                                {% for couleur in produit.couleurs %}
+                                                    {% if i == 1 %}
+                                                        <li class="selected" value="{{ couleur.codeCouleur }}"
+                                                            onclick="changeImagecouleur('{{ produit.id }}','{{ couleur.id }}','{{ couleur.image }}')">
+                                                            <a style="background-color:{{ couleur.codeCouleur }};color:transparent"></a>
+                                                        </li>
+                                                    {% else %}
+                                                        <li value="{{ couleur.codeCouleur }}"
+                                                            onclick="changeImagecouleur('{{ produit.id }}','{{ couleur.id }}','{{ couleur.image }}')">
+                                                            <a style="background-color:{{ couleur.codeCouleur }};color:transparent"></a>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% set i = i+1 %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+                                    <!--/.color-details-->
+
+                                    <div class="color-details">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-xs-6" style="">
+                                                <span class="selected-color selectedSpan"><strong class="text_details">{{"Quantité" | trans}}</strong></span>
+                                                {% if produit.couleurs|length>0 %}
+
+                                                    <div class="input-group">
+														<span class="input-group-btn" >
+															<button id="deleteArticle{{ produit.id }}"
+                                                                    onclick="moinsquantity({{ produit.id }})"
+                                                                    type="button"
+                                                                    class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                    style="background-color:#ED0000" data-type="minus"
+                                                                    data-field="">
+																<span class="glyphicon glyphicon-minus"></span>
+															</button>
+														</span>
+                                                        <input style="font-family: Roboto-Regular,sans-serif;font-size: 14px;font-weight: bold; height: 4.5rem;!important;" type="text"
+                                                               id="quantitymodal{{ produit.id }}"
+                                                               name="quantitymodal{{ produit.id }}"
+                                                               class="form-control input-number text-center" {% if app.session.get('panier')[produit.id] is defined %} value="{{ app.session.get('panier')[produit.id] }}" {% else %} value="1" {% endif %}
+                                                               min="1" max="100" disabled>
+
+                                                        <span class="input-group-btn">
+															<button onclick="plusquantity({{ produit.id }})"
+                                                                    type="button"
+                                                                    class="quantity-right-plus btn btn-success btn-number btn_plus_moins"
+                                                                    style="background-color:#ED0000" data-type="plus"
+                                                                    data-field="">
+																<span class="glyphicon glyphicon-plus"></span>
+															</button>
+														</span>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="row" id="quantite{{ produit.id }}"
+                                                         name="quantite{{ produit.id }}" disabled="none"  >
+
+                                                        <div class="col-lg-12 col-md-12 col-xs-12" style="">
+                                                            <div class="input-group group_qt">
+
+                                                            <span class="input-group-btn">
+                                                                <button id="deleteArticle{{ produit.id }}"
+                                                                        onclick="moinquantityD({{ produit.id }},{{ produit.prix }})"
+                                                                        type="button"
+                                                                        class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                        data-type="minus" data-field="">
+                                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                                </button>
+                                                            </span>
+                                                                <input style=" height: 4.5rem;!important;" type="text"
+                                                                       id="qte{{ produit.id }}"
+                                                                       name="qte{{ produit.id }}"
+                                                                       class="form-control input-number text-center" {% if app.session.get('panier')[produit.id] is defined %} value="{{ app.session.get('panier')[produit.id] }}" {% else %} value="0" {% endif %}
+                                                                       min="1" max="100" disabled>
+                                                                <span class="input-group-btn">
+                                                                <button id="addArticlee{{ produit.id }}"
+                                                                        onclick="plusquantityD({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }})"
+                                                                        type="button"
+                                                                        class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                        data-type="plus" data-field="">
+                                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                                </button>
+                                                        </span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                {% endif %}
+                                            </div>
+                                            {% if produit.couleurs|length>0 %}
+
+                                                <div class="col-lg-8 col-sm-6 col-xs-6">
+                                                    <span class="selected-color selectedSpan"><strong class="text_details">{{ "Taille" | trans }}</strong></span>
+                                                    <select class="form-control " id="sizes{{ produit.id }}"
+                                                            name="sizes{{ produit.id }}"
+                                                            onchange="changeSize({{ produit.id }})"
+                                                            style="border-radius: 0px;height: 43px; font-family: Roboto-Regular,sans-serif"  >
+                                                        <option disabled  style=" color:#374649;font-family: Roboto-Regular,sans-serif;font-size: 12px;font-weight: 400 " selected>
+                                                            {{ "choisir la taille" | trans }}</option>
+                                                        {% if  produit.couleurs|length > 0 %}
+                                                            {% set i = 1 %}
+                                                            {% for size in produit.couleurs["0"].sizes %}
+                                                                {% if i == 1 %}
+                                                                    <option value="{{ size.id }}"
+                                                                            selected>{{ size.libelle }}</option>
+                                                                {% else %}
+                                                                    <option value="{{ size.id }}">{{ size.libelle }}</option>
+
+                                                                {% endif %}
+                                                                {% set i = i+1 %}
+
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </select>
+                                                </div>
+
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <!-- productFilter -->
+
+
+                                    <div class="color-details">
+                                        {% if produit.couleurs|length>0 %}
+
+                                        <button onclick="addArticleSize({{ produit.id }})"
+                                                class="  btn_card col-lg-6" type="submit"
+                                                id="btn-panier"
+                                                data-loading-text="<i class='fa fa-spinner fa-spin '> </i> Chargement">
+                                            <span class="add2cart">
+                                                <span class="btnspanadd">{{ "Acheter" | trans }} <i class="fa fa-shopping-cart"></i></span>
+
+											</span>
+                                        </button>
+                                        {% else %}
+                                            <button onclick="addArticlee({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }})"
+                                                    class="  btn_card col-lg-6" type="submit"
+                                                    id="addArticlee{{ produit.id }}"
+                                                    data-loading-text="<i class='fa fa-spinner fa-spin '> </i> Chargement">
+                                            <span class="add2cart">
+                                                <span class="btnspanadd">{{ "Acheter" | trans }} <i class="fa fa-shopping-cart"></i></span>
+
+											</span>
+                                            </button>
+                                        {% endif %}
+                                        <div class="col-lg-6 fich_technique">
+                                            {% if produit.file %}
+
+                                                <a  target="_blank"
+                                                    href="{{ legal_notice_directory }}/{{ produit.file }}">
+                                                    <svg _ngcontent-dxq-c64="" height="20" viewBox="0 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg"><g _ngcontent-dxq-c64="" id="Solid"><path _ngcontent-dxq-c64="" fill="#ED0000" d="m239.029 384.97a24 24 0 0 0 33.942 0l90.509-90.509a24 24 0 0 0 0-33.941 24 24 0 0 0 -33.941 0l-49.539 49.539v-262.059a24 24 0 0 0 -48 0v262.059l-49.539-49.539a24 24 0 0 0 -33.941 0 24 24 0 0 0 0 33.941z"></path><path _ngcontent-dxq-c64="" fill="#ED0000" d="m464 232a24 24 0 0 0 -24 24v184h-368v-184a24 24 0 0 0 -48 0v192a40 40 0 0 0 40 40h384a40 40 0 0 0 40-40v-192a24 24 0 0 0 -24-24z"></path></g></svg>
+                                                    {{ "Fiche Technique"|trans }}
+                                                </a>
+                                            {% endif %}
+
+                                        </div>
+
+                                    </div>
+
+                                    <!--/.cart-actions-->
+
+                                </div>
+                                <!--/ right column end -->
+
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+
+
+                <div class="modal fade" id="modal-quantity-max{{ produit.id }}" tabindex="-1" role="dialog"
+                     aria-labelledby="productSetailsModalAjaxLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background: #df0c36;">
+                                <h4 class="modal-title text-left" id="exampleModalLongTitle" style="margin-top: 11px;">
+
+                                </h4>
+                                <button style="opacity: 1.2;margin-top: -26px;margin-right: -10px;background-color: #df0c36"
+                                        type="button" class=" close" data-dismiss="modal" aria-label="Close">
+                                    <span style="color: #ffffff" aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <h3>
+
+                                    {{ "pouvez_commander_au_max" | trans}}{{ produit.maxcommande }}
+                                    {% if app.request.getLocale()  == 'en' %}{{ produit.nomen }}{% else %}{{ produit.nom }}{% endif %}
+                                </h3>
+
+
+
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+
+                {#
+
+                <script>
+                    $(document).click(function(event) {
+                        //if you click on anything except the modal itself or the "open modal" link, close the modal
+                        setTimeout(function(){
+                            $('#modal-quantity-max{{ produit.id }}').modal('hide')
+                        }, 14000);
+
+                    });
+
+                </script>
+                #}
+
+
+
+                <div class="modal fade" id="modal-panier{{ produit.id }}" tabindex="-1" role="dialog"
+                     aria-labelledby="productSetailsModalAjaxLabel" aria-hidden="true" style="z-index:1062 !important" >
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header" style="background: #ED0000;">
+                                <h4 class="modal-title" id="exampleModalLongTitle" style="margin-top: 11px;">{{ "Acheter" | trans }} <i class="fa fa-shopping-cart"></i>
+                                </h4>
+                                <button style="opacity: 1.2;margin-top: -36px;margin-right: -10px;background-color: #ED0000"
+                                        type="button" class=" close" data-dismiss="modal" aria-label="Close">
+                                    <span style="color: #ffffff" aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body text-center">
+                                {#
+                                                                <h3>{{"La quantité demandée est indisponible" | trans}}</h3>
+
+                                #}
+
+                                <h3>{{"quantite_demander_indispo" | trans}}
+                                    {% if app.request.getLocale()  == 'en' %}{{ produit.nomen }}{% else %}{{ produit.nom }}{% endif %} {{"est" | trans}} <span id="idinputtwo{{ produit.id }}">  </span>  </h3>
+
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+
+                {#
+                     <script>
+                    $(document).click(function(event) {
+                        setTimeout(function(){
+                            $('#modal-panier{{ produit.id }}').modal('hide')
+                        }, 14000);
+
+                    });
+
+                </script>
+                #}
+
+
+
+            {% endif %}
+
+
+            <img style=" width: 100%;height:100%!important;max-height: 300px;min-height:300px;object-fit: contain  !important;border-top-left-radius: 10px;border-top-right-radius: 10px"
+                 id="img{{ produit.id }}" data-original="
+              {% if  produit.image and produit.image != "" %}
+    /uploads/produits/{{ produit.image }}
+{% elseif produit.sousCategorie and produit.sousCategorie.image and produit.sousCategorie.image != "" %}
+    /uploads/produits/{{ produit.sousCategorie.image }}
+{% else %}
+    {{ asset('/assets/img/default_t_e.jpg') }}
+{% endif %}" src="{{ asset('/assets/img/default_t_e.jpg') }}"
+                 alt="{{ produit.nom }}" class="img-responsive lazy">
+            {% if produit.quantite >0 %}
+                {% if produit.finalPrice["is_promo"] and produit.prixPromo and produit.prixPromo > 0 %}
+                    <div class="promotion">
+                        <span class="discount" style="    font-weight: 400;">{{ "Promotion" | trans }}</span>
+                    </div>
+                {% elseif produit.finalPrice["is_promo"] and produit.numProduitPromo == 1 %}
+                    <div class="promotion">
+						<span class="discount" style="    font-weight: 400;">{{ "Promotion"|trans }}
+                            {{ formated_price(produit.finalPrice["percentage"],app.session.get('pays'),false) }}%
+						</span>
+                    </div>
+                {% elseif produit.finalPrice["is_promo"] and produit.numProduitPromo > 1 %}
+                    <div class="promotion">
+						<span class="discount" style="    font-weight: 400;">
+							{{ formated_price(produit.finalPrice["percentage"],app.session.get('pays'),false) }}% {{ "sur le" | trans }}
+                            {{ produit.numProduitPromo }}{{ "ème produit" | trans }}
+						</span>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="promotion">
+					<span class="horsstock" style="    font-weight: 400;">
+						{{ "HORS STOCK"|trans }}
+					</span>
+                </div>
+            {% endif %}
+        </div>
+
+        <div style="height: 30%;position: relative">
+            <div class="line_gradient"></div>
+
+            <div class="col-lg-12 description">
+			    <span class="">
+                                    {% if app.request.getLocale()  == 'en' %}{{ produit.nomen }}{% else %}{{ produit.nom }}{% endif %}
+
+				</span>
+            </div>
+            {#
+
+            <div class="description" >
+                {% if app.request.getLocale()  == 'en' %}{{ produit.descriptionen }}{% else %}{{ produit.description }}{% endif %}
+
+            </div>
+
+            <div class="col-lg-12 fich_technique">
+                    {% if produit.file %}
+
+                    <a  target="_blank"
+                        href="{{ legal_notice_directory }}/{{ produit.file }}">
+                        <svg _ngcontent-dxq-c64="" height="20" viewBox="0 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg"><g _ngcontent-dxq-c64="" id="Solid"><path _ngcontent-dxq-c64="" fill="#ED0000" d="m239.029 384.97a24 24 0 0 0 33.942 0l90.509-90.509a24 24 0 0 0 0-33.941 24 24 0 0 0 -33.941 0l-49.539 49.539v-262.059a24 24 0 0 0 -48 0v262.059l-49.539-49.539a24 24 0 0 0 -33.941 0 24 24 0 0 0 0 33.941z"></path><path _ngcontent-dxq-c64="" fill="#ED0000" d="m464 232a24 24 0 0 0 -24 24v184h-368v-184a24 24 0 0 0 -48 0v192a40 40 0 0 0 40 40h384a40 40 0 0 0 40-40v-192a24 24 0 0 0 -24-24z"></path></g></svg>
+                        {{ "Fiche Technique"|trans }}
+                    </a>
+                    {% endif %}
+
+                </div>
+
+            #}
+
+
+            <div class="row" style="position: absolute;  bottom: 10px;left: 15px;right: 0">
+                <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6 text-left">
+                    <div class="price">
+
+                        {% if produit.finalPrice["is_promo"] and produit.prixPromo and produit.prixPromo > 0 %}
+                            <span class="old-price">
+							{{ formated_price(produit.finalPrice["old_prix"],app.session.get("pays")) }}
+						</span>
+                        {% elseif produit.finalPrice["is_promo"] and produit.numProduitPromo == 1 %}
+                            <span class="old-price">
+							{{ formated_price(produit.finalPrice["old_prix"],app.session.get("pays")) }}
+						</span>
+                        {% endif %}
+                        <br>
+                        <span>
+				{{ formated_price(produit.finalPrice["prix"],app.session.get("pays")) }}
+			</span>
+
+                    </div>
+                </div>
+
+                <div class="div_card col-lg-6 col-md-6 col-xs-6 col-sm-6 text-right"
+                     style="margin-top: 6px;padding-right: 23px;">
+                    <div class="row" style="padding: 0px 4px 4px;" id="quantitee{{ produit.id }}"
+                         name="quantitee{{ produit.id }}"  hidden>
+
+                        <div class="col-lg-12 col-md-12 col-xs-12">
+                            <div class="input-group "   style="width: 104px;float: right;">
+							    <span class="input-group-btn " >
+								<button id="deleteArticle{{ produit.id }}"
+                                        onclick="deleteArticleQuantity({{ produit.id }},{{ produit.prix }})"
+                                        type="button"
+                                        class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                        data-type="minus" data-field="">
+									<span class="glyphicon glyphicon-minus"></span>
+								</button>
+							    </span>
+                                <input style="font-weight: bold;font-family: Roboto-Regular,sans-serif" type="text"
+                                       id="qte{{ produit.id }}" name="qte{{ produit.id }}"
+                                       class="form-control input-number text-center" {% if app.session.get('panier')[produit.id] is defined %} value="{{ app.session.get('panier')[produit.id] }}" {% else %} value="0" {% endif %}
+                                       min="1" max="100" disabled>
+                                <span class="input-group-btn">
+								      <button id="addArticle{{ produit.id }}"
+                                              onclick="addArticle({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }})"
+                                              type="button"
+                                              class="quantity-right-plus btn btn-danger btn-number btn_plus_moins"
+                                              data-type="plus" data-field="">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button>
+				             	</span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div id="addcart{{ produit.id }}" name="addcart{{ produit.id }}">
+                        {% if produit.quantite == 0 %}
+                            <button disabled type="button" class="btn_card"
+                                    style="background-color: #8c8586;color: white;border: 1px solid #8c8586;padding: 0 0;height: 43px;width: 43px;margin-bottom: 8px;"
+                                    data-loading-text="<i class='fa fa-spinner fa-spin '> </i> {{ "Chargement" | trans }}">
+							<span class="add2cart btnspanadd" style="color:#8c8586;">
+								{{ "Acheter" | trans }} <i class="fa fa-shopping-cart"></i>
+							</span>
+                            </button>
+                        {% else %}
+
+
+                        {% if  produit.couleurs|length > 0 %}
+
+                            <a class=" btn_card" style="padding-top: 15px; padding-bottom: 15px;"
+                               href="{{ path("detail_produits",{'produitid':produit.id}) }}"  >
+                                                         <span class="add2cart">
+                                                            <span class="btnspanadd"> {{ "Acheter" | trans }} <i
+                                                                        class="fa fa-shopping-cart"></i></span>
+                                                        </span>
+                            </a>
+
+                        {% else %}
+
+                            <button type="submit" class="btn_card"
+                                    {#
+                                                                        {% if  produit.couleurs|length > 0 %}
+                                        data-toggle="modal"
+                                        data-target="#productSetailsModalAjax{{ produit.id }}"
+                                    {% else %}
+                                        id="btn-panier{{ produit.id }}"
+                                        onclick="enabledivquantity({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }}, this)"
+                                    {% endif %}
+
+                                    #}
+
+                                    id="btn-panier{{ produit.id }}"
+                                    onclick="enabledivquantity({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }}, this)"
+
+                                    data-loading-text="<i class='fa fa-spinner fa-spin '> </i> {{ "Chargement" | trans }}">
+                                                        <span class="add2cart">
+                                                            <span class="btnspanadd">{{ "Acheter" | trans }} <i
+                                                                        class="fa fa-shopping-cart"></i></span>
+                                                        </span>
+                            </button>
+
+
+                        {% endif %}
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+            <!--<div class="price"><span style="color:#df0c36; font-size: 22px;font-family: 'Open Sans', sans-serif;"><b>{{ produit.prix }} dt</b></span></div>-->
+
+        </div>
+
+
+    </div>
+
+    <!-- Modal -->
+
+
+    <div class="modal fade" id="myModal"
+         role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #ED0000;">
+                    <h2 class="modal-title text-left" id="exampleModalLongTitle" style="margin-top: 5px">
+
+                    </h2>
+                    <button style="opacity: 1.2;margin-top: -26px;margin-right: -10px;background-color: #ED0000"
+                            type="button" class=" close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span style="color: #ffffff" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <h3>
+                        {{ "fav_alert" | trans}}
+                    </h3>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script>
+    function changeCouleur(id) {
+    }
+    function addfavnonConnect() {
+        $("#myModal").modal({backdrop: true});
+
+
+    }
+
+    $('#couleur').on('click', 'li', function () {
+        $(this).addClass("selected"); // Assign the class here
+        //   var value = $('#couleur').val();
+        var value = $(this).attr('value');
+        var produit = parseInt($("#idproduit").val());
+        $.ajax({
+            url: "{{ (path('getSizeCouleur')) }}",
+            dataType: 'Json',
+            data: {"couleurid": value, "produitid": produit},
+            type: 'GET',
+            success: function (data) {
+                var nameselect = "sizes" + produit
+                $('select[name=nameselect]').empty();
+                if (data[0]) {
+                    student = data[0];
+                    $('select[name=nameselect]').append('<option selected value="' + student['id'] + '">' + student['libelle'] + '</option>');
+
+                }
+
+                for (i = 1; i < data.length; i++) {
+                    student = data[i];
+                    $('select[name="sizes').append('<option  value="' + student['id'] + '">' + student['libelle'] + '</option>');
+                }
+                ;
+                //	$("#quantitymodal" + produit).val(1);
+            }
+        });
+    });
+
+    function changeImagecouleur(produitid, couleurid, image) {
+        if (image) {
+            changeImage(image, produitid)
+        }
+        var produit = parseInt(produitid);
+        var couleur = parseInt(couleurid);
+        $("#quantitymodal"+produitid).val(1);//rahma addd to
+
+        $.ajax({
+            url: "{{ (path('getSizeCouleur')) }}",
+            dataType: 'Json',
+            data: {"couleurid": couleur, "produitid": produit},
+            type: 'GET',
+            success: function (data) {
+                var nameselect = "sizes" + produitid
+                $('select[name=' + nameselect + ']').empty();
+
+                if (data[0]) {
+                    size = data[0];
+                    $('select[name=' + nameselect + ']').append('<option selected value="' + size['id'] + '">' + size['libelle'] + '</option>');
+                }
+
+                for (i = 1; i < data.length; i++) {
+                    size = data[i];
+                    $('select[name=' + nameselect + ']').append('<option  value="' + size['id'] + '">' + size['libelle'] + '</option>');
+                }
+                ;
+                //	$("#quantitymodal" + produit).val(1);
+            }
+        });
+
+    }
+
+    function changeImage(image, id) {
+
+        document.getElementById("imageproduit" + id).src = '/uploads/produits/' + image;
+        var images = document.getElementsByName("img");
+        for (i in images) {
+            images[i].style = 'width: 100px;\n' +
+                '    height: 100px;\n' +
+                '    background-size: cover;\n' +
+                '    border-width: 2px;\n' +
+                '    border-color: #dcdbdb;\n' +
+                '    border-style: solid;';
+        }
+        document.getElementById(image).style = 'width: 100px;\n' +
+            '    height: 100px;\n' +
+            '    background-size: cover;\n' +
+            '    border-width: 2px;\n' +
+            '    border-color: #df0c36;\n' +
+            '    border-style: solid;';
+
+    }
+</script>
+<script>
+    function addArticleSize(id) {
+        var selectsizes = document.getElementById("sizes" + id);
+        var sizeid = selectsizes.options[selectsizes.selectedIndex].value;
+        var qte = parseInt($("#quantitymodal" + id).val());
+        $.ajax({
+            url: "{{ (path('size_from_id')) }}",
+            dataType: 'Json',
+            data: {"sizeid": sizeid},
+            type: 'GET',
+            success: function (data) {
+                console.log(data);
+                console.log(qte);
+                var quantite = data
+                if ((quantite !== null) && (qte > quantite)) {
+                    //alert("Vous ne pouvez commander que " +quantite+" produit" )
+                    document.getElementById("idinputtwo"+id).innerHTML = quantite;
+
+                    $("document").ready(function () {
+                      //was  $('#modal-panier'+id).modal({backdrop: 'static', keyboard: false});
+                        $('#modal-panier' + id).modal("show");
+                    })
+                } else if ((quantite !== null) && (qte < quantite)) {
+                    addArticlewithsize(id, sizeid, qte);
+                    $('#productSetailsModalAjax'+id).modal('hide');
+
+                }
+
+            }
+        });
+
+    }
+
+    function changeSize(id) {
+        //$("#quantitymodal" + id).val(1);
+    }
+
+    function enabledivquantity(id, quantite, max, el) {
+        var qte = parseInt($("#qte" + id).val());
+        if (qte + 1 > quantite) {
+
+           // alert("Vous ne pouvez commander que " +quantite+" produit" )
+            document.getElementById("idinputtwo"+id).innerHTML = quantite;
+
+            $("document").ready(function () {
+              //was  $('#modal-panier'+id).modal({backdrop: 'static', keyboard: false});
+
+                $('#modal-panier' + id).modal("show");
+            })
+        } else if (qte + 1 > max) {
+            $("document").ready(function () {
+              //was  $('#modal-quantity-max' + id).modal({backdrop: 'static', keyboard: false});
+
+                $('#modal-quantity-max'+id).modal("show");
+
+            })
+        } else if (qte >= 0) {
+            var quantity = document.getElementById("quantitee" + id);
+            console.log("ffff");
+            console.log(quantity);
+        //    document.getElementById("quantite"+id).style.display = 'block';
+
+            //var quantity = $(el).parent().parent().find("#quantite" + id);
+            var btncart = el;
+            quantity.style.display = "block";
+            btncart.style.display = "none";
+            addArticle(id, quantite, max);
+        }
+    }
+
+    function plusquantity(id) {
+        var selectsizes = document.getElementById("sizes" + id);
+        var sizeid = selectsizes.options[selectsizes.selectedIndex].value;
+        var qte = parseInt($("#quantitymodal" + id).val()) + 1 ;
+        //alert(qte);
+
+        $.ajax({
+            url: "{{ (path('size_from_id')) }}",
+            dataType: 'Json',
+            data: {"sizeid": sizeid},
+            type: 'GET',
+            success: function (data) {
+                var quantite = data;
+                var qtee = parseInt($("#quantitymodal" + id).val())+1  ;
+
+                if (qtee  > quantite) {
+
+                    //  alert("Vous ne pouvez commander que " +quantite+" produit" )
+                    document.getElementById("idinputtwo"+id).innerHTML = quantite;
+
+                    $("document").ready(function () {
+
+                      //was  $('#modal-panier' + id).modal({backdrop: 'static', keyboard: false});
+
+
+                        $('#modal-panier' + id).modal("show");
+                    })
+
+
+                } else {
+                    var qte = parseInt($("#quantitymodal" + id).val()) + 1;
+                    var qte_input = document.querySelectorAll("[id=quantitymodal" + id+"]");
+                    for(var i = 0; i < qte_input.length; i++){
+                        qte_input[i].value = qte;
+                    }
+                }
+
+            }
+        });
+
+      /*  var qte = parseInt($("#quantitymodal" + id).val()) + 1;
+        $("#quantitymodal" + id).val(qte);*/
+
+
+    }
+   /* function plusquantityD(id,quantite,max) {
+
+        var qte = parseInt($("#qte" + id).val()) + 1;
+             if (qte===1){
+            console.log("qte");
+            console.log(qte);
+            $("#qte" + id).val(0);
+
+            addArticle(id, quantite, max);
+
+        }else {
+            console.log("qtesecond");
+            console.log(qte);
+
+        }
+      //  $("#qte" + id).val(qte);
+
+        if (qte===1){
+            console.log("qte");
+            console.log(qte);
+            $("#qte" + id).val(0);
+
+            addArticle(id, quantite, max);
+
+        }else {
+            console.log("qtesecond");
+            console.log(qte);
+
+        }
+
+
+
+    }*/
+
+    function moinsquantity(id) {
+        var qte = parseInt($("#quantitymodal" + id).val()) - 1;
+        if (qte > 0) {
+            $("#quantitymodal" + id).val(qte);
+
+        } else {
+
+            $("document").ready(function () {
+              //was  $('#modal-quantity').modal({backdrop: 'static', keyboard: false});
+                $('#modal-quantity').modal("show");
+            })
+
+        }
+    }
+
+
+
+
+    <!-- ---- -->
+
+    function plusquantityD(id,quantity,max) {
+
+        var qte = parseInt($("#qte" + id).val()) + 1;
+
+
+
+        if(qte  > quantity  ){
+
+         //   alert("Vous ne pouvez commander que " +quantity+" produit" )
+            document.getElementById("idinputtwo"+id).innerHTML = quantity;
+
+               $("document").ready(function () {
+                  //was $('#modal-panier'+id).modal({backdrop: 'static',keyboard: false  });
+
+                   $('#modal-panier' + id).modal("show");
+                   //  $('select').select2();
+               })
+        }
+        else if (qte > max) {
+            $("document").ready(function () {
+              //was  $('#modal-quantity-max'+id).modal({  backdrop: 'static',     keyboard: false});
+                $('#modal-quantity-max'+id).modal("show");
+
+            })
+        }else{
+            var qte_input = document.querySelectorAll("[id=qte" + id+"]");
+
+            for(var i = 0; i < qte_input.length; i++){
+                qte_input[i].value = qte;
+            }
+        }
+
+    }
+
+    function moinquantityD(id) {
+
+        var qte = parseInt($("#qte" + id).val()) -1;
+        //  $("#qte" + id).val(qte);
+        var qte_input = document.querySelectorAll("[id=qte" + id+"]");
+
+        if (qte > 0) {
+            for(var i = 0; i < qte_input.length; i++){
+                qte_input[i].value = qte;
+            }
+        } else {
+            $("document").ready(function () {
+             //   $('#modal-quantity').modal({backdrop: 'static', keyboard: false});
+                $('#modal-quantity').modal("show");
+
+            })
+
+        }
+    }
+
+    function addArticlee(id, quantity,max) {
+        var qte = parseInt(  $("#qte"+id).val());
+        var qte_input = document.querySelectorAll("[id=qte" + id+"]");
+
+
+
+        if(qte  > quantity  ){
+
+          //  alert("Vous ne pouvez commander que " +quantity+" produit" )
+            document.getElementById("idinputtwo"+id).innerHTML = quantity;
+
+             $("document").ready(function () {
+               //  $('#modal-panier'+id).modal({  backdrop: 'static',  keyboard: false        });
+
+                 $('#modal-panier' + id).modal("show");
+                 //  $('select').select2();
+             })
+        }
+        else if (qte > max) {
+            $("document").ready(function () {
+                //was$('#modal-quantity-max'+id).modal({  backdrop: 'static',  keyboard: false});
+
+                $('#modal-quantity-max'+id).modal("show");
+
+            })
+        } else {
+
+
+            for(var i = 0; i < qte_input.length; i++){
+                qte_input[i].value = qte ;
+            }
+
+            //   alert("qtettee"+qte)
+
+            var $this = $("#addArticlee"+id);
+            $.ajax({
+                url: Routing.generate('add_many_quantity_to_cart', {id: id,qte:qte}), success: function (result) {
+                    $(".my_nav_bar").html(result);
+                    $(".total_price_cart_empty").html($(".total_price_cart").html());
+                    $("img.lazy").lazyload({
+                        threshold : 50
+                    });
+                    $(window).load(function(){
+                        $("html,body").trigger("scroll");
+                    });
+                    $this.button('reset');
+                    //hide modal after add to cart
+                    $('#productSetailsModalAjax'+id).modal('hide');
+
+
+                }
+            });
+
+
+
+        }
+    }
+
+</script>

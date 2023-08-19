@@ -1,0 +1,376 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: "@FrontendBundle/Resources/config/services.yml" }
+    - { resource: "@WebBundle/Resources/config/services.yml" }
+    - { resource: "@BackendBundle/Resources/config/services.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: fr
+    app_locales: fr|en
+    image_directory: '%kernel.root_dir%/../web/uploads/produits'
+    condition_vente_directory: '%kernel.root_dir%/../web/uploads/condition_vente'
+    condition_general_directory: '%kernel.root_dir%/../web/uploads/condtion_general'
+    personal_data_directory: '%kernel.root_dir%/../web/uploads/personal_data'
+    legal_notice_directory: '%kernel.root_dir%/../web/uploads/legal_notice'
+    app.path.produits_images: /uploads/produits
+    app.path.condition_vente_directory: /uploads/condition_vente
+    app.path.condition_general_directory: /uploads/condtion_general
+    app.path.personal_data_directory: /uploads/personal_data
+    app.path.legal_notice_directory: /uploads/legal_notice
+    mailer_transport: mail
+    mailer_host: smtp.gmail.com
+    mailer_port: 587
+    mailer_user: pumpattendee@gmail.com
+    mailer_password: incentive123
+    mailer_encryption: tls
+    mailer_auth_mode: login
+    mailer_sender_name: TotalEnergie
+    secret: ThisTokenIsNotSoSecretChangeIt
+framework:
+    #esi:             ~
+    translator: { fallbacks: "%locale%" }
+    secret: "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    globals:
+        img_path:     '%app.path.produits_images%'
+        condition_vente_directory: '%app.path.condition_vente_directory%'
+        condition_general_directory: '%app.path.condition_general_directory%'
+        personal_data_directory: '%app.path.personal_data_directory%'
+        legal_notice_directory: '%app.path.legal_notice_directory%'
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #     path:     "%database_path%"
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        dql:
+          string_functions:
+            field: DoctrineExtensions\Query\Mysql\Field
+
+doctrine_migrations:
+    dir_name: %kernel.root_dir%/../src/WebBundle/DoctrineMigrations
+    namespace: WebBundle\DoctrineMigrations
+    table_name: SchemaVersions
+    name: Application Migrations
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    encryption: "%mailer_encryption%"
+    auth_mode:  "%mailer_auth_mode%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    port:       465
+    disable_delivery:  false
+    spool:     { type: memory }
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: WebBundle\Entity\Utilisateurs
+    from_email:
+        address: "%mailer_user%"
+        sender_name: "%mailer_user%"
+    service:
+            user_manager: custom_user_manager
+    registration:
+            form:
+                type: FrontendBundle\Form\RegistrationType
+    profile:
+            form:
+                type: FrontendBundle\Form\EditProfileType
+    resetting:
+            token_ttl: 100
+            email:
+                from_email:
+                    address: "%mailer_user%"
+                    sender_name: "%mailer_user%"
+
+
+knp_paginator:
+    page_range: 5                      # default page range used in pagination control
+    default_options:
+        page_name: page                # page query parameter name
+        sort_field_name: sort          # sort field query parameter name
+        sort_direction_name: direction # sort direction query parameter name
+        distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+        pagination: BackendBundle:paginator:paginator.html.twig     # sliding pagination controls template
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+
+liip_imagine:
+    resolvers:
+       default:
+          web_path: ~
+
+    filter_sets:
+        cache: ~
+        produitThumb:
+            quality: 80
+            filters:
+                thumbnail: { size: [300, 150], mode: inset }
+        produit:
+            quality: 75
+            filters:
+                thumbnail: { size: [470, 310], mode: inset }
+                
+vich_uploader:
+    db_driver: orm
+    mappings:
+        produits_images:
+            namer: vich_uploader.namer_uniqid
+            uri_prefix:         %app.path.produits_images%
+            upload_destination: %kernel.root_dir%/../web/uploads/produits
+        produits_lib:
+                        namer: vich_uploader.namer_uniqid
+                        uri_prefix:         /uploads/produits/fiche_technique
+                        upload_destination: '%kernel.root_dir%/../web/uploads/produits/fiche_technique'
+                        delete_on_remove: true
+                        delete_on_update: true
+                        inject_on_load: true
+    
+easy_admin:
+    site_name: 'Total eCommerce'
+    design:
+        brand_color: '#5594DB'
+        menu: 
+            - { label: Dashboard, route: 'admin_dashboard', default: true,level: [ROLE_GESTIONNAIRE ,ROLE_GROSSISTE] }
+            - { entity: Produits, level: ROLE_GESTIONNAIRE }
+            - { entity: Categories, label: 'Gamme', level: ROLE_GESTIONNAIRE }
+            - { entity: Unite, level: ROLE_GESTIONNAIRE }
+            - { entity: Grossiste, label: 'Grossiste', level: ROLE_GESTIONNAIRE }
+            - { entity: Gestionnaire, label: 'Gestionnaire', level: ROLE_SUPER_ADMIN }
+            - { entity: CommandesGestionnaire, label: 'Commande', level: ROLE_GESTIONNAIRE, params: { sortField: 'created_at', sortDirection: 'DESC' } }
+            - { entity: CommandesGrossiste, level: ROLE_GROSSISTE, label: 'liste Commande' }
+    entities:
+        CommandesGrossiste:
+            disabled_actions: ['new','edit','delete']
+            controller: BackendBundle\Controller\Admin\CommandesController
+            class: WebBundle\Entity\Commandes
+            list:
+                max_results: 10
+                fields:
+                    - { property: 'reference',label: 'Ref#', type: 'string' }
+                    - { property: 'commande', label: 'Nb Article', template: 'BackendBundle:admin\commande:nbArticle.html.twig' }
+                    - { property: 'utilisateur', label: 'Client', template: 'BackendBundle:admin\commande:nomPrenomClient.html.twig' }
+                    - { property: 'total', label: 'Totale#', template: 'BackendBundle:admin\commande:totaleCommande.html.twig' }
+                    - { property: 'status', label: 'Statut' , template: '@Backend/admin/commande/status.html.twig',  label_colors: ['pending', 'primary', 'success','default','danger'] }
+                    - { property: 'dateclient', label: 'Date.Liv Client', template: 'BackendBundle:admin\commande:dateReservationClient.html.twig' }
+                    - { property: 'delivery_date', label: 'Date.Liv Grossiste' }
+                actions:
+                    - { name: 'show', label : 'voir' , icon: 'eye' }
+        Produits:
+            controller: BackendBundle\Controller\Admin\AdminController
+            class: WebBundle\Entity\Produits
+            image_base_path: '/uploads/produits'
+            edit:
+                fields:
+                    - nom
+                    - { property: 'categorie', type: 'entity', type_options: { class: 'WebBundle\Entity\Categories', choice_label: 'getNom' } }
+                    - prix
+                    - { property: 'uniteDemballage', label: "Unité d'embalage" }
+                    - is_active
+                    - unite
+                    - description
+                    - { property: 'imageFile', type: 'vich_image', type_options: { required: false, allow_delete: false } }
+                    - { property: 'file', type: 'vich_file', label: 'Fiche technique', type_options: { required: false, allow_delete: false } }
+            new:
+                fields:
+                    - nom
+                    - { property: 'categorie', type: 'entity', type_options: { class: 'WebBundle\Entity\Categories', choice_label: 'getNom' } }
+                    - prix
+                    - { property: 'uniteDemballage', label: "Unité d'embalage" }
+                    - disponible
+                    - is_active
+                    - unite
+                    - description
+                    - { property: 'imageFile', type: 'vich_image', type_options: { required: false, allow_delete: false } }
+                    - { property: 'file', type: 'vich_file', label: 'Fiche technique', type_options: { required: false, allow_delete: false } }
+            form:
+                fields:
+                    - nom
+                    - { property: 'categorie', type: 'entity', type_options: { class: 'WebBundle\Entity\Categories', choice_label: 'getNom' } }
+                    - prix
+                    - { property: 'uniteDemballage', label: "Unité d'embalage" }
+                    - is_active
+                    - unite
+                    - description
+                    - { property: 'imageFile', type: 'vich_image', type_options: { required: false, allow_delete: false } }
+                    - { property: 'file', type: 'vich_file', label: 'Fiche technique', type_options: { required: false, allow_delete: false } }
+            search:
+                fields:
+                    - nom
+            list:                
+                max_results: 10
+                fields:
+                    - id
+                    - { property: 'image', type: 'image' }
+                    - nom
+                    - unite
+                    - { property: 'uniteDemballage', label: 'UN.EMB' }
+                    - { property: 'prix', format: '%1.3f' }
+                    - { property: 'is_active', label: 'Active?' }
+                    - nb_achat
+                    - { property: 'nb_achat', label: 'Nb.CMD.Validé' }
+                    - { property: 'lib', label: 'Fiche.Tech', template: 'BackendBundle:admin\produit:ficheTechnique.html.twig'  }
+        Categories:
+            controller: BackendBundle\Controller\Admin\AdminController
+            class: WebBundle\Entity\Categories
+
+            list:
+                max_results: 10
+                fields:
+                    - id
+                    - nom
+                title: "Gammes"
+            form:
+                fields:
+                    - nom
+            search: 
+                fields:
+                    - nom
+        Unite:
+            controller: BackendBundle\Controller\Admin\AdminController
+            class: WebBundle\Entity\Unite
+            list:                
+                max_results: 10
+                fields:
+                    - id
+                    - libelle
+            form:
+                fields:
+                    - libelle
+            search: 
+                fields:
+                    - libelle
+        Grossiste:
+            class: WebBundle\Entity\Utilisateurs
+            controller: BackendBundle\Controller\Admin\GrossisteController
+            list:
+                fields:
+                    - { property: 'username_canonical', label: "Nom d'utilisateur" }
+                    - email
+                    - { property: 'locked', label: 'Est bloqué ?' }
+                    - { property: 'last_login', label: 'Date dernière connexion' ,  datetime: 'd/m/Y h:i', template: '@EasyAdmin/default/field_datetime.html.twig' }
+                title: "La liste des grossites"
+                actions: 
+                    - new
+                    - edit
+                    - { name: 'affectation', label : 'Affectation' }
+                    - { name: 'delete', label : 'Supprimer' }
+            form:
+                fields:
+                    - { property: 'username', label: "Nom d'utilisateur" }
+                    - { property: 'lastName', label: "Nom" }
+                    - { property: 'firstName', label: "Prénom" }
+                    - email
+                    - { property: 'plainPassword', label: 'Mot de passe',type: 'repeated', type_options: { required: false } }
+                    - enabled
+            new:
+                fields:
+                    - { property: 'username', label: "Nom d'utilisateur" }
+                    - { property: 'lastName', label: "Nom" }
+                    - { property: 'firstName', label: "Prénom" }
+                    - email
+                    - { property: 'plainPassword', label: 'Mot de passe',type: 'repeated', type_options: { required: true, first_options: {label: 'Mot de passe'},second_options: {label: 'Confirmer'},type: 'password' ,invalid_message: 'Les champs de mot de passe doivent correspondre.'} }
+                    - enabled
+            edit:
+                fields:
+                    - { property: 'username', label: "Nom d'utilisateur" }
+                    - { property: 'lastName', label: "Nom" }
+                    - { property: 'firstName', label: "Prénom" }
+                    - email
+                    - { property: 'plainPassword', label: 'Mot de passe',type: 'repeated', type_options: { required: false, first_options: {label: 'Mot de passe'},second_options: {label: 'Confirmer'},type: 'password' ,invalid_message: 'Les champs de mot de passe doivent correspondre.'} }
+                    - enabled
+                form_options: { validation_groups: ['Profile'] }
+                    # if administrators are allowed to edit users' passwords and roles, add this:
+        Gestionnaire:
+                    class: WebBundle\Entity\Utilisateurs
+                    controller: BackendBundle\Controller\Admin\GestionnaireController
+                    list:
+                        fields:
+                            - { property: 'username_canonical', label: "Nom d'utilisateur" }
+                            - email
+                            - { property: 'locked', label: 'Est bloqué ?' }
+                            - { property: 'last_login', label: 'Date dernière connexion',format: 'd/m/Y h:i',  template: '@EasyAdmin/default/field_datetime.html.twig' }
+                        title: "La liste des gestionnaires"
+                        actions:
+                            - new
+                            - edit
+
+                    form:
+                        fields:
+                            - { property: 'username', label: "Nom d'utilisateur" }
+                            - { property: 'lastName', label: "Nom" }
+                            - { property: 'firstName', label: "Prénom" }
+                            - email
+                            - enabled
+                            # if administrators are allowed to edit users' passwords and roles, add this:
+        CommandesGestionnaire:
+            class: WebBundle\Entity\Commandes
+            controller: BackendBundle\Controller\Admin\AdminController
+            disabled_actions: ['delete', 'edit', 'new']
+            list:
+                fields:
+                    - { property: 'reference',label: 'Ref CMD', type: 'string' }
+                    - { property: 'commande', label: 'Nb Article', template: 'BackendBundle:admin\commande:nbArticle.html.twig' }
+                    - { property: 'utilisateur', label: 'Client', template: 'BackendBundle:admin\commande:nomPrenomClient.html.twig' }
+                    - { property: 'total', label: 'Total Commande', template: 'BackendBundle:admin\commande:totaleCommande.html.twig' }
+                    - { property: 'status', label: 'Statut' , template: '@Backend/admin/commande/status.html.twig',  label_colors: ['pending', 'primary', 'success','default','danger'] }
+                    - { property: 'grossiste', label: 'Grossiste', template: 'BackendBundle:admin\commande:grossisteCommande.html.twig' }
+                    - { property: 'dateclient', label: 'Date.Liv.Client', template: 'BackendBundle:admin\commande:dateReservationClient.html.twig' }
+                    - { property: 'delivery_date', label: 'Date.Liv.Grossiste' }
+                actions:
+                    - { name: 'show', label : 'voir' , icon: 'eye' }
+                    - { name: 'affecter', label : 'Affecter.Auto' , icon: 'pencil' }
+gregwar_captcha:
+      width: 200
+      height: 50
+      length: 6
+
+twig:
+    form_themes:
+        - 'VichUploaderBundle:Form:fields.html.twig'

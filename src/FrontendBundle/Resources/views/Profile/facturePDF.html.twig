@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{{ "Facture" | trans({}, 'messages') }}</title>
+       <style type="text/css">
+           h1 {
+               position:absolute;
+               color:#0088cc;
+               font-size:50px;
+           }
+
+           .center {
+               text-align:center;
+           }
+
+           .color {
+               color:#0088cc;
+           }
+
+           .strong {
+               font-weight:bold;
+           }
+           .min {
+               font-size:10px;
+           }
+
+           img {
+               position:absolute;
+               top:80px;
+               left:30px;
+           }
+
+           ul#coordonnes {
+               float:left;
+               margin-top:30px;
+               margin-left:400px;
+               list-style:none;
+           }
+
+           ul#coordonnes li {
+               height:20px;
+           }
+
+           table#enTete {
+               position:absolute;
+               top:5px;
+               right:330px;
+               text-align:center;
+           }
+
+           table#enTete h1 {
+               color:#0088cc;
+               font-weight:bold;
+               font-size:20px;
+           }
+
+           table#entity {
+               float:left;
+               margin-top:30px;
+               text-align:center;
+           }
+
+           table#entity td {
+               height:45px;
+               border-bottom:1px solid #0088cc;
+           }
+
+           table#total {
+               float:right;
+               margin-left:495px;
+               border-bottom:1px solid #0088cc;
+               border-right:1px solid #0088cc;
+               border-left:1px solid #0088cc;
+           }
+
+           table#total td {
+               height:20px;
+           }
+
+           #footer {
+               position:absolute;
+               bottom:0px;width:100%;
+               text-align:center;
+               line-height:25px;
+           }
+       </style>
+
+    </head>
+    <body>
+        <h1>APP4MOB</h1>
+        <table id="enTete">
+            <tr>
+                <td colspan="1"></td>
+                <td colspan="1"><h1>{{ "Facture" | trans }}</h1></td>
+                <td colspan="1"></td>
+            </tr>
+            <tr>
+                <td width="80">{{ "Page" | trans }}</td>
+                <td width="100">{{ "Date" | trans }}</td>
+                <td width="120">{{ "Ref" | trans }}</td>
+            </tr>
+            <tr>
+                <td class="color">[[page_nb]]</td>
+                <td class="color">{{ facture.createdAt|date('d-m-Y') }}</td>
+                <td class="color">{{ facture.reference }}</td>
+            </tr>
+        </table>
+        <ul id="coordonnes">
+            <li>{{ facture.commande.facturation.nom }} {{ facture.commande.facturation.prenom }}</li>
+            <li>{{ facture.commande.facturation.adresse}}</li>
+            <li>{{ facture.commande.facturation.cp }} {{ facture.commande.facturation.ville }} - {{ facture.commande.facturation.pays }}</li>
+        </ul>
+        <table id="entity">
+            <tr>
+                <td width="360">{{ "DESIGNATION" | trans }}</td>
+                <td width="105">{{ "QUANTITE" | trans }}</td>
+                <td width="115">{{ "P.U" | trans }} </td>
+                <td width="120">{{ "MONTANT" | trans }}</td>
+            </tr>
+                {% for produit in facture.commande.produit %}
+                <tr>
+                    <td class="color">{{ produit.reference }}</td>
+                    <td class="color">{{ produit.quantite }}</td>
+                    <td class="color">{{ formated_price(produit.prixHT,app.session.get('pays')) }}</td>
+                    <td class="color">{{ formated_price(produit.prixHT * produit.quantite,app.session.get('pays')) }}</td>
+                </tr>
+                {% endfor %}
+        </table>
+        <table id="total">
+            <tr>
+                <td width="110">{{ "TOTAL PRIX" | trans }} :</td>
+                <td width="100" class="color">{{ formated_price(facture.commande.prixHT,app.session.get('pays')) }}</td>
+            </tr>
+
+
+        </table>
+        <div id="footer">
+            <span class="color strong">{{ adresse }}</span>
+            <br />
+            {{  telephone }}
+        </div>
+    </body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,169 @@
+{% extends 'FrontendBundle::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('assets/css/category-2.css?v1') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/jquery-ui.css') }}" rel="stylesheet">
+
+{% endblock stylesheets %}
+
+{% block body %}
+    <section class="headerOffset" style="background-color: #ffffff;">
+        {#% include '@Frontend/Blocks/parallaxintro.html.twig' %#}
+        <input type="text" value="{{ cp }}" id="cp" style="display: none;">
+        <section class="main-container-wrapper clearfix" id="main-container-wrapper" style="background-color: #ffffff;padding-right:2%;padding-left: 2%;">
+            <div class="container main-container" style="max-width: 1600px;background-color: #ffffff">
+
+                <!-- Main component call to action -->
+
+                <div class="row" style="display: flex; align-items: center;">
+                    <div class="breadcrumbDiv"  >
+                        <ul class="breadcrumb">
+                            <li><a style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #ED0000 !important;" href="/">{{ "Home"|trans }}</a></li>
+                            {% if subcategorie %}
+                            <li style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #374649 !important;">
+                                {% if  app.session.get("pays").FrontLanguage  == 'en' or app.session.get("pays").FrontLanguage  == 'EN' %}{{ subcategorie.nomEn }}{% else %} {{ subcategorie.nom }}{% endif %}
+                            </li>
+                            {% endif %}
+
+                            {% if categorie %}
+                                <li style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #374649 !important;">
+                                    {% if app.session.get("pays").FrontLanguage  == 'en' or app.session.get("pays").FrontLanguage  == 'EN' %}{{ categorie.nomEn }}{% else %} {{ categorie.nom }}{% endif %}
+
+                                </li>
+                            {% endif %}
+
+
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="row">
+
+                     {% if produits.getTotalItemCount > 0 %}{{ include('@Frontend/Blocks/filterbar.html.twig', {"nb_produit" : produits.getTotalItemCount }) }}{% endif %}
+
+
+                    <div class="catColumnWrapper">
+                        {# left column #}
+                        {# right column #}
+                        <div class="col-lg-12 col-md-12 col-sm-12 categoryColumn">
+
+
+                            <div class="row  categoryProduct xsResponse clearfix">
+                                {% if produits.getTotalItemCount > 0 %}
+                                    {% for produit in produits %}
+                                        {{ include('@Frontend/Partial/produit.html.twig' , {'produit' : produit,'sizes' : produit.sizes}) }}
+                                        <div class="modal fade" id="modal-panier{{ produit.id }}" tabindex="-1" role="dialog"
+                                             aria-labelledby="productSetailsModalAjaxLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="background: #ED0000;">
+                                                        <h4 class="modal-title" id="exampleModalLongTitle" style="margin-top: 11px;font-family: Roboto-Regular,sans-serif">
+                                                            {{ "Acheter" | trans }}
+                                                        </h4>
+                                                        <button style="opacity: 1.2;margin-top: -36px;margin-right: -10px;background-color: #ED0000" type="button" class=" close" data-dismiss="modal" aria-label="Close">
+                                                            <span style="color: #ffffff" aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+
+                                                        <h3>{{"quantite_demander_indispo" | trans}}
+                                                            {% if app.request.getLocale()  == 'en' %}{{ produit.nomen }}{% else %}{{ produit.nom }}{% endif %} {{"est" | trans}}  <span id="idinputtwo{{ produit.id }}">  </span> </h3>
+
+
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+                                        <div class="modal fade" id="modal-quantity" tabindex="-1" role="dialog"
+                                             aria-labelledby="productSetailsModalAjaxLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="background: #ED0000;">
+                                                        <h4 class="modal-title" id="exampleModalLongTitle" style="margin-top: 11px;">
+                                                            {{ "Acheter" | trans }}
+                                                        </h4>
+                                                        <button style="opacity: 1.2;margin-top: -36px;margin-right: -10px;background-color: #df0c36" type="button" class=" close" data-dismiss="modal" aria-label="Close">
+                                                            <span style="color: #ffffff" aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        <h3>
+                                                            {{"La quantité doit ètre supèrieure à 0" | trans}}</h3>
+                                                    </div>
+                                                </div>
+                                                <!-- /.modal-content -->
+                                            </div>
+                                            <!-- /.modal-dialog -->
+                                        </div>
+
+                                    {% endfor %}
+                                {% else %}
+                                    <h3 style="color:#ED0000;font-family: Roboto-Regular,sans-serif;font-weight: 200"><i class="fa fa-exclamation-circle"></i>
+                                        {{ "Ce produit est temporairement indisponible" | trans }}</h3>
+                                {% endif %}
+                            </div>
+
+
+
+                            <div class="navigation">
+                                {{ knp_pagination_render(produits) }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {% if sous_categories %}
+                        <div class="row subCategoryList clearfix" style="margin-bottom: 10px;margin-left: 10px">
+                            <h3 class="section-title style2  text-left">
+                                <span >{{"Autres catégories" | trans}}</span></h3>
+
+                            {% for sub_categorie in sous_categories %}
+                                <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4  text-center "
+                                     style="height: 125px;margin-bottom:10px">
+                                    <div class="thumbnail"><a class="subCategoryThumb"
+                                                              href="{{ path("list_produit") }}?sub_categorie_id={{ sub_categorie.id }}">
+                                            <img data-original="/uploads/produits/{{ sub_categorie.image }}"
+                                                 src="{{ asset('/assets/img/default_t_e.jpg') }}"
+                                                 alt="img" class="img-responsive lazy" style="
+                                            width: fit-content; height:78px;object-fit : contain;">
+                                        </a> <a class="subCategoryTitle"><span> {{ sub_categorie.nom }} </span></a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+                <!-- /.row  -->
+            </div>
+            <!-- /main container -->
+        </section>
+    </section>
+{% endblock body %}
+{% block javascripts %}
+    {{ parent() }}
+
+
+    <script>
+        /*$( "#slider-range" ).slider({
+               range: true,
+               min: 0,
+               max: 5000,
+               values: [ {{ app.request.query.get('min_price',0) }}, {{ app.request.query.get('max_price', 3000) }} ],
+            slide: function( event, ui ) {
+                $( "#min_price" ).val(ui.values[ 0 ]);
+                $( "#max_price" ).val(ui.values[ 1]);
+            }
+        });
+        $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+                " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+*/
+
+    </script>
+{% endblock javascripts %}

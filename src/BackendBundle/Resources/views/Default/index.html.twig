@@ -1,0 +1,7 @@
+{% extends '@EasyAdmin/default/layout.html.twig' %}
+
+
+{% block main %}
+    Bienvenu  {{ app.user.username|default('user.unnamed'|trans(domain = 'EasyAdminBundle')) }}
+
+{% endblock %}

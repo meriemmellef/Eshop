@@ -1,0 +1,27 @@
+{% xlsdocument %}
+    {% xlssheet 'Worksheet' {
+        columnDimension: {
+            'default': {
+                autoSize: true
+            }
+        }
+    } %}
+        {% xlsrow %}
+            {% xlscell { style: { font: { size: '14' } }, margin: { left: '140' } } %}ID{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Email{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Nom{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Prenom{% endxlscell %}
+            {% xlscell { style: { font: { size: '14' } } } %}Tel{% endxlscell %}
+
+        {% endxlsrow %}
+        {% for Modele in Modeles %}
+            {% xlsrow %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.id }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.email }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.firstName  }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.lastName  }} {% endxlscell %}
+                {% xlscell { style: { font: { size: '10' } } } %}{{ Modele.tel }} {% endxlscell %}
+            {% endxlsrow %}
+        {% endfor %}
+    {% endxlssheet %}
+{% endxlsdocument %}

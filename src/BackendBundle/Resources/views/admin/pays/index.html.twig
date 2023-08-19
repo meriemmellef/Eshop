@@ -1,0 +1,154 @@
+{% extends '@Backend/layout/layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('remark/global/vendor/bootstrap-datepicker/bootstrap-datepicker.css') }}">
+{%  endblock  stylesheets %}
+{% block page %}
+    <div class="page">
+        <div class="page-content">
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid">
+                    <div class="row row-lg">
+
+
+                        <div class="col-lg-12">
+                            <!-- Example Bordered Table -->
+                            <div class="example-wrap">
+                                <div class="row row-lg">
+
+                                    <div class="col-lg-6">
+                                        <h4 class="example-title">{{ "Gestion Des Filiales"|trans }} </h4>
+                                    </div>
+                                    <div class="col-lg-6" >
+                                        <a href="{{ path('pays_new') }}" class="float-right btn btn-icon social-evernote waves-effect waves-classic"><i class="icon md-plus" aria-hidden="true"></i>
+                                            {{ "Ajouter"|trans }}</a>
+                                    </div>
+
+                                </div>
+                                <br>  <br>
+                                <div class="" >
+                                    <form class="row " style="align-items: center;max-width: 1520px;" action="{{ path('pays_index') }}" method="get">
+
+                                        <div class="col-lg-6 col-md-6 col-xs-6">
+                                            <select class="form-control" name="code" >
+                                                <option value="" disabled selected hidden>{{ 'choisir un pays'|trans }}</option>
+                                                {% if code == 'tous' %}
+                                                    <option class="dropdown-item" value="" role="menuitem" selected>
+                                                        {{ "Tous les filiale"|trans }}
+                                                    </option>
+                                                {% else %}
+                                                    <option class="dropdown-item" value="" role="menuitem" >
+                                                        {{ "Tous les filiale"|trans }}
+                                                    </option>
+                                                {% endif %}
+
+                                                {% for p in listpays %}
+                                                    {% if code is defined   %}
+                                                        {% if code == p.id %}
+                                                            <option class="dropdown-item" value="{{ p.id }}" role="menuitem" selected>
+                                                                {{ p.nom }}
+                                                            </option>
+                                                        {% else %}
+                                                            <option class="dropdown-item" value="{{ p.id }}" role="menuitem">
+                                                                {{ p.nom }}
+                                                            </option>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <option class="dropdown-item" value="{{ p.id }}" role="menuitem">
+                                                            {{ p.nom }}
+                                                        </option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-6  col-md-6 col-xs-6">
+                                            <button type="submit" class="float-right btn btn-icon social-evernote waves-effect waves-classic"><i class="icon icon md-search" aria-hidden="true"></i></button>                                    </div>
+
+                                    </form>
+                                    <hr>
+                                </div>
+
+                                <div class="example table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th class="text-left" style="width: 20%;padding-left: 20px " >{{ "Pays"|trans }}</th>
+                                            <th class="text-center" style="width: 5%">{{ "Langue"|trans }}</th>
+                                            <th  class="text-center" style="width: 20%">{{ "Site title"|trans }}</th>
+                                            <th  class="text-center" style="width: 15%">{{ "Devise"|trans }}</th>
+                                            {#                                             <th style="width: 20%">{{ "Devise Format"|trans }}</th>
+#}
+                                            <th  class="text-center" style="width: 20%">{{ "Timezone"|trans }}</th>
+                                            <th style="width: 20%" class="text-nowrap text-center">{{ "Action"|trans }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                        {% for p in pays %}
+                                            <tr style="padding-left: 8px">
+                                                <td class="text-left"   style="    vertical-align: middle;">
+                                                    <span class="flag-icon flag-icon-{{p.code}}" style="margin-right: 8px;"></span>
+                                                    {{ p.nom }}
+                                                </td>
+                                                <td class="text-center" style="  vertical-align: middle;">
+                                                    {{ p.front_language }}
+                                                </td>
+                                                <td class="text-center" style="    vertical-align: middle;">
+                                                    {{ p.web_site_title }}
+                                                </td>
+                                                <td class="text-center" style="    vertical-align: middle;">
+                                                    {{ p.devise }}
+                                                </td>
+                                                {#
+                                                      <td style="vertical-align: middle;">
+                                               1500.200 -> {{ formated_price(15002.10,p)}}
+                                            </td>
+                                                #}
+
+                                                <td class="text-center" style="    vertical-align: middle;">
+                                                    {{ p.timezone }}
+                                                </td>
+
+                                                <td class="text-center" style="    vertical-align: middle;">
+                                                    <a href="{{ path('pays_edit', {'id': p.id}) }}" class="btn btn-pure btn-default  md-edit waves-effect waves-classic " title="{{ "edit"|trans }}"
+                                                       style="color: #b1b1b1;border: 1px solid;"></a>
+
+                                                    {% if p.isActive == false %}
+                                                        <a class="btn md-lock-open" href="{{ path('pays_enable',{'id':p.id}) }}"  title="{{ "activer"|trans }}"
+                                                           style="color: #46bf8c!important;background-color: #ffffff !important;border: 1px solid;"></a>
+                                                    {% else %}
+                                                        <a class="btn md-lock-open" href="{{ path('pays_enable',{'id':p.id}) }}" title="{{ "deactivate"|trans }}"
+                                                           style="color: #b1b1b1!important;background-color: #ffffff !important;border: 1px solid;"></a>
+
+                                                    {% endif %}
+
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- End Example Bordered Table -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset('remark/global/vendor/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('remark/global/js/Plugin/bootstrap-datepicker.js') }}"></script>
+
+
+{%  endblock  javascripts %}

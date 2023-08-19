@@ -1,0 +1,392 @@
+<div class="site-menubar">
+    <div class="site-menubar-body">
+        <div>
+            <div>
+                <ul class="site-menu" data-plugin="menu">
+                    {% if app.user.hasRole("ROLE_SUPER_ADMIN") %}
+                    <li class="site-menu-category">{{ "Admin"|trans }}</li>
+                    <li class="site-menu-item has-sub ">
+                        <a class="animsition-link" href="{{ path('pays_index') }}">
+                            <i class="site-menu-icon icon md-format-list-bulleted" aria-hidden="true"></i>
+                            <span class="site-menu-title">{{ "Gestion Des Filiales"|trans }}</span>
+                        </a>
+                    </li>
+                    <li class="site-menu-item has-sub">
+                        <a href="{{ path('user_index') }}">
+                            <i class="site-menu-icon icon md-accounts-alt" aria-hidden="true"></i>
+                            <span class="site-menu-title">{{ "Gestion Des Managers"|trans }}</span>
+                        </a>
+                    </li>
+
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('categorie_admin_index') }}">
+                                <i class="site-menu-icon icon md-format-list-bulleted" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Gestion Des Categories"|trans }}</span>
+                            </a>
+                        </li>
+
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('sous_categorie_admin_index') }}">
+                                <i class="site-menu-icon icon md-view-list" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Gestion Des Sous Categories"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('produit_admin_index') }}">
+                                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Gestion Des Produits"|trans }}</span>
+                            </a>
+                        </li>
+
+
+
+                   {% endif %}
+                    {% if app.user.hasRole("ROLE_GESTIONNAIRE") %}
+                        <li class="site-menu-category">{{ "Administrateur"|trans }} </li>
+
+
+                        <li class="site-menu-item active">
+                            <a class="animsition-link" href="{{ path('dashboard_index') }}">
+                                <i class="site-menu-icon icon md-chart" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Dashboard"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub ">
+                            <a class="animsition-link" href="{{ path('edit_country') }}">
+                                <i class="site-menu-icon icon md-format-list-bulleted" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "edit_filiale"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('produit_gestion_toactivate_index') }}">
+                                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Catalogue"|trans }}</span>
+                            </a>
+                        </li>
+
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('categorie_index') }}">
+                                <i class="site-menu-icon icon md-format-list-bulleted" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Gestion Des Categories"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('sous_categorie_index') }}">
+                                <i class="site-menu-icon icon md-view-list" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Gestion Des Sous Categories"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('produit_gestion_index') }}">
+                                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Gestion Des Produits"|trans }}</span>
+                            </a>
+                        </li>
+
+
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('zone_index') }}">
+                                <i class="site-menu-icon icon md-pin" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Gestion Des Zones"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('station_index') }}">
+                                <i class="site-menu-icon icon md-pin" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Gestion Des Stations"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('gerant_index') }}">
+                                <i class="site-menu-icon icon md-account" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{"Gestion Des Gérants"|trans}}</span>
+                            </a>
+                        </li>
+
+                        <li class="site-menu-item has-sub" hidden>
+                            <a href="{{ path('produit_index') }}">
+                                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Validation Des Produits"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('coupon_index') }}">
+                                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Gestion Des Coupons"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('commande_index') }}">
+                                <i class="site-menu-icon icon md-money" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Liste Des Commandes"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('client_index') }}">
+                                <i class="site-menu-icon icon md-accounts-alt" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Liste Des Clients"|trans }}</span>
+                            </a>
+                        </li>
+
+
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('parametre_sms') }}">
+                                <i class="site-menu-icon icon md-smartphone-setting" aria-hidden="true"></i>
+                                <span class="site-menu-title">SMS</span>
+                            </a>
+                        </li>
+
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('parametre_mail') }}">
+                                <i class="site-menu-icon icon md-account-box-mail" aria-hidden="true"></i>
+                                <span class="site-menu-title">Mail</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if app.user.hasRole("ROLE_GERANT") %}
+                        <li class="site-menu-category">{{ "Gestionnaire Station"|trans }}</li>
+                        <li class="site-menu-item active">
+                            <a class="animsition-link" href="{{ path('dashboard_gerant_index') }}">
+                                <i class="site-menu-icon icon md-chart" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Dashboard"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('produit_toactivate_index') }}">
+                                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Catalogue"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('produit_gerant_index') }}">
+                                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Gestion Des Produits"|trans }}</span>
+                            </a>
+                        </li>
+
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('commande_gerant_index') }}">
+                                <i class="site-menu-icon icon md-money" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Liste Des Commandes"|trans }}</span>
+                            </a>
+                        </li>
+
+
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('client_gerant_index') }}">
+                                <i class="site-menu-icon icon md-accounts-alt" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{ "Liste Des Clients"|trans }}</span>
+                            </a>
+                        </li>
+                        <li class="site-menu-item has-sub">
+                            <a href="{{ path('horaire_gerant_index') }}">
+                                <i class="site-menu-icon icon md-settings" aria-hidden="true"></i>
+                                <span class="site-menu-title">{{"Paramètrage"|trans}}</span>
+                            </a>
+                        </li>
+
+
+
+                    {% endif %}
+                </ul>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<span style="font-size:30px;cursor:pointer;color: black" onclick="openNav()">&#9776; </span>
+
+
+
+<div id="mySidenav" class="sidenav">
+
+
+    <ul  data-plugin="menu">
+
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+            <i class="site-menu-icon icon md-close" aria-hidden="true"></i>
+        </a>
+
+        {% if app.user.hasRole("ROLE_SUPER_ADMIN") %}
+            <a class="animsition-link" href="{{ path('pays_index') }}">
+                <i class="site-menu-icon icon md-format-list-bulleted" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('user_index') }}">
+                <i class="site-menu-icon icon md-accounts-alt" aria-hidden="true"></i>
+            </a>
+
+            <a href="{{ path('categorie_admin_index') }}">
+                <i class="site-menu-icon icon md-format-list-bulleted" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('sous_categorie_admin_index') }}">
+                <i class="site-menu-icon icon md-view-list" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('produit_admin_index') }}">
+                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+            </a>
+
+            <a  href="{{ path('admin_logout') }}"  >
+                <i class="icon md-power" aria-hidden="true"></i>
+                </a>
+
+        {% endif %}
+        {% if app.user.hasRole("ROLE_GESTIONNAIRE") %}
+
+
+            <a class="animsition-link" href="{{ path('dashboard_index') }}">
+                <i class="site-menu-icon icon md-chart" aria-hidden="true"></i>
+            </a>
+
+            <a class="animsition-link" href="{{ path('edit_country') }}">
+                <i class="site-menu-icon icon md-format-list-bulleted" aria-hidden="true"></i>
+            </a>
+
+            <a href="{{ path('produit_gestion_toactivate_index') }}">
+                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+            </a>
+
+            <a href="{{ path('categorie_index') }}">
+                <i class="site-menu-icon icon md-format-list-bulleted" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('sous_categorie_index') }}">
+                <i class="site-menu-icon icon md-view-list" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('produit_gestion_index') }}">
+                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+            </a>
+
+
+            <a href="{{ path('zone_index') }}">
+                <i class="site-menu-icon icon md-pin" aria-hidden="true"></i>
+            </a>
+
+            <a href="{{ path('station_index') }}">
+                <i class="site-menu-icon icon md-pin" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('gerant_index') }}">
+                <i class="site-menu-icon icon md-account" aria-hidden="true"></i>
+            </a>
+
+            <li class="site-menu-item has-sub" hidden>
+                <a href="{{ path('produit_index') }}">
+                    <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+                </a>
+            </li>
+            <a href="{{ path('coupon_index') }}">
+                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('commande_index') }}">
+                <i class="site-menu-icon icon md-money" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('client_index') }}">
+                <i class="site-menu-icon icon md-accounts-alt" aria-hidden="true"></i>
+            </a>
+
+            <a href="{{ path('parametre_sms') }}">
+                <i class="site-menu-icon icon md-smartphone-setting" aria-hidden="true"></i>
+            </a>
+
+            <a href="{{ path('parametre_mail') }}">
+                <i class="site-menu-icon icon md-account-box-mail" aria-hidden="true"></i>
+            </a>
+
+
+            <a  href="{{ path('update_password') }}" >
+                <i class="icon md-account" aria-hidden="true"></i>
+                </a>
+            <a  href="{{ path('admin_logout') }}"  >
+                <i class="icon md-power" aria-hidden="true"></i>
+            </a>
+        {% endif %}
+
+        {% if app.user.hasRole("ROLE_GERANT") %}
+            <a class="animsition-link" href="{{ path('dashboard_gerant_index') }}">
+                <i class="site-menu-icon icon md-chart" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('produit_toactivate_index') }}">
+                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('produit_gerant_index') }}">
+                <i class="site-menu-icon icon md-card" aria-hidden="true"></i>
+            </a>
+
+            <a href="{{ path('commande_gerant_index') }}">
+                <i class="site-menu-icon icon md-money" aria-hidden="true"></i>
+            </a>
+
+            <a href="{{ path('client_gerant_index') }}">
+                <i class="site-menu-icon icon md-accounts-alt" aria-hidden="true"></i>
+            </a>
+            <a href="{{ path('horaire_gerant_index') }}">
+                <i class="site-menu-icon icon md-settings" aria-hidden="true"></i>
+            </a>
+
+
+            <a  href="{{ path('update_password') }}" ><i class="icon md-account" aria-hidden="true"></i>
+                {{ "profile"|trans }}</a>
+
+            <a  href="{{ path('admin_logout') }}" >
+                <i class="icon md-power" aria-hidden="true"></i>
+            </a>
+
+
+        {% endif %}
+    </ul>
+</div>
+
+
+<style>
+
+    .sidenav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 3;
+        top: 0;
+        left: 0;
+        background-color: #111;
+        overflow-x: hidden;
+        transition: 0.5s;
+
+    }
+
+    .sidenav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidenav a:hover {
+        color: #f1f1f1;
+    }
+
+    .sidenav .closebtn {
+        position: relative;
+        top: 0;
+        right: 0;
+        font-size: 25px;
+        margin-left: 50px;
+        height: 40px;
+        width: 40px;
+    }
+
+    @media screen and (max-height: 450px) {
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 18px;}
+    }
+
+
+</style>
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "160px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>

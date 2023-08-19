@@ -1,0 +1,1142 @@
+
+{{ form_start(form, {'attr': {'class': 'col-lg-12 '}}) }}
+{% set usernameplaceholder = "" %}
+<style>
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
+    .btn-file input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        font-size: 100px;
+        text-align: right;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        outline: none;
+        background: white;
+        cursor: inherit;
+        display: block;
+    }
+
+
+</style>
+<!-- Example Tabs Line Top -->
+<div class="panel" style="margin-top: 10px;padding: 15px">
+
+    {% if app.user.hasRole("ROLE_SUPER_ADMIN") %}
+
+    <div class="col-lg-12 text-center">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Pays"|trans({}, 'messages') }} <span style="color: #ED0000">*</span> :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.code, {'attr': {'class': 'btn btn-default dropdown-toggle waves-effect waves-classic text-uppercase'}}) }}
+
+                <h6 style="color: #ED0000">{{ form_errors(form.code) }}</h6>
+
+            </div>
+        </div>
+    </div>
+
+    {% endif %}
+
+    {#
+       <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Nom Filiale"|trans }}<span style="color: #ED0000">*</span> :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+    #}
+
+
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Code phone"|trans({}, 'messages') }}<span style="color: #ED0000">*</span> :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.codePhone, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Time_zone"|trans({}, 'messages') }}:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.timezone, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.timezone) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+</div>
+<div class="panel" style="margin-top: 10px;padding: 15px" >
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Devise"|trans({}, 'messages') }}<span style="color: #ED0000">*</span> :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.devise, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.devise) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{"Nb digits décimal"|trans({}, 'messages')}}<span style="color: #ED0000">*</span>:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.devise_nb_digits_decimal, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.devise_nb_digits_decimal) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{"Séparateur décimal"|trans({}, 'messages')}}:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.devise_decimal_separator, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.devise_decimal_separator) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{"Séparateur milliers"|trans({}, 'messages')}}:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.devise_thousands_separator, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.devise_thousands_separator) }}
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+</div>
+<div class="panel" style="margin-top: 10px;padding: 15px">
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{"Language par défaut"|trans({}, 'messages')}}:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.front_language, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.front_language) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+
+    <div class="row  row-lg"  style="padding:15px ">
+
+        <div class="col-lg-3 text-right">
+            <label>{{"show_carosel"|trans}}:</label>
+        </div>
+             <div class=" col-lg-6">
+            <label class="radio-inline" style="font-family: Roboto-regular, sans-serif;font-style: normal;font-weight: normal;font-size: 14px;line-height: 19px;color: #1B2746;flex: none;order: 1;flex-grow: 0;margin: 0px 4px;">
+                <input type="radio" name="hasphoto" required value="0" id="hasphoto" style="height:20px; width:20px; vertical-align: middle;"   checked  > &nbsp;{{ "Oui"|trans}}  &nbsp;
+            </label>
+            <label class="radio-inline"  style="font-family:Roboto-regular, sans-serif;font-style: normal;font-weight: normal;font-size: 14px;line-height: 19px;color: #1B2746;flex: none;order: 1;flex-grow: 0;margin: 0px 4px;">
+                <input type="radio" name="hasphoto"  required value="1"  id="hasnophoto"  style="height:20px; width:20px; vertical-align: middle;"   >  &nbsp;{{ "Non"|trans }}
+            </label>
+        </div>
+
+
+    </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+
+            <div class="col-lg-3 text-right">
+                <label>{{ "Image"|trans }}:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {% if pay.image1 %}
+                    <div style="padding-top: 20px;">
+                        <img class="" style="height: 50px;width: auto;  margin-left: auto;  margin-right: auto;  display: block;"
+                             src="{{ asset('uploads/produits/') }}{{ pay.image1 }}">
+
+                    </div>
+                {% endif %}
+                {{ form_widget(form.image1, {'attr': {'id': 'input-file-now', 'data-plugin':'dropify','data-default-file': '','style' : 'max-height: 100px;max-width:300px'}}) }}
+                <h6 style="color: #ED0000">{{ "image"|trans }} ( 1440 × 400 px)  {{ "maxsize"|trans }} (1024k)
+                </h6>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+            </div>
+            <div class="col-lg-6 text-left">
+                 <span style="color: red">
+                           {{ form_errors(form.image1) }}
+                 </span>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+
+            <div class="col-lg-3 text-right">
+                <label>{{ "Image"|trans }}:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {% if pay.image2 %}
+                    <div style="padding-top: 20px;">
+                        <img class="" style="height: 50px;width: auto;  margin-left: auto;  margin-right: auto;  display: block;"
+                             src="{{ asset('uploads/produits/') }}{{ pay.image2 }}">
+
+                    </div>
+                {% endif %}
+                {{ form_widget(form.image2, {'attr': {'id': 'input-file-now', 'data-plugin':'dropify','data-default-file': '','style' : 'max-height: 100px;max-width:300px'}}) }}
+                <h6 style="color: #ED0000">{{ "image"|trans }} ( 1440 × 400 px) {{ "maxsize"|trans }} (1024k)</h6>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+            </div>
+            <div class="col-lg-6 text-left">
+                 <span style="color: red">
+                           {{ form_errors(form.image2) }}
+                 </span>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+
+            <div class="col-lg-3 text-right">
+                <label>{{ "Image"|trans }}:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {% if pay.image3 %}
+                    <div style="padding-top: 20px;">
+                        <img class="" style="height: 50px;width: auto;  margin-left: auto;  margin-right: auto;  display: block;"
+                             src="{{ asset('uploads/produits/') }}{{ pay.image3 }}">
+
+                    </div>
+                {% endif %}
+                {{ form_widget(form.image3, {'attr': {'id': 'input-file-now', 'data-plugin':'dropify','data-default-file': '','style' : 'max-height: 100px;max-width:300px'}}) }}
+                <h6 style="color: #ED0000">{{ "image"|trans }} ( 1440 × 400 px) {{ "maxsize"|trans }} (1024k)</h6>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+            </div>
+            <div class="col-lg-6 text-left">
+                 <span style="color: red">
+                           {{ form_errors(form.image3) }}
+                 </span>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+
+            <div class="col-lg-3 text-right">
+                <label>{{ "Image"|trans }}:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {% if pay.image4 %}
+                    <div style="padding-top: 20px;">
+                        <img class="" style="height: 50px;width: auto;  margin-left: auto;  margin-right: auto;  display: block;"
+                             src="{{ asset('uploads/produits/') }}{{ pay.image4 }}">
+
+                    </div>
+                {% endif %}
+                {{ form_widget(form.image4, {'attr': {'id': 'input-file-now', 'data-plugin':'dropify','data-default-file': '','style' : 'max-height: 100px;max-width:300px'}}) }}
+                <h6 style="color: #ED0000">{{ "image"|trans }} ( 1440 × 400 px) {{ "maxsize"|trans }} (1024k)</h6>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+            </div>
+            <div class="col-lg-6 text-left">
+                 <span style="color: red">
+                           {{ form_errors(form.image4) }}
+                 </span>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Web site title"|trans }}<span style="color: #ED0000">*</span> :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.web_site_title, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.web_site_title) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Filiale website name"|trans }}<span style="color: #ED0000">*</span> :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.web_site_name_filiale, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.web_site_name_filiale) }}
+            </div>
+        </div>
+    </div>
+    {#
+        <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Filiale website url"|trans }}<span style="color: #ED0000">*</span> :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.web_site_url_filiale, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.web_site_url_filiale) }}
+            </div>
+        </div>
+    </div>
+    #}
+
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Comment commander sur le drive"|trans }} :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.how_to_buy_help, {'attr': {'class': 'form-control', 'style':"height:150px"}}) }}
+                {{ form_errors(form.how_to_buy_help) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Titre popup choix station"|trans }} :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.station_popup_title, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.station_popup_title) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Description popup choix station"|trans }} :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.station_popup_description, {'attr': {'class': 'form-control', 'style':"height:150px"}}) }}
+                {{ form_errors(form.station_popup_description) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+</div>
+<div class="panel" style="margin-top: 10px;padding: 15px">
+
+    <div class="col-lg-12">
+        <div class="row row-lg">
+
+
+            {#
+                        <label class="btn btn-primary" for="my-file-selector">
+                <input id="my-file-selector" type="file" style="display:none"
+                       onchange="$('#upload-file-info').text(this.files[0].name)">
+                Button Text Here
+            </label>
+            <span class='label label-info' id="upload-file-info"></span>
+    <div class="input-group input-group-file" data-plugin="inputGroupFile">
+                <input type="text" class="form-control" readonly="">
+                <span class="input-group-btn"> ' +
+                <span class="btn btn-default btn-file waves-effect waves-classic">
+                <i class="icon md-upload" aria-hidden="true"></i>
+                <input type="file"  accept="image/*" name="images[]">
+                </span>
+                </span>
+            </div>
+            #}
+
+
+
+
+            <div class="col-lg-3 text-right">
+                <label>CGU (pdf):</label>
+            </div>
+            <div class="col-lg-6 text-left input-group input-group-file " data-plugin="inputGroupFile">
+
+                <input  type="text" class="form-control"  readonly="" id="input_cgu_file_upload">
+
+
+                <span class="input-group-btn">
+
+                <span class="btn btn-default btn-file waves-effect waves-classic">
+                <i class="icon md-upload" aria-hidden="true"></i>
+
+                {{ form_widget(form.cgu_file_upload,{'attr': {'class': 'form-control' }}) }}
+
+                {% if pay %}<a target="_blank" href="{{ condition_general_directory }}/{{ pay.CguFile }}">{{ pay.CguFile }}</a>{% endif %}
+                </span>
+
+                </span>
+
+           </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+            </div>
+            <div class="col-lg-6 text-left">
+                 <span style="color: red">
+                                        {{ form_errors(form.cgu_file_upload) }}
+                 </span>
+            </div>
+        </div>
+
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>CGV (pdf):</label>
+            </div>
+            <div class="col-lg-6 text-left input-group input-group-file " data-plugin="inputGroupFile">
+
+                <input  type="text" class="form-control"  readonly="" id="input_cgv_file_upload">
+
+
+                <span class="input-group-btn">
+                <span class="btn btn-default btn-file waves-effect waves-classic">
+                <i class="icon md-upload" aria-hidden="true"></i>
+
+                {{ form_widget(form.cgv_file_upload, {'attr': {'class': 'form-control ','placeholder': 'usernameplaceholder'}}) }}
+
+
+                    {% if pay %}<a target="_blank" href="{{ condition_vente_directory }}/{{ pay.CgVFile }}">{{ pay.CgVFile }}</a>{% endif %}
+                </span>
+                </span>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+            </div>
+            <div class="col-lg-6 text-left">
+                 <span style="color: red">
+                          {{ form_errors(form.cgv_file_upload) }}
+                 </span>
+            </div>
+        </div>
+
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{"Données personnelles"|trans}} (pdf):</label>
+            </div>
+
+
+            <div class="col-lg-6 text-left input-group input-group-file " data-plugin="inputGroupFile">
+
+                <input  type="text" class="form-control"  readonly="" id="input_personel_data_file_upload">
+
+
+                <span class="input-group-btn">
+                <span class="btn btn-default btn-file waves-effect waves-classic">
+                <i class="icon md-upload" aria-hidden="true"></i>
+
+                {{ form_widget(form.personel_data_file_upload,{'attr': {'class': 'form-control','placeholder': 'usernameplaceholder'}}) }}
+
+
+                    {% if pay %}<a target="_blank" href="{{ personal_data_directory }}/{{ pay.PersonelDataFile }}">{{ pay.PersonelDataFile }}</a>{% endif %}
+                </span>
+                </span>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+            </div>
+            <div class="col-lg-6 text-left">
+                 <span style="color: red">
+                          {{ form_errors(form.personel_data_file_upload) }}
+                 </span>
+            </div>
+        </div>
+
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{"Montions légales"|trans}} (pdf):</label>
+            </div>
+
+            <div class="col-lg-6 text-left input-group input-group-file " data-plugin="inputGroupFile">
+
+                <input  type="text" class="form-control"  readonly="" id="input_mention_legale_file_upload">
+
+
+                <span class="input-group-btn">
+                <span class="btn btn-default btn-file waves-effect waves-classic">
+                <i class="icon md-upload" aria-hidden="true"></i>
+
+                {{ form_widget(form.mention_legale_file_upload,{'attr': {'class': 'form-control','placeholder': 'usernameplaceholder'}}) }}
+
+
+                    {% if pay %}<a target="_blank" href="{{ legal_notice_directory }}/{{ pay.MentionLegaleFile }}">{{ pay.MentionLegaleFile }}</a>{% endif %}
+                </span>
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+            </div>
+            <div class="col-lg-6 text-left">
+                 <span style="color: red">
+                           {{ form_errors(form.mention_legale_file_upload) }}
+                 </span>
+            </div>
+        </div>
+
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Rappel RGPD Text"|trans }}:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.rappel_rgpd_text, {'attr': {'class': 'form-control',"style":"height:300px"}}) }}
+                {{ form_errors(form.rappel_rgpd_text) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{"Bannière Cookies Text"|trans}}:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.cookies_banner, {'attr': {'class': 'form-control',"style":"height:300px"}}) }}
+                {{ form_errors(form.cookies_banner) }}
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="panel" style="margin-top: 10px;padding: 15px">
+
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>Transport:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.mail_transport, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.mail_transport) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Username"|trans }}<span style="color: #ED0000">*</span>:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.mail_username, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.mail_username) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Password"|trans }}<span style="color: #ED0000">*</span> :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.mail_password, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.mail_password) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Host"|trans }}<span style="color: #ED0000">*</span> :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.mail_host, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.mail_host) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>Port<span style="color: #ED0000">*</span> :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.mail_port, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.mail_port) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Encryption"|trans }}<span style="color: #ED0000">*</span> :</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.mail_encryption, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.mail_encryption) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="col-lg-12">
+        <div class="row row-lg">
+            <div class="col-lg-3 text-right">
+                <label>{{ "Auth Mode"|trans }}:</label>
+            </div>
+            <div class="col-lg-6 text-left">
+                {{ form_widget(form.mail_auth_mode, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.mail_auth_mode) }}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    {#
+      <div class="col-lg-12 text-center">
+        <button class="btn  social-evernote  waves-effect waves-classic">{{ 'Enregistrer'|trans }}</button>
+    </div>
+    #}
+    {% if app.user.hasRole("ROLE_SUPER_ADMIN") %}
+        <div class="row col-lg-12 text-center">
+            <div class="col-lg-6 text-right">
+                <button class="btn social-evernote  waves-effect waves-classic">{{ 'Enregistrer'|trans }}</button>
+            </div>
+
+
+            <div class="col-lg-6 text-left">
+                <a href="{{ path('pays_index') }}" style=" background-color: #ed0000 !important;  border-color: #ed0000!important;" class="btn   btn-danger waves-effect waves-classic">{{ 'back'|trans }}</a>
+            </div>
+        </div>
+    {% else %}
+
+        <div class="row col-lg-12 text-center">
+            <div class="col-lg-12 text-center">
+                <button class="btn social-evernote  waves-effect waves-classic">{{ 'Enregistrer'|trans }}</button>
+            </div>
+
+
+
+        </div>
+
+
+    {% endif %}
+
+
+</div>
+
+<!-- End Example Tabs Line Top
+<script>
+
+    $("[type=file]").on("change", function(){
+        // Name of file and placeholder
+        var file = this.files[0].name;
+        var dflt = $(this).attr("placeholder");
+        if($(this).val()!=""){
+            $(this).next().text(file);
+        } else {
+            $(this).next().text(dflt);
+        }
+    });
+    $('input[type=file][name="pays[cgu_file_upload]"]').change(function() {
+        if (this.value == 'allot') {
+            alert("Allot Thai Gayo Bhai");
+        }
+        else if (this.value == 'transfer') {
+            alert("Transfer Thai Gayo");
+        }
+    });
+
+</script>
+-->
+{{ form_end(form) }}
+{% block javascripts %}
+
+     <script src="{{ asset('remark/global/js/Plugin/input-group-file.js')}}"></script>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    <script type="text/javascript" >
+        $("#pays_cgu_file_upload").change(function(){
+           // alert($("#pays_cgu_file_upload").val());
+            content = $("#pays_cgu_file_upload").val() ;
+            $('#input_cgu_file_upload').val(content);
+        });
+
+        $("#pays_cgv_file_upload").change(function(){
+           // alert($("#pays_cgu_file_upload").val());
+            content = $("#pays_cgv_file_upload").val() ;
+            $('#input_cgv_file_upload').val(content);
+        });
+
+        $("#pays_personel_data_file_upload").change(function(){
+           // alert($("#pays_cgu_file_upload").val());
+            content = $("#pays_personel_data_file_upload").val() ;
+            $('#input_personel_data_file_upload').val(content);
+        });
+
+        $("#pays_mention_legale_file_upload").change(function(){
+           // alert($("#pays_cgu_file_upload").val());
+            content = $("#pays_mention_legale_file_upload").val() ;
+            $('#input_mention_legale_file_upload').val(content);
+        });
+
+    </script>
+{% endblock %}
+
+{#
+
+
+
+{{ form_start(form, {'attr': {'class': 'col-lg-12 '}}) }}
+
+<div class="col-xl-12">
+    <!-- Example Tabs Line Top -->
+    <div class="example-wrap">
+        <div class="nav-tabs-horizontal" data-plugin="tabs">
+            <ul class="nav nav-tabs nav-tabs-line tabs-line-top" role="tablist">
+                <li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="#exampleTabsLineTopOne" aria-controls="exampleTabsLineTopOne" role="tab">{{ "Pays"|trans }}</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#exampleTabsLineTopTwo" aria-controls="exampleTabsLineTopTwo" role="tab">{{ "Devise"|trans }}</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#exampleTabsLineTopThree" aria-controls="exampleTabsLineTopThree" role="tab">{{ "Content"|trans }}</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#exampleTabsLineTopFour" aria-controls="exampleTabsLineTopThree" role="tab">
+                        {{"Conditions Générales"|trans}}</a></li>
+                <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#exampleTabsLineTopFive" aria-controls="exampleTabsLineTopFour" role="tab">SMTP</a></li>
+            </ul>
+            <div class="tab-content pt-20">
+                <div class="tab-pane active" id="exampleTabsLineTopOne" role="tabpanel">
+                    <div class="col-lg-12 text-center">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Code Filiale"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.code, {'attr': {'class': 'btn btn-default dropdown-toggle waves-effect waves-classic text-uppercase'}}) }}
+
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Nom Filiale"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Timezone"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.timezone, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.timezone) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                </div>
+                <div class="tab-pane" id="exampleTabsLineTopTwo" role="tabpanel">
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Devise"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.devise, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.devise) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{"Nb digits décimal"|trans}}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.devise_nb_digits_decimal, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.devise_nb_digits_decimal) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{"Séparateur décimal"|trans}}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.devise_decimal_separator, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.devise_decimal_separator) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{"Séparateur milliers"|trans}}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.devise_thousands_separator, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.devise_thousands_separator) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <br><br>
+                </div>
+                <div class="tab-pane" id="exampleTabsLineTopThree" role="tabpanel">
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{"Language par défaut"|trans}}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.front_language, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.front_language) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Web site title"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.web_site_title, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.web_site_title) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Filiale website name"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.web_site_name_filiale, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.web_site_name_filiale) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Filiale website url"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.web_site_url_filiale, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.web_site_url_filiale) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Comment commander sur le drive"|trans }} :</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.how_to_buy_help, {'attr': {'class': 'form-control', 'style':"height:150px"}}) }}
+                                {{ form_errors(form.how_to_buy_help) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Titre popup choix station"|trans }} :</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.station_popup_title, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.station_popup_title) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Description popup choix station"|trans }} :</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.station_popup_description, {'attr': {'class': 'form-control', 'style':"height:150px"}}) }}
+                                {{ form_errors(form.station_popup_description) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                </div>
+                <div class="tab-pane" id="exampleTabsLineTopFour" role="tabpanel">
+
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>CGU:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.cgu_file_upload, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.cgu_file_upload) }}
+                                {% if pay %}<a target="_blank" href="{{ condition_general_directory }}/{{ pay.CguFile }}">{{ pay.CguFile }}</a>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>CGV:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.cgv_file_upload, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.cgv_file_upload) }}
+                                {% if pay %}<a target="_blank" href="{{ condition_vente_directory }}/{{ pay.CgVFile }}">{{ pay.CgVFile }}</a>{% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{"Données personnelles"|trans}}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.personel_data_file_upload, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.personel_data_file_upload) }}
+                                {% if pay %}<a target="_blank" href="{{ personal_data_directory }}/{{ pay.PersonelDataFile }}">{{ pay.PersonelDataFile }}</a>{% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{"Montions légales"|trans}}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.mention_legale_file_upload, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.mention_legale_file_upload) }}
+                                {% if pay %}<a target="_blank" href="{{ legal_notice_directory }}/{{ pay.MentionLegaleFile }}">{{ pay.MentionLegaleFile }}</a>{% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Rappel RGPD Text"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.rappel_rgpd_text, {'attr': {'class': 'form-control',"style":"height:300px"}}) }}
+                                {{ form_errors(form.rappel_rgpd_text) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{"Bannière Cookies Text"|trans}}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.cookies_banner, {'attr': {'class': 'form-control',"style":"height:300px"}}) }}
+                                {{ form_errors(form.cookies_banner) }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane" id="exampleTabsLineTopFive" role="tabpanel">
+
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>Transport:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.mail_transport, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.mail_transport) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Username"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.mail_username, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.mail_username) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Password"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.mail_password, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.mail_password) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Host"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.mail_host, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.mail_host) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>Port:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.mail_port, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.mail_port) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Encryption"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.mail_encryption, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.mail_encryption) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="col-lg-12">
+                        <div class="row row-lg">
+                            <div class="col-lg-3 text-right">
+                                <label>{{ "Auth Mode"|trans }}:</label>
+                            </div>
+                            <div class="col-lg-6 text-left">
+                                {{ form_widget(form.mail_auth_mode, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_errors(form.mail_auth_mode) }}
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Example Tabs Line Top -->
+</div>
+<div class="col-lg-12 text-center">
+    <button class="btn btn-dark  waves-effect waves-classic">{{ button_label|default('Ajouter Filiale') }}</button>
+</div>
+{{ form_end(form) }}
+
+#}

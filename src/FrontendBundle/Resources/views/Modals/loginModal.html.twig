@@ -1,0 +1,55 @@
+<div class="modal signUpContent fade" id="ModalLogin" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form role="form" class="logForm " action="{{ path("fos_user_security_check") }}" method="post">
+                {% render(controller("FrontendBundle:User:csrfUserForm")) %}
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
+                    <h3 class="modal-title-site text-center"> {{ "Login"|trans}} </h3>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group login-username">
+                        <div>
+                            <input type="text" name="_username" class="form-control input"
+                                   placeholder="Nom d'utilisateur">
+                        </div>
+                    </div>
+                    <div class="form-group login-password">
+                        <div>
+                            <input type="password" name="_password" class="form-control input"
+                                   placeholder="Mot de passe">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <div class="checkbox login-remember">
+                                <label>
+                                    <input type="checkbox" name="checkbox" id="remember_me" name="_remember_me"
+                                           value="on">
+                                    Garder ma session active </label>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <input name="submit" class="btn  btn-block btn-lg btn-primary" value="SE CONNECTER"
+                                       type="submit">
+                            </div>
+                        </div>
+                        <!--userForm-->
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <p class="text-center"> Nouveau client ? <a href="{{ path('fos_user_registration_register') }}"> Commencer ici. </a> <br>
+                    <a href="{{ path('fos_user_resetting_request') }}"> Mot de passe oublié? </a></p>
+                </div>
+
+
+            </form>
+            <!-- /.modal-content -->
+
+        </div>
+        <!-- /.modal-dialog -->
+
+    </div>
+</div>

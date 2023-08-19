@@ -1,0 +1,165 @@
+{% extends 'FrontendBundle:Layouts:layoutBreadcrumps.html.twig' %}
+
+
+    {% block breadcrump %}
+       <div class="row" style="margin-right: 2%;margin-left: 2%">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+
+                <li><a style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #ED0000 !important;" href="/">{{ "Home"|trans({}, 'messages') }}</a></li>
+                <li><a style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #ED0000 !important;" href="/">{{ app.user }}</a></li>
+
+                <li style="font-family: Roboto-Regular, sans-serif;font-size: 12px;font-weight: 400;color: #374649 !important;">
+                    {{ "Mon Compte"|trans({}, 'messages') }}</li>
+            </ul>
+        </div>
+    </div>
+        {% for type, messages in app.session.flashBag.all %}
+            {% for message in messages %}
+                <div class="alert {{ type }}">
+                    {{ message|trans({}, 'FOSUserBundle') }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endblock breadcrump %}
+    {% block content %}
+
+            <div class="col-lg-12 col-md-12 col-sm-12">
+
+                <div class="row userInfo">
+                    <div class="col-lg-9 col-md-9 col-xs-12 col-sm-12">
+
+                        <span hidden class="titre_7_menu">{{ "Bienvenue_sur_votre_compte"|trans({}, 'messages') }}</span>
+
+
+                        <ul class="myAccountList row float-right  hidden-xs">
+
+                            <li class="col-lg-3 col-md-4 col-sm-6 col-xs-6   " style="text-align: -webkit-center;display: inline-block;margin-bottom: 20px " >
+                                <div class=" " style="height: 180px;width:180px;background: #F7F9FA;border-radius: 18px;">
+                                    <a title="Orders" href="{{ path("facture") }}" style="height: 30%; display: block; margin: 0 auto;" >
+                                    </a>
+                                    <a title="Orders" href="{{ path("facture") }}" style="height: 50%; display: block; margin: 0 auto;" >
+                                        <i  style="color: #ed0000 "  class="fa fa-cube"></i>
+                                         </a>
+
+                                    <a title="Orders" href="{{ path("facture") }}"  >
+                                        {{ "Mes Commandes"|trans({}, 'messages') }}   </a>
+                                </div>
+                            </li>
+                            <li class="col-lg-3 col-md-4 col-sm-6 col-xs-6  " style="text-align: -webkit-center;display: inline-block;margin-bottom: 20px ">
+                                <div class="" style="height: 180px;width:180px;background: #F7F9FA;border-radius: 18px">
+                                    <a title="Orders" href="{{ path("favoris") }}" style="height: 30%; display: block; margin: 0 auto;">
+                                          </a>
+                                    <a title="Orders" href="{{ path("favoris") }}" style="height: 50%; display: block; margin: 0 auto;">
+                                        <i  style="color: #ed0000" class="fa fa-star"></i>  </a>
+
+                                    <a title="Orders" href="{{ path("favoris") }}" >
+                                     {{ "Mes Favoris"|trans({}, 'messages') }} </a>
+
+
+                                </div>
+                            </li>
+                            <li class="col-lg-3 col-md-4 col-sm-6 col-xs-6  " style="text-align: -webkit-center;display: inline-block;margin-bottom: 20px ">
+                                <div class="" style="height: 180px;width:180px;background: #F7F9FA;border-radius: 18px">
+                                    <a title="{{ "Mesinformations"|trans({}, 'messages') }}"    href="{{ path("fos_user_profile_edit") }}" style="height: 30%; display: block; margin: 0 auto;">
+                                    </a>
+                                    <a title="{{ "Mesinformations"|trans({}, 'messages') }}"    href="{{ path("fos_user_profile_edit") }}" style="height: 50%; display: block; margin: 0 auto;"><i  style="color: #ed0000" class="fa fa-user"></i>
+                                    </a>
+                                    <a title="{{ "Mesinformations"|trans({}, 'messages') }}"    href="{{ path("fos_user_profile_edit") }}" >
+                                    {{"Mesinformations"|trans({}, 'messages') }}</a></div>
+                            </li>
+                            <li class="col-lg-3 col-md-4 col-sm-6 col-xs-6  " style="text-align: -webkit-center;display: inline-block;margin-bottom: 20px ">
+                                <div class="" style="height: 180px;width:180px;background: #F7F9FA;border-radius: 18px">
+                                    <a  title="{{"Changer mon mot de passe"|trans({}, 'messages') }}" href="{{ path("fos_user_change_password") }}" style="height: 25%; display: block; margin: 0 auto;">
+                                        </a>
+                                    <a  title="{{"Changer mon mot de passe"|trans({}, 'messages') }}" href="{{ path("fos_user_change_password") }}" style="height: 50%; display: block; margin: 0 auto;"> <i
+                                                style="color: #ed0000"   class="fa fa-edit"> </i> </a>
+                                    <a style="padding-right: 10px;padding-left: 10px" title="{{"Changer mon mot de passe"|trans({}, 'messages') }}" href="{{ path("fos_user_change_password") }}" >
+                                     {{ "Changer mon mot de passe"|trans({}, 'messages') }}</a>
+
+                                </div>
+                            </li>
+
+
+                            {#
+                                 <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4   " >
+                                <div hidden >
+                                    <a title="My addresses" href="{{ path("profile_adresse") }}"><i
+                                                class="fa fa-map-marker"></i> Mes adresses</a>
+                                </div>
+                            </li>
+                            #}
+                        </ul>
+                        <ul class="myAccountList row float-right hidden-lg hidden-md hidden-sm">
+
+                            <li class="col-xs-6 " style="text-align: -webkit-center;display: inline-block;margin-bottom: 20px " >
+                                <div class=" " style="height: 180px;border-radius: 18px;background: #F7F9FA;">
+                                    <a title="Orders" href="{{ path("facture") }}" style="height: 30%; display: block; margin: 0 auto;" >
+                                    </a>
+                                    <a title="Orders" href="{{ path("facture") }}" style="height: 50%; display: block; margin: 0 auto;" >
+                                        <i  style="color: #ed0000 "  class="fa fa-cube"></i>
+                                    </a>
+
+                                    <a title="Orders" href="{{ path("facture") }}"  >
+                                        {{ "Mes Commandes"|trans({}, 'messages') }}   </a>
+                                </div>
+                            </li>
+                            <li class="col-xs-6  " style="text-align: -webkit-center;display: inline-block;margin-bottom: 20px ">
+                                <div class="" style="height: 180px;background: #F7F9FA;border-radius: 18px">
+                                    <a title="Orders" href="{{ path("favoris") }}" style="height: 30%; display: block; margin: 0 auto;">
+                                    </a>
+                                    <a title="Orders" href="{{ path("favoris") }}" style="height: 50%; display: block; margin: 0 auto;">
+                                        <i  style="color: #ed0000" class="fa fa-star"></i>  </a>
+
+                                    <a title="Orders" href="{{ path("favoris") }}" >
+                                        {{ "Mes Favoris"|trans ({}, 'messages')}} </a>
+
+
+                                </div>
+                            </li>
+                            <li class="col-xs-6  " style="text-align: -webkit-center;display: inline-block;margin-bottom: 20px ">
+                                <div class="" style="height: 180px;background: #F7F9FA;border-radius: 18px">
+                                    <a title="{{ "Mesinformations"|trans({}, 'messages') }}"    href="{{ path("fos_user_profile_edit") }}" style="height: 30%; display: block; margin: 0 auto;">
+                                    </a>
+                                    <a title="{{ "Mesinformations"|trans({}, 'messages') }}"    href="{{ path("fos_user_profile_edit") }}" style="height: 50%; display: block; margin: 0 auto;"><i  style="color: #ed0000" class="fa fa-user"></i>
+                                    </a>
+                                    <a title="{{ "Mesinformations"|trans({}, 'messages') }}"    href="{{ path("fos_user_profile_edit") }}" >
+                                        {{"Mesinformations"|trans({}, 'messages') }}</a></div>
+                            </li>
+                            <li class=" col-xs-6  " style="text-align: -webkit-center;display: inline-block;margin-bottom: 20px ">
+                                <div class="" style="height: 180px;background: #F7F9FA;border-radius: 18px">
+                                    <a  title="{{"Changer mon mot de passe"|trans({}, 'messages') }}" href="{{ path("fos_user_change_password") }}" style="height: 25%; display: block; margin: 0 auto;">
+                                    </a>
+                                    <a  title="{{"Changer mon mot de passe"|trans({}, 'messages') }}" href="{{ path("fos_user_change_password") }}" style="height: 50%; display: block; margin: 0 auto;"> <i
+                                                style="color: #ed0000"   class="fa fa-edit"> </i> </a>
+                                    <a style="padding-right: 10px;padding-left: 10px" title="{{"Changer mon mot de passe"|trans({}, 'messages') }}" href="{{ path("fos_user_change_password") }}" >
+                                        {{ "Changer mon mot de passe"|trans({}, 'messages') }}</a>
+
+                                </div>
+                            </li>
+
+                            {#
+                                 <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4   " >
+                                <div hidden >
+                                    <a title="My addresses" href="{{ path("profile_adresse") }}"><i
+                                                class="fa fa-map-marker"></i> Mes adresses</a>
+                                </div>
+                            </li>
+                            #}
+                        </ul>
+
+
+                    </div>
+                </div>
+                <!--/row end-->
+
+            </div>
+
+        <!--/row-->
+
+        <style>
+            .footer{
+                visibility: hidden;
+            }
+        </style>
+    {% endblock  %}

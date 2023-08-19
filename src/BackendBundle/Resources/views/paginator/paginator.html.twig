@@ -1,0 +1,33 @@
+{% if pageCount > 1 %}
+
+    <div class="dataTables_paginate paging_simple_numbers" id="exampleTableSearch_paginate" >
+        <ul class="pagination"  style="justify-content: flex-end;">
+
+        {% if previous is defined  %}
+            <li class="paginate_button page-item previous disabled" id="exampleTableSearch_previous">
+                <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}" aria-controls="exampleTableSearch" data-dt-idx="0" tabindex="0" class="page-link">{{ "Previous"|trans }}</a>
+            </li>
+        {% endif %}
+
+        {% for page in pagesInRange %}
+            <li class="paginate_button page-item {% if page == current %} active  {% endif %}">
+                <a href="{{ path(route, query|merge({(pageParameterName): page})) }}" aria-controls="exampleTableSearch" data-dt-idx="1" tabindex="0" class="page-link">{{ page }}</a>
+            </li>
+        {% endfor %}
+            {% if next is defined %}
+                <li class="paginate_button page-item next" id="exampleTableSearch_next">
+                    <a href="{{ path(route, query|merge({(pageParameterName): next})) }}" aria-controls="exampleTableSearch" data-dt-idx="6" tabindex="0" class="page-link">{{ "Next"|trans }}</a>
+                </li>
+            {% endif %}
+
+
+
+            {% if last is defined and current != last %}
+                <li class="paginate_button page-item ">
+                    <a href="{{ path(route, query|merge({(pageParameterName): last})) }}" aria-controls="exampleTableSearch" data-dt-idx="1" tabindex="0" class="page-link">{{ "last"|trans }}</a>
+                </li>
+            {% endif %}
+
+    </ul>
+</div>
+{% endif %}

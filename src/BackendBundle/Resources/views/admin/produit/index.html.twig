@@ -1,0 +1,380 @@
+{% extends '@Backend/layout/layout.html.twig' %}
+
+
+{% block page %}
+    <div class="page">
+
+
+        <div class="page-header">
+            <h1 class="page-title">{{ "Gestion Des Produits"|trans }}</h1>
+
+            <div class="page-header-actions">
+                <div class="row">
+                    <div class="col-lg-6 ">
+                        <div class="media-body text-center">
+                            <h4 class="mt-0 mb-5" style="color: #f02138;margin-bottom: 0px!important;"> {{ nbproduits|length }}</h4>
+                            <small style="">{{ "Produits"|trans }}</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 ">
+                        <a href="{{ path('new_produit_admin') }}" style="margin-top: 3px;" class="float-right btn btn-sm btn-icon social-evernote waves-effect waves-classic">
+                            <i class="icon md-plus" aria-hidden="true"></i> {{ "Ajouter"|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-content" style="padding-top: 0 !important;padding-bottom: 0 !important;">
+            <!-- Panel -->
+            <div class="panel" >
+                <div class="panel-body container-fluid" style="padding: 0 !important;">
+                    <div class="row row-lg">
+
+
+                        <div class="col-lg-12">
+                            <!-- Example Bordered Table -->
+                            <table class="table table-bordered" style="border: none;">
+                                <thead>
+                                <tr style="border-bottom: 1px solid #f3f3f3;">
+                                    <th style="border: none;">{{ "Filtre"|trans }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td style="border: none;">
+                                        <form  class="row" style="align-items: center;max-width: 1520px;" action="{{ path('produit_admin_index') }}" method="get">
+                                            <div class="col-lg-3  col-md-3 col-xs-3">
+                                                <label class="control-label">{{ "Produit"|trans }}</label>
+                                                <input type="text" class="form-control" name="search" value="{% if search is defined %}{{search}}{% endif %}" placeholder={{ "Produit"|trans }}>
+                                            </div>
+                                            <div class="col-lg-3  col-md-3 col-xs-3" style="z-index: 1">
+                                                <label class="control-label">{{"Catégorie"|trans}}</label>
+                                                <select class="form-control" name="categorie" placeholder={{"choisir une catégorie"|trans}}>
+                                                    <option value="" disabled selected hidden>{{"choisir une catégorie"|trans}}</option>
+                                                    {% if categorie == '' %}
+                                                        <option class="dropdown-item" value="" role="menuitem" selected>
+                                                            {{ "Toutes les categories"|trans }}
+                                                        </option>
+                                                    {% else %}
+                                                        <option class="dropdown-item" value="" role="menuitem" >
+                                                            {{ "Toutes les categories"|trans }}
+                                                        </option>
+                                                    {% endif %}
+
+                                                    {% for c in categories %}
+                                                        {% if categorie is defined   %}
+                                                            {% if categorie == c.id %}
+                                                                <option class="dropdown-item" value="{{ c.id }}" role="menuitem" selected>
+                                                                    {% if app.request.getLocale()  == 'fr' %}
+                                                                        {{ c.nom }}
+
+                                                                    {% else %}
+                                                                        {{ c.nom_en }}
+                                                                    {% endif %}
+                                                                </option>
+                                                            {% else %}
+                                                                <option class="dropdown-item" value="{{ c.id }}" role="menuitem">
+                                                                    {% if app.request.getLocale()  == 'fr' %}
+                                                                        {{ c.nom }}
+
+                                                                    {% else %}
+                                                                        {{ c.nom_en }}
+                                                                    {% endif %}
+                                                                </option>
+                                                            {% endif %}
+                                                        {% else %}
+                                                            <option class="dropdown-item" value="{{ c.id }}" role="menuitem">
+                                                                {% if app.request.getLocale()  == 'fr' %}
+                                                                    {{ c.nom }}
+
+                                                                {% else %}
+                                                                    {{ c.nom_en }}
+                                                                {% endif %}
+                                                            </option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-3  col-md-3 col-xs-3" style="z-index: 1">
+                                                <label class="control-label">{{"Sous Catégorie"|trans}}</label>
+                                                <select class="form-control" name="souscategorie" placeholder={{ "choisir une sous catégorie"|trans }}>
+                                                    <option value="" disabled selected hidden>{{ "choisir une sous catégorie"|trans }}</option>
+                                                    {% if souscategorie== '' %}
+                                                        <option class="dropdown-item" value="" role="menuitem" selected>
+                                                            {{ "Toutes les sous categories"|trans }}
+                                                        </option>
+                                                    {% else %}
+                                                        <option class="dropdown-item" value="" role="menuitem" >
+                                                            {{ "Toutes les sous categories"|trans }}
+                                                        </option>
+                                                    {% endif %}
+
+                                                    {% for sc in souscategories %}
+                                                        {% if souscategorie is defined   %}
+                                                            {% if souscategorie == sc.id %}
+                                                                <option class="dropdown-item" value="{{ sc.id }}" role="menuitem" selected>
+
+                                                                    {% if app.request.getLocale()  == 'fr' %}
+                                                                        {{ sc.nom }}
+
+                                                                    {% else %}
+                                                                        {{ sc.nom_en }}
+                                                                    {% endif %}
+                                                                </option>
+                                                            {% else %}
+                                                                <option class="dropdown-item" value="{{ sc.id }}" role="menuitem">
+                                                                    {% if app.request.getLocale()  == 'fr' %}
+                                                                        {{ sc.nom }}
+
+                                                                    {% else %}
+                                                                        {{ sc.nom_en }}
+                                                                    {% endif %}
+                                                                </option>
+                                                            {% endif %}
+                                                        {% else %}
+                                                            <option class="dropdown-item" value="{{ sc.id }}" role="menuitem">
+                                                                {% if app.request.getLocale()  == 'fr' %}
+                                                                    {{ sc.nom }}
+
+                                                                {% else %}
+                                                                    {{ sc.nom_en }}
+                                                                {% endif %}                                                            </option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div style="padding-top: 10px"  class="col-lg-3  col-md-3 col-xs-3 text-right">
+                                                <button type="submit" style="margin-right: 10px;"  class="btn btn-icon social-evernote waves-effect waves-classic">
+                                                    <i class="icon icon md-search" aria-hidden="true"></i>
+                                                </button>
+                                                <a href="{{ path('ExportProduit_admin') }}"  style="margin-right: 10px;" class="float-right btn  btn-icon  btn-dark waves-effect waves-classic waves-effect waves-classic">
+                                                    <i class="icon md-download" aria-hidden="true"></i> {{ "exporter"|trans }}</a>
+                                            </div>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- End Example Bordered Table -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+        <div class="page-content" style="padding-top: 0px " >
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid"  style="padding-left: 0px !important;padding-right: 0px !important;padding-top: 0px !important;padding-bottom: 0px !important;">
+                    <div class="row row-lg">
+
+
+                        <div class="col-lg-12">
+                            <!-- Example Bordered Table -->
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr >
+                                    <th style="width: 20%;padding-left: 20px;" >{{ "Image"|trans }}</th>
+                                    <th style="width: 15%">{{ "Nom/Code"|trans }}</th>
+                                    <th style="width: 15%">{{"Fiche_technique"|trans}}</th>
+
+                                    <th style="width: 15%">{{"Catégorie"|trans}}</th>
+                                    <th style="width: 15%">{{"Sous Catégorie"|trans}}</th>
+                                    <th class="text-right text-nowrap" style="padding-right:42px;width: 20%">Action
+                                        <a type="submit"  href="{{ path('activateall_admin') }}" title="{{ "activer"|trans }}"  style="margin-left: 10px;font-size: 11px;text-transform: capitalize;"  class="btn btn-icon social-evernote waves-effect waves-classic">
+                                            {{ "ActiverAll"|trans }}</a>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+
+                                {% for produit in produits %}
+
+
+
+                                    <tr >
+                                        <td style="vertical-align: middle;padding-left: 20px;" >
+                                            {% if produit.image %}
+                                                <img class="navbar-brand-logo" style="height: 50px;width: auto;"
+                                                     src="{{ asset('uploads/produits/') }}{{ produit.image }}">
+                                            {% endif %}
+                                        </td>
+                                        <td style=" vertical-align: middle;">
+                                            <div class="media-body">
+                                                <h5 class="mt-0 mb-5">
+                                                    {% if app.request.getLocale()  == 'fr' %}
+                                                        {{ produit.nom}}
+
+                                                    {% else %}
+                                                        {{ produit.nomen}}
+
+                                                    {% endif %}
+                                                </h5>
+                                                <small>{{ produit.code}}</small>
+                                            </div>
+                                        </td>
+                                        <td  style="vertical-align: middle;">
+                                          <a  target="_blank" href="{{ legal_notice_directory }}/{{ produit.file }}">{{ produit.file }}</a>
+                                        </td>
+                                        <td style="    vertical-align: middle;">
+                                            {% if app.request.getLocale()  == 'fr' %}
+
+                                                {% if produit.categorie.nom is defined and produit.categorie.nom is not null %}
+
+                                                    {{ produit.categorie.nom}}
+                                                {% else %}
+
+                                                {% endif %}
+                                            {% else %}
+                                                {% if produit.categorie.nom_en is defined and produit.categorie.nom_en is not null %}
+
+                                                    {{ produit.categorie.nom_en}}
+                                                {% else %}
+
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td style="    vertical-align: middle;">
+                                            {% if app.request.getLocale()  == 'fr' %}
+
+                                                {% if produit.sous_categorie.nom is defined and produit.sous_categorie.nom is not null %}
+
+                                                    {{ produit.sous_categorie.nom}}
+                                                {% else %}
+
+
+                                                {% endif %}
+                                            {% else %}
+                                                {% if produit.sous_categorie.nom_en is defined and produit.sous_categorie.nom_en is not null %}
+
+                                                    {{ produit.sous_categorie.nom_en}}
+                                                {% else %}
+
+
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+
+
+                                        <td class="text-right" style="padding-right:20px;vertical-align: middle;">
+
+                                            <a href="{{ path('produit_admin_edit', {'id': produit.id , 'page': page, 'search':search, 'categorie': categorie,'souscategorie': souscategorie}) }}"
+                                               class="btn btn-pure btn-default  md-edit waves-effect waves-classic " title="{{ "edit"|trans }}"
+                                               style="color: #b1b1b1;border: 1px solid;"></a>
+                                            {% if produit.is_active == false %}
+                                                <a class="btn md-lock-open" href="{{ path('enableadmin',{'id':produit.id,'page': page, 'search':search, 'categorie': categorie,'souscategorie': souscategorie}) }}"  title="{{ "activer"|trans }}"
+                                                   style="color: #46bf8c!important;background-color: #ffffff !important;border: 1px solid;"></a>
+                                            {% else %}
+                                                <a class="btn md-lock-open" href="{{ path('enableadmin',{'id':produit.id,'page': page, 'search':search, 'categorie': categorie,'souscategorie': souscategorie}) }}" title="{{ "deactivate"|trans }}"
+                                                   style="color: #b1b1b1!important;background-color: #ffffff !important;border: 1px solid;"></a>
+
+                                            {% endif %}
+
+
+                                            <a data-target="#produit_delete{{ produit.id }}" data-toggle="modal" title="{{ "delete"|trans }}"
+                                               class="btn btn-pure btn-danger  md-delete waves-effect waves-classic"
+                                               style="color: #f02038;border: 1px solid;"></a>
+
+
+                                            <div class="modal fade" id="produit_delete{{ produit.id }}" aria-hidden="true"  style="top: 111px;z-index: 1711;"
+                                                 aria-labelledby="exampleModalTabs"
+                                                 role="dialog" tabindex="-1">
+                                                <div class="modal-dialog modal-simple">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="produit_delete{{ produit.id }}">{{ 'conf_delete'|trans }}</h4>
+                                                        </div>
+                                                        <form action="{{ path('deleteproduitadmin', { 'id': produit.id,'page': page, 'search':search, 'categorie': categorie,'souscategorie': souscategorie }) }}" method="post">
+                                                            <div class="modal-body">
+                                                                <h4 style="text-align:center" >{{ 'msg_conf_delete'|trans }}</h4>
+                                                            </div>
+                                                            <div class="panel-footer">
+                                                                <button style="margin-left: 80%;width: 100px" type="submit"
+                                                                        class="pull-right btn btn-block btn-danger">{{ 'label_delete'|trans }}
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="navigation">
+                                {{ knp_pagination_render(produits) }}
+                            </div>
+
+                            <!-- End Example Bordered Table -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+-->
+
+    <script>
+        $("select[name='categorie']" ).change(function () {
+            var matiereID = $(this).val();
+         //   console.log('aaaaa');
+            if(matiereID) {
+
+
+                $.ajax({
+                    url: "{{ path('get_sous_categorie_from_categorie_admin') }}",
+                    dataType: 'Json',
+                    data: {'categorieid':matiereID},
+                    type:'GET',
+                    success: function(data) {
+                        $('select[name="souscategorie"]').empty();
+                        $('select[name="souscategorie').append('<option value="" selected hidden>'+ 'choisir une sous categorie' +'</option>');
+
+                        for(i = 0; i < data.length; i++) {
+                            student = data[i];
+                            $('select[name="souscategorie').append('<option value="'+ student['id'] +'">'+ student['nom'] +'</option>');
+                        };
+                    }
+                });
+
+
+            }else{
+                $('select[name="produit[sous_categorie]"]').empty();
+            }
+        });
+        (function (document, window, $) {
+            'use strict';
+
+            var Site = window.Site;
+            $(document).ready(function () {
+                Site.run();
+            });
+
+            $( "select[name='categorie']" ).select2();
+            $( "select[name='souscategorie']" ).select2();
+
+        })(document, window, jQuery);
+    </script>
+{% endblock %}

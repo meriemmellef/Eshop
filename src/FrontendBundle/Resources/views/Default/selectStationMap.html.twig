@@ -1,0 +1,259 @@
+<style>
+    span.station-title {
+        color: #ed0000;
+        display: block;
+    }
+
+    span.station-address {
+        color: gray;
+        display: block;
+    }
+
+    .col-station {
+        margin-bottom: 40px;
+    }
+
+    .station-region {
+        padding: 12px;
+    }
+</style>
+<!-- choose station -->
+<div class="modal" tabindex="-1" role="dialog" id="chooseStationModalMap">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body" style="padding-top: 0px;padding-bottom: 0px;">
+                <div class="row">
+
+                    <div class="" id="googleMap" style="width:100%;height:400px;"></div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% if app.session.get("station_id","") == "" %}
+    <script>
+        $("document").ready(function () {
+            $('#chooseStationModalMap').modal({
+                backdrop: 'static',
+                keyboard: false
+            });
+            //  $('select').select2();
+        })
+
+    </script>
+    <!-- choose station -->
+{% endif %}
+
+{% block script %}
+
+<script>
+    function showSelectStationMap() {
+        $('#chooseStationModalMap').modal();
+    }
+
+
+</script>
+<script >
+
+
+
+    function showPosition(position) {
+        var mapProp= {
+            center:new google.maps.LatLng( position.coords.latitude, position.coords.longitude),
+            zoom:10,
+        };
+        var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+
+
+        <!-- get list stations ajax  getliststation -->
+
+        var LocationStations =[] ;
+
+        var infowindow = new google.maps.InfoWindow();
+        var marker, i;
+
+        $.ajax({
+            type: "GET",
+            data:'' ,
+            url: "getliststation",
+            dataType: "json",
+            cache: false,
+            success: function (response) {
+                console.log("rahmaaa");
+                LocationStations = response.results ;
+
+                <!-- JSON.parse('')-->
+                if (LocationStations){
+                    for (i = 0; i < LocationStations.length; i++) {
+                        // var cascades = locations[i];
+                        var myLatLng =  new google.maps.LatLng( LocationStations[i]['latitude'],  LocationStations[i]['longitude']) ;
+
+                        var marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map,
+                            title:   LocationStations[i]['nom'],
+                        });
+
+
+                        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                            return function() {
+                                infowindow.setContent(LocationStations[i]['nom']+"<br />"+LocationStations[i]['address']);
+                                infowindow.open(map, marker);
+                            }
+                        })(marker, i));
+
+
+
+
+
+                    }
+
+                }            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+
+     //   LocationStations = JSON.parse('{{ stations | json_encode  }}');
+
+
+
+    }
+    function myMap() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+
+
+            <!-- get list stations ajax  getliststation -->
+
+            var LocationStations =[] ;
+
+            var infowindow = new google.maps.InfoWindow();
+            var marker, i;
+
+            $.ajax({
+                type: "GET",
+                data:'' ,
+                url: "getliststation",
+                dataType: "json",
+                cache: false,
+                success: function (response) {
+                    console.log("rahmaaa");
+                    LocationStations = response.results ;
+
+                    <!-- JSON.parse('')-->
+                    if (LocationStations){
+                        for (i = 0; i < LocationStations.length; i++) {
+                            // var cascades = locations[i];
+                            var myLatLng =  new google.maps.LatLng( LocationStations[i]['latitude'],  LocationStations[i]['longitude']) ;
+
+                            var marker = new google.maps.Marker({
+                                position: myLatLng,
+                                map: map,
+                                title:   LocationStations[i]['nom'],
+                            });
+
+
+                            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                                return function() {
+                                    infowindow.setContent(LocationStations[i]['nom']+"<br />"+LocationStations[i]['address']);
+                                    infowindow.open(map, marker);
+                                }
+                            })(marker, i));
+
+
+
+
+
+                        }
+
+                    }            },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+
+        }
+
+
+
+       }
+
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYhfYs2iY5PFut6nyg40SkRzC4iiJk98A&callback=myMap"></script>
+
+
+{% endblock %}
+
+
+<style>
+    .itempopupDesc {
+        font-family: Roboto-Regular, sans-serif;
+        color: #374649;
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+
+    .titlepopup {
+        font-family: Roboto-Regular, sans-serif;
+        font-size: 16px;
+        background: -webkit-linear-gradient(left, rgba(239, 111, 0), rgba(237, 0, 0)) !important;
+
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+    }
+
+    .btnpopup {
+
+
+        color: #ffffff;
+        border: 1px solid #ED0000;
+
+        padding: 0;
+        height: 34px;
+        width: 58px;
+        font-family: Roboto-Regular, sans-serif;
+        font-weight: normal;
+        font-size: 14px;
+
+        background: #ED0000;
+        text-align: center;
+        border-radius: 15px;
+
+
+    }
+
+    .btnpopup:hover {
+        color: #ED0000;
+        background: #ffffff;
+
+
+    }
+
+    .optionpopup {
+        font-family: Roboto-Regular, sans-serif;
+        font-weight: 400;
+        color: #374649;
+        font-size: 14px;
+
+
+    }
+
+    /* .optionpopup{
+          font-family: Roboto,sans-serif;
+          font-weight: normal;
+          font-size: 14px;
+
+
+      }*/
+</style>
+

@@ -1,0 +1,45 @@
+fos_user:
+  username:
+    already_used: Username is already in use
+    blank: Please enter a username
+    short: "[-Inf,Inf]Le nom d'utilisateur est trop court"
+    long: "[-Inf,Inf]Le nom d'utilisateur est trop long"
+  email:
+    already_used: The email address is already used
+    blank: Please enter an email address
+    short: "[-Inf,Inf]L'adresse e-mail est trop courte"
+    long: "[-Inf,Inf]L'adresse e-mail est trop longue"
+    invalid: Email address is invalid
+  password:
+    blank: Please enter a password
+    short: "[-Inf,Inf]Le mot de passe est trop court"
+    mismatch: The two passwords are not the same
+  new_password:
+    blank: Please enter a new password
+    short: "[-Inf,Inf]Le nouveau mot de passe est trop court"
+  password_mismatch:
+    blank: Password fields must match.
+    short: "Password fields must match."
+    invalid: "Password fields must match."
+  current_password:
+    invalid: The password is invalid
+  group:
+    blank: Please enter a name
+    short: "[-Inf,Inf]Le nom est trop court"
+    long: "[-Inf,Inf]Le nom est trop long"
+filerror: 'Please download a valid pdf'
+
+code:
+  exist: this country already exists
+
+
+nom:
+  exist: this Sub Category already exists
+nom_en:
+  exist: this Sub Category already exists
+
+
+nomc:
+  exist: this category already exists
+nom_enc:
+  exist: this category already exists

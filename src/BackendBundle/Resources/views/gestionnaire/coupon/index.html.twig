@@ -1,0 +1,231 @@
+{% extends '@Backend/layout/layout.html.twig' %}
+
+
+{% block page %}
+    <div class="page">
+
+
+        <div class="page-header">
+            <h1 class="page-title">{{ "Gestion Des Coupons"|trans }}</h1>
+
+            <div class="page-header-actions">
+                <div class="row">
+                    <div class="col-lg-4 ">
+                        <div class="media-body text-center">
+                            <h4 class="mt-0 mb-5" style="color:#46bf8c;margin-bottom: 0px!important;"> {{ nbcoupons|length }}</h4>
+                            <small style="">{{ "Coupons"|trans }}</small>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="{{ path('new_coupon') }}" style="margin-top: 3px;" class="float-right btn btn-sm btn-icon social-evernote waves-effect waves-classic">
+                            <i class="icon md-plus" aria-hidden="true"></i> {{ "code_specif"|trans }}
+                        </a>
+
+                    </div>
+                    <div class="col-lg-4">
+                        <a href="{{ path('generer_coupon') }}" style="margin-top: 3px; background-color: #e4072f;" class="float-right btn btn-sm btn-icon social-evernote waves-effect waves-classic">
+                            <i class="icon md-plus" aria-hidden="true"></i>   {{"code_alea"|trans}}
+                        </a>
+                    </div>
+
+                    {#
+                      <div class="col-lg-3">
+                        <a href="{{ path('generer_coupon_prix') }}" style="margin-top: 3px; background-color: #e4072f;" class="float-right btn btn-danger btn-sm btn-icon  waves-effect waves-classic">
+                            <i class="icon md-money"> </i>
+                            {{"Générer"|trans}}
+                        </a>
+                    </div>
+                    <div class="col-lg-3">
+                        <a href="{{ path('generer_coupon_pourcentage') }}" style="margin-top: 3px; background-color: #e4072f;" class="float-right btn btn-danger btn-sm btn-icon  waves-effect waves-classic">
+                            <i class="icon">% </i>
+                            {{"Générer"|trans}}
+                        </a>
+                    </div>
+                    #}
+
+                </div>
+            </div>
+        </div>
+        <div class="page-content" style="padding-top: 0 !important;padding-bottom: 0 !important;">
+            <!-- Panel -->
+            <div class="panel" >
+                <div class="panel-body container-fluid" style="padding: 0 !important;">
+                    <div class="row row-lg">
+
+
+                        <div class="col-lg-12">
+                            <!-- Example Bordered Table -->
+                            <table class="table table-bordered" style="border: none;">
+                                <thead>
+                                <tr>
+                                    <th style="border: none;">{{ "Filtre"|trans }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td style="border: none;">
+                                        <form  class="row" style="align-items: center;max-width: 1520px;" action="{{ path('coupon_index') }}" method="get">
+                                            <div class="col-lg-4  col-md-4 col-xs-4">
+                                                <label class="control-label">{{ "Coupon"|trans }}</label>
+                                                <input type="text" class="form-control" name="search" value="{% if search is defined %}{{search}}{% endif %}" placeholder={{ "code"|trans }}>
+                                            </div>
+                                            <div style="padding-top: 10px"  class="col-lg-8  col-md-8 col-xs-8 text-right">
+                                                <button type="submit" class="float-right btn btn-icon social-evernote waves-effect waves-classic">
+                                                    <i class="icon icon md-search" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <!-- End Example Bordered Table -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+        <div class="page-content" style="padding-top: 0px " >
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid"  style="padding-left: 9px !important;padding-right: 9px !important;padding-top: 0px !important;padding-bottom: 0px !important;">
+                    <div class="row row-lg">
+
+
+                        <div class="col-lg-12">
+                            <!-- Example Bordered Table -->
+
+                            <table class="table table-striped">
+                                <thead>
+                                <tr >
+                                    <th style="padding-left: 20px;width: 10%" >{{ "Code"|trans }}</th>
+                                    <th style="width: 10%" hidden>{{ "Montant"|trans }}</th>
+                                    <th style="width: 10%" hidden>{{ "Pourcentage"|trans }}</th>
+                                    <th style="width: 10%">Type</th>
+                                    <th class="text-right text-nowrap" style="padding-right:42px;width: 10%"class="text-nowrap">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for coupon in coupons %}
+                                    <tr >
+                                        <td style="padding-left: 20px; vertical-align: middle;" >
+                                            {{ coupon.code}}
+                                        </td>
+                                        <td style="    vertical-align: middle;" hidden>
+                                            {{ coupon.montant  |number_format(pays.deviseNbDigitsDecimal, pays.deviseDecimalSeparator, pays.deviseThousandsSeparator)}} {{ pays.devise }}
+                                        </td>
+                                        <td style="    vertical-align: middle;" hidden>
+                                            {{ coupon.pourcentage}}%
+                                        </td>
+                                        <td style="    vertical-align: middle;">
+                                            {% if coupon.type == 1 %}
+                                            {{"réduction par prix"|trans}}
+                                            {% elseif coupon.type == 2 %}
+                                            {{"réduction par pourcentage"|trans}}
+                                            {% else %}
+                                            {{"Non affecté"|trans}}
+                                            {% endif %}
+                                        </td>
+
+                                        <td class="text-right" style="padding-right:20px;    vertical-align: middle;">
+                                            <a href="{{ path('coupon_edit', {'id': coupon.id,'page':page}) }}" class="btn btn-pure btn-default icon md-edit waves-effect waves-classic"></a>
+                                            <a data-target="#coupon_delete{{ coupon.id }}" data-toggle="modal" class="btn btn-pure btn-default icon md-delete waves-effect waves-classic"></a>
+
+
+                                            <div class="modal fade" style="top: 111px;z-index: 1711;"  id="coupon_delete{{ coupon.id }}"   role="dialog">
+                                                <div class="modal-dialog modal-simple">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">×</span>
+                                                            </button>
+                                                            <h4 class="modal-title" id="coupon_delete{{ coupon.id }}">{{ 'conf_delete'|trans }}</h4>
+                                                        </div>
+                                                        <form action="{{ path('coupon_delete', { 'id': coupon.id,'page':page }) }}" method="get">
+                                                            <div class="modal-body">
+                                                                <h4 style="text-align:center" >{{ 'msg_conf_delete'|trans }}</h4>
+                                                            </div>
+                                                            <div class="panel-footer">
+                                                                <button style="margin-left: 80%;width: 100px" type="submit"
+                                                                        class="pull-right btn btn-block btn-danger">{{ 'label_delete'|trans }}
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="navigation">
+                                {{ knp_pagination_render(coupons) }}
+                            </div>
+
+                            <!-- End Example Bordered Table -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+
+
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        $( "select[name='categorie']" ).change(function () {
+            var matiereID = $(this).val();
+            console.log('aaaaa');
+
+            if(matiereID) {
+
+
+                $.ajax({
+                    url: "{{ path('get_sous_categorie_from_categorie') }}",
+                    dataType: 'Json',
+                    data: {'categorieid':matiereID},
+                    type:'GET',
+                    success: function(data) {
+                        $('select[name="souscategorie"]').empty();
+                        $('select[name="souscategorie').append('<option value="" selected hidden>'+ 'choisir une sous categorie' +'</option>');
+
+                        for(i = 0; i < data.length; i++) {
+                            student = data[i];
+                            $('select[name="souscategorie').append('<option value="'+ student['id'] +'">'+ student['nom'] +'</option>');
+                        };
+                    }
+                });
+
+
+            }else{
+                $('select[name="souscategorie"]').empty();
+            }
+        });
+        (function (document, window, $) {
+            'use strict';
+
+            var Site = window.Site;
+            $(document).ready(function () {
+                Site.run();
+            });
+
+            $( "select[name='categorie']" ).select2();
+            $( "select[name='souscategorie']" ).select2();
+
+        })(document, window, jQuery);
+    </script>
+{% endblock %}

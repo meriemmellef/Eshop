@@ -1,0 +1,1066 @@
+{% extends 'FrontendBundle::base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link href="{{ asset('assets/css/pickmeup.css?v2') }}" rel="stylesheet">
+
+{% endblock stylesheets %}
+{% block body %}
+    {% if produit %}
+<div class="container" style="padding: 2%;margin-top: 100px;background-color: #ffffff;max-width: 1600px" >
+
+
+
+    <div class="row divproddetail" >
+        <div class="alert alert-danger" role="alert" id="divmodal-panier" style="display: none" >
+            {{"quantite_demander_indispo" | trans}}
+                {% if app.request.getLocale()  == 'en' %}{{ produit.nomen }}{% else %}{{ produit.nom }}{% endif %} {{"est" | trans}}
+            <span id="idinputtwo{{ produit.id }}">  </span>
+
+            <button type="button" class="close" id="closeAlertq" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="alert alert-danger" role="alert" id="divquantity-max" style="display: none" >
+
+            {{ "pouvez_commander_au_max" | trans}} {{ produit.maxcommande }}
+            {% if app.request.getLocale()  == 'en' %}{{ produit.nomen }}{% else %}{{ produit.nom }}{% endif %}
+
+            <button type="button" class="close"  aria-label="Close" id="closeAlert">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+
+
+        <div class=" col-lg-6 col-md-6 col-sm-12 col-xs-12" >
+            <div class="prodname" >
+                {% if app.request.getLocale()  == 'en' %}{{ produit.nomen }}{% else %}{{ produit.nom }}{% endif %}
+
+                <br>
+
+                <span class="cat_badge" style="margin-left: -5px !important;margin-top: 30px !important;" >
+                  {% if app.request.getLocale()  == 'en' %}{{ produit.categorie.nomEn }}{% else %}{{ produit.categorie.nom }}{% endif %}
+                  </span>
+
+            </div>
+
+            <img style="width: 80%!important;border-top-left-radius: 10px;border-top-right-radius: 10px;max-height: 400px;min-height:200px;height: 80%!important;object-fit: contain !important;  display: block;
+              margin-left: auto;  margin-right: auto"  src="{{ asset('/assets/img/default_t_e.jpg') }}"
+              data-original="{% if produit.image and produit.image and produit.image != "" %}/uploads/produits/{{ produit.image }}
+              {% else %}{{ asset('/assets/img/default_t_e.jpg') }} {% endif %}" alt="img"    class="img-responsive lazy" >
+
+            <div class=" price  div_card" style="
+            {% if (produit.finalPrice["is_promo"] == false) or( produit.finalPrice["is_promo"] == true and produit.numProduitPromo>1 ) %}
+                    padding-bottom: 22px;
+            {% endif %}">
+                          <span class="old-price" style="float:left">
+                                              {% if produit.finalPrice["is_promo"] and produit.numProduitPromo == 1 %}
+                                                  {{ formated_price( produit.finalPrice["old_prix"],app.session.get("pays")) }}
+                                              {% elseif produit.finalPrice["is_promo"] and produit.prixPromo and produit.prixPromo > 0 %}
+                                                  {{ formated_price( produit.finalPrice["old_prix"],app.session.get("pays")) }}
+                                              {% endif %}
+                                                </span>
+                <br>
+                <span class=""
+                      style="float:left"> {{ formated_price( produit.finalPrice["prix"],app.session.get("pays")) }}</span>
+
+
+            </div>
+
+        </div>
+        <div class=" col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+            <div class="row" >
+                <br>
+                <div class="col-lg-6 col-md-6 col-xs-4 col-sm-4">
+
+                    {#
+
+                                <div class=" price  div_card" style="
+                    {% if (produit.finalPrice["is_promo"] == false) or( produit.finalPrice["is_promo"] == true and produit.numProduitPromo>1 ) %}
+                            padding-bottom: 22px;
+                    {% endif %}">
+                          <span class="old-price" style="float:left">
+                                              {% if produit.finalPrice["is_promo"] and produit.numProduitPromo == 1 %}
+                                                  {{ formated_price( produit.finalPrice["old_prix"],app.session.get("pays"))}}
+                                              {% elseif produit.finalPrice["is_promo"] and produit.prixPromo and produit.prixPromo > 0 %}
+                                                  {{ formated_price( produit.finalPrice["old_prix"],app.session.get("pays"))}}
+                                              {% endif %}
+                                                </span>
+                        <br>
+                        <span  class="" style="float:left"> {{ formated_price( produit.finalPrice["prix"],app.session.get("pays"))}}</span>
+
+
+                    </div>
+                       #}
+
+                </div>
+
+
+                <div class=" col-lg-6 col-md-6 col-xs-8 col-sm-8 text-right">
+                    <div class="row" id="quantite{{ produit.id }}"    name="quantite{{ produit.id }}" disabled="none" hidden>
+                        <div class="col-lg-12 col-md-12 col-xs-12" style="">
+                            <div class="input-group group_qt">
+                                <span class="input-group-btn">
+                                                                <button id="deleteArticle{{ produit.id }}"
+                                                                        onclick="deleteArticleQuantity({{ produit.id }},{{ produit.prix }})"
+                                                                        type="button"
+                                                                        class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                        data-type="minus" data-field="">
+										                             	<span class="glyphicon glyphicon-minus"></span>
+									                        	</button>
+                                                            </span>
+                                <input style=" height: 4.5rem;!important;" type="text"
+                                       id="qte{{ produit.id }}"
+                                       name="qte{{ produit.id }}"
+                                       class="form-control input-number text-center" {% if app.session.get('panier')[produit.id] is defined %} value="{{ app.session.get('panier')[produit.id] }}" {% else %} value="0" {% endif %}
+                                       min="1" max="100" disabled>
+                                <span class="input-group-btn">
+                                                                <button id="addArticle{{ produit.id }}"
+                                                                        onclick="addArticle({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }})"
+                                                                        type="button"
+                                                                        class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                        data-type="plus" data-field="">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+                                                            </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="" id="addcart{{ produit.id }}"   name="addcart{{ produit.id }}">
+                        {% if produit.quantite == 0 %}
+                            <button disabled type="button"
+                                    style=" background-color: #8c8586; color: white; border: 1px solid #8c8586; padding: 0 0;height: 43px; width: 43px; margin-bottom: 8px;"
+                                    data-loading-text="<i class='fa fa-spinner fa-spin '> </i> Chargement">
+								     <span class="add2cart">
+									 <i style="font-size: 17px;" class="glyphicon glyphicon-shopping-cart"></i>
+									  </span>
+                            </button>
+                        {% else %}
+
+                            {% if produit.couleurs|length>0 %}
+
+                                <div class="colordet">
+                                    <ul class="swatches Color" name="couleur{{ produit.id }}"
+                                        id="couleur{{ produit.id }}">
+                                        {% set i = 1 %}
+                                        {% for couleur in produit.couleurs %}
+                                            {% if i == 1 %}
+                                                <li class="selected" value="{{ couleur.codeCouleur }}"
+                                                    onclick="changeImagecouleur('{{ produit.id }}','{{ couleur.id }}','{{ couleur.image }}')">
+                                                    <a style="background-color:{{ couleur.codeCouleur }};color:transparent"></a>
+                                                </li>
+                                            {% else %}
+                                                <li value="{{ couleur.codeCouleur }}"
+                                                    onclick="changeImagecouleur('{{ produit.id }}','{{ couleur.id }}','{{ couleur.image }}')">
+                                                    <a style="background-color:{{ couleur.codeCouleur }};color:transparent"></a>
+                                                </li>
+                                            {% endif %}
+                                            {% set i = i+1 %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            <!--/.color-details-->
+
+                            <div class="colordet">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-xs-6" style="margin-top: 2px">
+                                        {#
+                                          <span class="selected-color selectedSpan"><strong class="text_details">{{"Quantité" | trans}}</strong></span>
+                                        #}
+
+                                        {% if produit.couleurs|length>0 %}
+                                            <div class="input-group">
+												<span class="input-group-btn" >
+															<button id="deleteArticle{{ produit.id }}"
+                                                                    onclick="moinsquantity({{ produit.id }})"
+                                                                    type="button"
+                                                                    class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                    style="border: 1px solid #999;  border-radius: 5px;" data-type="minus"
+                                                                    data-field="">
+																<span class="glyphicon glyphicon-minus"></span>
+															</button>
+												</span>
+                                                <input style="font-family: Roboto-Regular,sans-serif;font-size: 14px;font-weight: bold;  background: transparent;border:none" type="text"
+                                                       id="quantitymodal{{ produit.id }}"
+                                                       name="quantitymodal{{ produit.id }}"
+                                                       class="form-control input-number text-center" {% if app.session.get('panier')[produit.id] is defined %} value="{{ app.session.get('panier')[produit.id] }}" {% else %} value="1" {% endif %}
+                                                       min="1" max="100" disabled>
+
+                                                <span class="input-group-btn">
+															<button onclick="plusquantity({{ produit.id }})"
+                                                                    type="button"
+                                                                    class="quantity-right-plus btn btn-success btn-number btn_plus_moins"
+                                                                    style="border: 1px solid #999;  border-radius: 5px;" data-type="plus"
+                                                                    data-field="">
+																<span class="glyphicon glyphicon-plus"></span>
+															</button>
+												</span>
+                                            </div>
+
+
+                                        {% endif %}
+
+                                    </div>
+                                    {% if produit.couleurs|length>0 %}
+
+                                        <div class="col-lg-6 col-sm-6 col-xs-6">
+                                            {#
+                                                                                        <span class="selected-color selectedSpan"><strong class="text_details">{{ "Taille" | trans }}</strong></span>
+                                            #}
+                                            <select class="form-control " id="sizes{{ produit.id }}"
+                                                    name="sizes{{ produit.id }}"
+                                                    onchange="changeSize({{ produit.id }})"
+                                                    style="border-radius: 0px;height: 43px; font-family: Roboto-Regular,sans-serif"  >
+                                                <option disabled  style=" color:#374649;font-family: Roboto-Regular,sans-serif;font-size: 12px;font-weight: 400 " selected>
+                                                    {{ "choisir la taille" | trans }}</option>
+                                                {% if  produit.couleurs|length > 0 %}
+                                                    {% set i = 1 %}
+                                                    {% for size in produit.couleurs["0"].sizes %}
+                                                        {% if i == 1 %}
+                                                            <option value="{{ size.id }}"
+                                                                    selected>{{ size.libelle }}</option>
+                                                        {% else %}
+                                                            <option value="{{ size.id }}">{{ size.libelle }}</option>
+
+                                                        {% endif %}
+                                                        {% set i = i+1 %}
+
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </select>
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
+                                {% if produit.couleurs|length==0 %}
+                                    <div class="row" id="quantite{{ produit.id }}"
+                                         name="quantite{{ produit.id }}" disabled="none" style="" >
+
+                                        <div class="col-lg-12 col-md-12 col-xs-12" style="">
+                                            <div class="input-group group_qt">
+                                                            <span class="input-group-btn">
+                                                                <button id="deleteArticle{{ produit.id }}"
+                                                                        onclick="moinquantityD({{ produit.id }})"
+                                                                        type="button"
+                                                                        class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                        data-type="minus" data-field="">
+                                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                                </button>
+                                                            </span>
+                                                <input style=" height: 4.5rem;!important;" type="text"
+                                                       id="qte{{ produit.id }}"
+                                                       name="qte{{ produit.id }}"
+                                                       class="form-control input-number text-center" {% if app.session.get('panier')[produit.id] is defined %} value="{{ app.session.get('panier')[produit.id] }}" {% else %} value="0" {% endif %}
+                                                       min="1" max="100" disabled>
+                                                <span class="input-group-btn">
+                                                                <button id="addArticle{{ produit.id }}"
+                                                                        onclick="plusquantityD({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }})"
+                                                                        type="button"
+                                                                        class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                        data-type="plus" data-field="">
+                                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                                </button>
+                                                        </span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                {% endif %}
+                            </div>
+                            <!-- productFilter -->
+
+
+                            <div class="colordet" >
+                                {% if produit.couleurs|length>0 %}
+                                    <button onclick="addArticleSize({{ produit.id }})"
+                                            class="  btn_card col-lg-6" style="float: right" type="submit"
+                                            id="btn-panier"
+                                            data-loading-text="<i class='fa fa-spinner fa-spin '> </i> Chargement">
+                                                                <span class="add2cart">
+                                                                <span class="btnspanadd">{{ "Acheter" | trans }} <i class="fa fa-shopping-cart"></i></span>
+											                    </span>
+                                    </button>
+                                {% else %}
+                                    <button onclick="addArticlee({{ produit.id  }},{{ produit.quantite }},{{ produit.maxcommande }})"
+                                            class="  btn_card col-lg-6 " style="float: right" type="submit"
+                                            id="addArticlee{{ produit.id }}"
+                                            data-loading-text="<i class='fa fa-spinner fa-spin '> </i> Chargement">
+                                                                <span class="add2cart">
+                                                                <span class="btnspanadd">{{ "Acheter" | trans }} <i class="fa fa-shopping-cart"></i></span>
+											                    </span>
+                                    </button>
+                                {% endif %}
+                            </div>
+
+                            <!--/.cart-actions-->
+
+                  {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+
+
+            {% if produit.description or produit.description %}
+                <br>
+            <div class="divspandesc">
+                <span class="spandesc">{{ "descrip"|trans }}</span>
+                <hr >
+
+
+                <span class="spandesc">
+                        {% if app.request.getLocale()  == 'en' %}{{ produit.descriptionen }}{% else %}{{ produit.description }}{% endif %}
+                         </span>
+
+
+
+            </div>
+            {% endif %}
+
+            {% if produit.file %}
+                <br>
+                <a  target="_blank" class="spandesc"
+                    href="{{ legal_notice_directory }}/{{ produit.file }}">
+
+                    <svg _ngcontent-dxq-c64="" height="20" viewBox="0 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg"><g _ngcontent-dxq-c64="" id="Solid"><path _ngcontent-dxq-c64="" fill="#ED0000" d="m239.029 384.97a24 24 0 0 0 33.942 0l90.509-90.509a24 24 0 0 0 0-33.941 24 24 0 0 0 -33.941 0l-49.539 49.539v-262.059a24 24 0 0 0 -48 0v262.059l-49.539-49.539a24 24 0 0 0 -33.941 0 24 24 0 0 0 0 33.941z"></path><path _ngcontent-dxq-c64="" fill="#ED0000" d="m464 232a24 24 0 0 0 -24 24v184h-368v-184a24 24 0 0 0 -48 0v192a40 40 0 0 0 40 40h384a40 40 0 0 0 40-40v-192a24 24 0 0 0 -24-24z"></path></g></svg>
+                    {{ "Fiche Technique"|trans }}
+                </a>
+            {% endif %}
+
+
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+</div>
+    {% endif %}
+    {% if produits %}
+
+<div class="container" style="padding-right: 2%;padding-left: 2%;margin-top: 100px;background-color: #F7F9FA;max-width: 1600px;padding-bottom: 10px;padding-top: 10px" >
+
+
+    <h3 class="  style2 section-title  text-left">
+        <span >{{ "prodsimilaire" | trans }} </span></h3>
+
+
+
+    <div id="owl-demo" class="owl-carousel owl-theme" >
+        {% for produit in produits %}
+
+        <div class="item " >
+            <div class="product" >
+
+
+                <a {% if app.user %} onclick="addfavoris({{ produit.id }})"
+                {% else %}
+                    {#onclick="addfavnonConnect()"#}
+                    href="{{ path("fos_user_security_login",{'produitid':produit.id})}}"
+
+                {% endif %}
+                        class=" add-fav tooltipHere
+                                    {% for favoris in favoris %}
+                                    {% if  favoris.utilisateur == app.user and favoris.produit == produit %}active{% endif %}
+                                    {% endfor %}"
+                        data-placement="left" >
+                    <i class="glyphicon glyphicon-heart"></i>
+                </a>
+
+                <div class="image" style="width: 100%!important;height: 70%!important;">
+                    {% if produit.description or produit.descriptionen %}
+                    <div class="quickview" >
+                        <a  class="btn btn-xs btn-quickview" href="{{ path("detail_produits",{'produitid':produit.id}) }}"
+                        >{{ "Details" | trans }} </a>
+                    </div>
+                    {% endif %}
+
+                    <img style="width: 100%!important;border-top-left-radius: 10px;border-top-right-radius: 10px;max-height: 300px;min-height:300px;height: 100%!important;object-fit: contain  !important"
+                         src="{{ asset('/assets/img/default_t_e.jpg') }}"
+                         data-original="{% if produit.image and produit.image and produit.image != "" %}/uploads/produits/{{ produit.image }}
+                                        {% else %}{{ asset('/assets/img/default_t_e.jpg') }} {% endif %}" alt="img"
+                         class="img-responsive lazy" >
+                    {% if produit.quantite >0 %}
+
+                        {% if produit.finalPrice["is_promo"] and produit.prixPromo and produit.prixPromo > 0 %}
+                            <div class="promotion">
+                                <span class="discount" >{{ "Promotion" | trans }}</span>
+                            </div>
+                        {% elseif produit.finalPrice["is_promo"] and produit.numProduitPromo == 1 %}
+                            <div class="promotion">
+										<span class="discount" >{{ "Promotion" | trans }}
+                                            {{ formated_price(produit.finalPrice["percentage"],app.session.get('pays'),false) }}%
+										</span>
+                            </div>
+
+                        {% elseif produit.finalPrice["is_promo"] and produit.numProduitPromo > 1 %}
+                            <div class="promotion">
+										<span class="discount" >
+                                            {{ formated_price(produit.finalPrice["percentage"],app.session.get('pays'),false) }}%
+																						                                        {{ "sur le" | trans }}
+                                            {{ produit.numProduitPromo }}{{"ème" | trans}}
+										</span>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="promotion">
+                            <span class="horsstock" style="    font-weight: 400;">	{{ "HORS STOCK" | trans }}	</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div style="height: 30%!important;position: relative">
+
+
+                    <div class="line_gradient"></div>
+
+
+                    <div class="description" >
+                        {% if app.request.getLocale()  == 'en' %}{{ produit.nomen }}{% else %}{{ produit.nom }}{% endif %}
+
+                    </div>
+                    <span class="cat_badge" >
+                                        {% if app.request.getLocale()  == 'en' %}{{ produit.categorie.nomEn }}{% else %}{{ produit.categorie.nom }}{% endif %}
+                                    </span>
+
+
+
+
+
+                    <div class="row" style="position: absolute;  bottom: 10px;left: 0;right: 0">
+                        <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+                            <div class=" price  div_card" style="padding-left: 14px;
+                            {% if (produit.finalPrice["is_promo"] == false) or( produit.finalPrice["is_promo"] == true and produit.numProduitPromo>1 ) %}
+                                    padding-bottom: 22px;
+                            {% endif %}">
+                                            <span class="old-price" style="float:left">
+                                              {% if produit.finalPrice["is_promo"] and produit.numProduitPromo == 1 %}
+                                                  {{ formated_price( produit.finalPrice["old_prix"],app.session.get("pays"))}}
+                                              {% elseif produit.finalPrice["is_promo"] and produit.prixPromo and produit.prixPromo > 0 %}
+                                                  {{ formated_price( produit.finalPrice["old_prix"],app.session.get("pays"))}}
+                                              {% endif %}
+                                                </span>
+                                <br>
+                                <span  class="" style="float:left"> {{ formated_price( produit.finalPrice["prix"],app.session.get("pays"))}}</span>
+
+
+
+                            </div>
+                        </div>
+                        <div class="div_card col-lg-6 col-md-6 col-xs-6 col-sm-6 text-right"
+                             style="padding-right: 20px;padding-left: 23px;">
+                            <div class="row" id="quantite{{ produit.id }}"    name="quantite{{ produit.id }}" disabled="none" hidden>
+
+                                <div class="col-lg-12 col-md-12 col-xs-12" style="">
+                                    <div class="input-group group_qt">
+
+                                                            <span class="input-group-btn">
+                                                                <button id="deleteArticle{{ produit.id }}"
+                                                                        onclick="deleteArticleQuantity({{ produit.id }},{{ produit.prix }})"
+                                                                        type="button"
+                                                                        class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                        data-type="minus" data-field="">
+										                             	<span class="glyphicon glyphicon-minus"></span>
+									                        	</button>
+                                                            </span>
+                                        <input style=" height: 4.5rem;!important;" type="text"
+                                               id="qte{{ produit.id }}"
+                                               name="qte{{ produit.id }}"
+                                               class="form-control input-number text-center" {% if app.session.get('panier')[produit.id] is defined %} value="{{ app.session.get('panier')[produit.id] }}" {% else %} value="0" {% endif %}
+                                               min="1" max="100" disabled>
+                                        <span class="input-group-btn">
+                                                                <button id="addArticle{{ produit.id }}"
+                                                                        onclick="addArticle({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }})"
+                                                                        type="button"
+                                                                        class="quantity-left-minus btn btn-danger btn-number btn_plus_moins"
+                                                                        data-type="plus" data-field="">
+											<span class="glyphicon glyphicon-plus"></span>
+										</button>
+                                                            </span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="" id="addcart{{ produit.id }}"   name="addcart{{ produit.id }}">
+                                {% if produit.quantite == 0 %}
+                                    <button disabled type="button"
+                                            style=" background-color: #8c8586; color: white; border: 1px solid #8c8586; padding: 0 0;
+    height: 43px;
+    width: 43px;
+    margin-bottom: 8px;
+
+"
+                                            data-loading-text="<i class='fa fa-spinner fa-spin '> </i> Chargement">
+								                        	<span class="add2cart">
+									                      	<i style="font-size: 17px;" class="glyphicon glyphicon-shopping-cart"></i>
+									                       </span>
+                                    </button>
+                                {% else %}
+
+                                    {% if  produit.couleurs|length > 0 %}
+
+                                        <a class=" btn_card" style="padding-top: 15px; padding-bottom: 15px;"
+                                           href="{{ path("detail_produits",{'produitid':produit.id}) }}"  >
+                                                         <span class="add2cart">
+                                                            <span class="btnspanadd"> {{ "Acheter" | trans }} <i
+                                                                        class="fa fa-shopping-cart"></i></span>
+                                                        </span>
+                                        </a>
+
+                                    {% else %}
+
+                                    <button type="submit" class="btn_card"
+                                            {#
+
+                                              {% if  produit.couleurs|length > 0 %}
+                                                data-toggle="modal"
+                                                data-target="#productSetailsModalAjax{{ produit.id }}"
+                                            {% else %}
+                                                id="btn-panier{{ produit.id }}"
+                                                onclick="enabledivquantity({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }})"
+
+                                            {% endif %}
+                                            #}
+
+                                            id="btn-panier{{ produit.id }}"
+                                            onclick="enabledivquantity({{ produit.id }},{{ produit.quantite }},{{ produit.maxcommande }})"
+
+                                            data-loading-text="<i class='fa fa-spinner fa-spin '> </i> Chargement">
+                                                        <span class="add2cart">
+                                                            <span class="btnspanadd"> {{ "Acheter" | trans }} <i class="fa fa-shopping-cart"></i></span>
+                                                        </span>
+                                    </button>
+                                    {% endif %}
+
+
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+            <div class="modal fade  " id="modal-panier{{ produit.id }}"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #ED0000;">
+                            <h4 class="modal-title" id="exampleModalLongTitle"
+                                style="margin-top: 11px;">{{ "Acheter" | trans }} <i
+                                        class="fa fa-shopping-cart"></i>
+                            </h4>
+                            <button style="opacity: 1.2;margin-top: -36px;margin-right: -10px;background-color: #ED0000"
+                                    type="button" class=" close" data-dismiss="modal" aria-label="Close">
+                                <span style="color: #ffffff" aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">
+
+                            <h3>{{ "quantite_demander_indispo" | trans }}
+                                {% if app.request.getLocale()  == 'en' %}{{ produit.nomen }}{% else %}{{ produit.nom }}{% endif %} {{ "est" | trans }}
+                                <span id="idinputtwo{{ produit.id }}">  </span></h3>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+            </div>
+            <div class="modal fade" id="modal-quantity-max{{ produit.id }}" tabindex="-1" role="dialog"
+                 aria-labelledby="productSetailsModalAjaxLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #ED0000;">
+                            <h4 class="modal-title text-left" id="exampleModalLongTitle"
+                                style="margin-top: 11px;">
+
+                            </h4>
+                            <button style="opacity: 1.2;margin-top: -26px;margin-right: -10px;background-color: #ED0000"
+                                    type="button" class=" close" data-dismiss="modal" aria-label="Close">
+                                <span style="color: #ffffff" aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <h3>
+                                {{ "pouvez_commander_au_max" | trans }}{{ produit.maxcommande }}
+                                {% if app.request.getLocale()  == 'en' %}{{ produit.nomen }}{% else %}{{ produit.nom }}{% endif %}</h3>
+
+
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+    {% endif %}
+
+
+    <style>
+        .owl-buttons {
+            display: block;
+        }
+        .owl-carousel:hover .owl-buttons {
+            display: block;
+        }
+
+        .owl-item {
+            text-align: center;
+            padding-left:10px;
+            padding-right:10px;
+        }
+
+
+        .owl-theme .owl-controls .owl-buttons div {
+            background: transparent;
+            color: #ed0000;
+            font-size: 40px;
+            line-height: 50px;
+            margin-top: 150px;
+            position: absolute;
+            top: 0;
+
+        }
+
+
+
+        .owl-theme .owl-controls .owl-buttons .owl-prev {
+            left: 0;
+            padding-left: 20px;
+        }
+        .owl-theme .owl-controls .owl-buttons .owl-next {
+            right: 0;
+            padding-right: 20px;
+        }
+        .modalerror {
+            top: 50px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 10052;
+        }
+
+    </style>
+
+    {#
+      <script src="{{ asset('bundles/app/js/jquery-3.2.1.min.js') }}" type="text/javascript"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    #}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+    <script>
+        $(document).ready(function() {
+
+            var owl = $("#owl-demo");
+            owl.owlCarousel({
+
+                //  itemsDesktop : true,
+                //  itemsDesktopSmall : false,
+                /// itemsTablet: false,
+                // itemsMobile : false,
+                startPosition: 0,
+                rtl: false,
+
+                items : 4,
+                navigation : true,
+                loop: false,
+                autoplay: true,
+                autoplayHoverPause: true,
+                navigationText : ['<span class="fa-stack"><i class="fa fa-circle fa-stack-1x"></i><i class="fa fa-chevron-circle-left fa-stack-1x fa-inverse"></i></span>','<span class="fa-stack"><i class="fa fa-circle fa-stack-1x"></i><i class="fa fa-chevron-circle-right fa-stack-1x fa-inverse"></i></span>'],
+
+                itemsDesktop : [1100,3], //5 items between 1100px and 901px
+                itemsDesktopSmall : [900,2], // betweem 900px and 601px
+                itemsTablet: [700,1], //2 items between 600 and 0
+                itemsMobile : [500,1] // itemsMobile disabled - inherit from itemsTablet option
+
+            });
+
+            // Custom Navigation Events
+            $(".owl-carousel-arrows .next").click(function() {
+                owl.trigger('owl.next');
+            });
+
+            $(".owl-carousel-arrows .prev").click(function() {
+                owl.trigger('owl.prev');
+            });
+        });
+    </script>
+
+    <script>
+
+
+
+        function changeCouleur(id) {
+        }
+        function addfavnonConnect() {
+            $("#myModal").modal({backdrop: true});
+
+        }
+        $('#couleur').on('click', 'li', function () {
+            $(this).addClass("selected"); // Assign the class here
+            //   var value = $('#couleur').val();
+            var value = $(this).attr('value');
+            var produit = parseInt($("#idproduit").val());
+            $.ajax({
+                url: "{{ (path('getSizeCouleur')) }}",
+                dataType: 'Json',
+                data: {"couleurid": value, "produitid": produit},
+                type: 'GET',
+                success: function (data) {
+                    var nameselect = "sizes" + produit
+                    $('select[name=nameselect]').empty();
+                    if (data[0]) {
+                        student = data[0];
+                        $('select[name=nameselect]').append('<option selected value="' + student['id'] + '">' + student['libelle'] + '</option>');
+
+                    }
+
+                    for (i = 1; i < data.length; i++) {
+                        student = data[i];
+                        $('select[name="sizes').append('<option  value="' + student['id'] + '">' + student['libelle'] + '</option>');
+                    }
+                    $("select").select2();
+                    //	$("#quantitymodal" + produit).val(1);
+                }
+            });
+        });
+
+        function changeImagecouleur(produitid, couleurid, image) {
+            if (image) {
+                changeImage(image, produitid)
+            }
+            var produit = parseInt(produitid);
+            var couleur = parseInt(couleurid);
+
+            $("#quantitymodal"+produitid).val(1);//rahma addd to
+
+            $.ajax({
+                url: "{{ (path('getSizeCouleur')) }}",
+                dataType: 'Json',
+                data: {"couleurid": couleur, "produitid": produit},
+                type: 'GET',
+                success: function (data) {
+                    var nameselect = "sizes" + produitid
+                    $('select[name=' + nameselect + ']').empty();
+
+                    if (data[0]) {
+                        size = data[0];
+                        $('select[name=' + nameselect + ']').append('<option selected value="' + size['id'] + '">' + size['libelle'] + '</option>');
+                    }
+
+                    for (i = 1; i < data.length; i++) {
+                        size = data[i];
+                        $('select[name=' + nameselect + ']').append('<option  value="' + size['id'] + '">' + size['libelle'] + '</option>');
+                    }
+
+                    //	$("#quantitymodal" + produit).val(1);
+                }
+            });
+
+        }
+
+        function changeImage(image, id) {
+
+            document.getElementById("imageproduit" + id).src = '/uploads/produits/' + image;
+            var images = document.getElementsByName("img");
+            for (i in images) {
+                images[i].style = 'width: 100px;\n' +
+                    '    height: 100px;\n' +
+                    '    background-size: cover;\n' +
+                    '    border-width: 2px;\n' +
+                    '    border-color: #dcdbdb;\n' +
+                    '    border-style: solid;';
+            }
+            document.getElementById(image).style = 'width: 100px;\n' +
+                '    height: 100px;\n' +
+                '    background-size: cover;\n' +
+                '    border-width: 2px;\n' +
+                '    border-color: #ED0000;\n' +
+                '    border-style: solid;';
+
+        }
+    </script>
+    <script type="text/javascript">
+
+        $('#closeAlert').click(function(){
+            $("#divquantity-max").hide();
+
+
+        });
+        $('#closeAlertq').click(function(){
+
+            $("#divmodal-panier").hide();
+
+        });
+
+        function addArticleSize(id) {
+
+            var selectsizes = document.getElementById("sizes" + id);
+            var sizeid = selectsizes.options[selectsizes.selectedIndex].value;
+            var qte = parseInt($("#quantitymodal" + id).val());
+            //alert(qte);
+
+            $.ajax({
+                url: "{{ (path('size_from_id')) }}",
+                dataType: 'Json',
+                data: {"sizeid": sizeid},
+                type: 'GET',
+                success: function (data) {
+                    var quantite = data
+                    if (qte  > quantite) {
+
+                        //  alert("Vous ne pouvez commander que " +quantite+" produit" )
+                        document.getElementById("idinputtwo"+id).innerHTML = quantite;
+
+                        $("document").ready(function () {
+
+                            //was  $('#modal-panier' + id).modal({backdrop: 'static', keyboard: false});
+                            $('#modal-panier' + id).modal("show");
+
+
+
+                        })
+
+
+                    } else {
+                        addArticlewithsize(id, sizeid, qte);
+                        $('#productSetailsModalAjax'+id).modal('hide');
+
+                    }
+
+                }
+            });
+
+        }
+
+        function changeSize(id) {
+            //$("#quantitymodal" + id).val(1);
+        }
+
+        function enabledivquantity(id, quantite, max) {
+            var qte = parseInt($("#qte" + id).val());
+
+            if (qte + 1 > quantite) {
+
+                //alert("Vous ne pouvez commander que " +quantite+" produit" )
+                document.getElementById("idinputtwo"+id).innerHTML = quantite;
+
+                $("document").ready(function () {
+                  //  $('#modal-panier' + id).modal("show");
+                    $("#divmodal-panier").show();
+
+                })
+            } else if (qte + 1 > max) {
+                $("document").ready(function () {
+                   // $('#modal-quantity-max' + id).modal("show");
+
+                    $("#divquantity-max").show();
+
+                })
+            } else if (qte >= 0) {
+                var quantities = document.querySelectorAll("[id=quantite" + id+"]");
+                var btncarts = document.querySelectorAll("[id=addcart" + id+"]");
+                for(var i = 0; i < btncarts.length; i++){
+                    btncarts[i].style.display = "none";
+                }
+                for(var i = 0; i < quantities.length; i++){
+                    quantities[i].style.display = "block";
+                }
+
+
+                addArticle(id, quantite, max);
+            }
+        }
+
+        function plusquantity(id) {
+
+            var selectsizes = document.getElementById("sizes" + id);
+            var sizeid = selectsizes.options[selectsizes.selectedIndex].value;
+            var qte = parseInt($("#quantitymodal" + id).val())  ;
+
+            $.ajax({
+                url: "{{ (path('size_from_id')) }}",
+                dataType: 'Json',
+                data: {"sizeid": sizeid},
+                type: 'GET',
+                success: function (data) {
+                    var quantite = data;
+                    var qtee = parseInt($("#quantitymodal" + id).val())+1  ;
+
+                    if (qtee  > quantite) {
+
+                        //alert("Vous ne pouvez commander que " +quantite+" produit" )
+                        document.getElementById("idinputtwo"+id).innerHTML = quantite;
+
+                        $("document").ready(function () {
+
+                           // $('#modal-panier' + id).modal("show");
+                            $("#divmodal-panier").show();
+
+                        })
+
+                    } else {
+                        var qte = parseInt($("#quantitymodal" + id).val()) + 1;
+                        var qte_input = document.querySelectorAll("[id=quantitymodal" + id+"]");
+                        for(var i = 0; i < qte_input.length; i++){
+                            qte_input[i].value = qte;
+                        }
+                    }
+
+                }
+            });
+
+
+            /*
+            was befor my change
+            var qte = parseInt($("#quantitymodal" + id).val()) + 1;
+            var qte_input = document.querySelectorAll("[id=quantitymodal" + id+"]");
+            for(var i = 0; i < qte_input.length; i++){
+                qte_input[i].value = qte;
+            }*/
+        }
+
+        function moinsquantity(id) {
+            var qte = parseInt($("#quantitymodal" + id).val()) - 1;
+            if (qte > 0) {
+                $("#quantitymodal"+id).val(qte);
+            } else {
+                $("document").ready(function () {
+                    $('#modal-quantity').modal({backdrop: 'static', keyboard: false});
+                })
+
+            }
+        }
+        <!-- ---- -->
+
+        function plusquantityD(id,quantity,max) {
+
+            var qte = parseInt($("#qte" + id).val()) + 1;
+            if(qte  > quantity  ){
+                document.getElementById("idinputtwo"+id).innerHTML = quantity;
+
+                $("document").ready(function () {
+              //was      $('#modal-panier' + id).modal("show");
+                    $("#divmodal-panier").show();
+
+
+                })
+            }
+            else if (qte > max) {
+                $("document").ready(function () {
+
+                  //was  $('#modal-quantity-max' + id).modal("show");
+                    $("#divquantity-max").show();
+
+                })
+            }else{
+                //  $("#qte" + id).val(qte);
+                var qte_input = document.querySelectorAll("[id=qte" + id+"]");
+
+                for(var i = 0; i < qte_input.length; i++){
+                    qte_input[i].value = qte;
+                }
+            }
+
+        }
+
+        function moinquantityD(id,quantity,max) {
+
+            var qte = parseInt($("#qte" + id).val()) -1;
+            //  $("#qte" + id).val(qte);
+            var qte_input = document.querySelectorAll("[id=qte" + id+"]");
+
+            if (qte > 0) {
+                for(var i = 0; i < qte_input.length; i++){
+                    qte_input[i].value = qte;
+                }
+            } else {
+                $("document").ready(function () {
+                    $('#modal-quantity').modal({backdrop: 'static', keyboard: false});
+                })
+
+            }
+        }
+        function addArticlee(id, quantity,max) {
+            var qte = parseInt(  $("#qte"+id).val());
+            var qte_input = document.querySelectorAll("[id=qte" + id+"]");
+
+
+            if(qte  > quantity  ){
+                document.getElementById("idinputtwo"+id).innerHTML = quantity;
+
+                $("document").ready(function () {
+                    $("#divmodal-panier").show();
+                  //  $("divmodal-panier").toggle();
+
+                  //was  $('#modal-panier' + id).modal("show");
+
+                })
+            }
+            else if (qte ===0) {
+                $("document").ready(function () {
+
+                   // $("#div-chooseqt").show();
+
+
+                })
+            }
+            else if (qte > max) {
+                $("document").ready(function () {
+
+                   $("#divquantity-max").show();
+
+                  //was  $('#modal-quantity-max' + id).modal("show");
+
+                })
+            }
+            else {
+
+                for(var i = 0; i < qte_input.length; i++){
+                    qte_input[i].value = qte ;
+                }
+                //   alert("qtettee"+qte)
+                var $this = $("#addArticlee"+id);
+                $.ajax({
+                    url: Routing.generate('add_many_quantity_to_cart', {id: id,qte:qte}), success: function (result) {
+                        $(".my_nav_bar").html(result);
+                        $(".total_price_cart_empty").html($(".total_price_cart").html());
+                        $("img.lazy").lazyload({
+                            threshold : 50
+                        });
+                      $(window).load(function(){
+                           $("html,body").trigger("scroll");
+                        });
+                     //  $this.button('reset');
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+    </script>
+
+{% endblock body %}

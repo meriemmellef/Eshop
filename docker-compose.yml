@@ -1,0 +1,62 @@
+version: "3.2"
+services:
+    php:
+        build: './docker/php/'
+        container_name: "php_prod"
+        user: "${DOCKER_UID}:${DOCKER_GID}"
+        volumes:
+        - ./:/var/www/html/
+        #command: 'composer install'
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            PHP_PORT: ${PHP_PORT}
+        #command: "COMPOSER_MEMORY_LIMIT=-1 composer install"
+    apache:
+        container_name: "apache_prod"
+        build: './docker/apache/'
+        restart: always
+        environment:
+            SERVER_NAME: ${SERVER_NAME}
+        depends_on:
+        - php
+        - mysql
+        ports:
+        - 127.0.0.1:${APACHE_PORT}:80
+        volumes:
+        - ./:/var/www/html/
+    mysql:
+        container_name: "mysql_prod"
+        user: "${DOCKER_UID}:${DOCKER_GID}"
+        image: mysql:5.1.1
+        restart: always
+        ports:
+            - 127.0.0.1:${MYSQL_PORT}:3306
+        depends_on:
+            - php
+        command: mysqld --sql_mode=""
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        volumes:
+            - /var/www/databases/eboutique/mysql:/var/lib/mysql
+            - ./mysql_dump:/mysql_dump
+    phpmyadmin:
+        container_name: "phpmyadmin_prod"
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        links: 
+            - mysql:mysql
+        ports: 
+            - 127.0.0.1:${PHPMYADMIN_PORT}:80
+        environment:
+            PMA_HOST: ${MYSQL_HOST}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD} 

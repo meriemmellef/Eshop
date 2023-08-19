@@ -1,0 +1,592 @@
+<?php
+
+namespace WebBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+/**
+ * Produits
+ *
+ * @ORM\Table("produits")
+ * @ORM\Entity(repositoryClass="WebBundle\Repository\ProduitsRepository")
+ * @Vich\Uploadable
+ */
+class Produits
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+
+    /**   
+     *
+     * 
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    private $image = null;
+    
+    /**
+     * @Vich\UploadableField(mapping="produits_images", fileNameProperty="image")
+<<<<<<< HEAD
+=======
+     * @Assert\Expression("this.getImageFile() or this.getImage()", message="admin.validation.image.upload")
+     * @Assert\File(maxSize="2000000")
+>>>>>>> 6823883350c5aac84dec3b4c1f05170ad4d3ced0
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="WebBundle\Entity\Categories", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $categorie;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="WebBundle\Entity\Tva", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $tva;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=125)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text")
+     */
+    private $description;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="prix", type="float")
+     */
+    private $prix;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="disponible", type="boolean")
+     */
+    private $disponible;
+
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $is_active = true;
+
+
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $categorie_id;
+
+
+    
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nb_achat;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="DetailCommand", mappedBy="product")
+     */
+    private $commands;
+
+
+
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+
+
+    /**
+     * @var $unite_id
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $unite_id;
+
+
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Unite", inversedBy="produits")
+     * @ORM\JoinColumn(name="unite_id", referencedColumnName="id")
+     */
+    private $unite;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="unite_demballage", type="string", length=255)
+     */
+    private $uniteDemballage;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->commands = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->created_at = new \DateTime();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Produits
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Produits
+     */
+    public function setNom($nom = Null)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Produits
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set prix
+     *
+     * @param float $prix
+     *
+     * @return Produits
+     */
+    public function setPrix($prix)
+    {
+        $this->prix = $prix;
+
+        return $this;
+    }
+
+    /**
+     * Get prix
+     *
+     * @return float
+     */
+    public function getPrix()
+    {
+        return $this->prix;
+    }
+
+    /**
+     * Set disponible
+     *
+     * @param boolean $disponible
+     *
+     * @return Produits
+     */
+    public function setDisponible($disponible)
+    {
+        $this->disponible = $disponible;
+
+        return $this;
+    }
+
+    /**
+     * Get disponible
+     *
+     * @return boolean
+     */
+    public function getDisponible()
+    {
+        return $this->disponible;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return Produits
+     */
+    public function setIsActive($isActive)
+    {
+        $this->is_active = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->is_active;
+    }
+
+    /**
+     * Set nbAchat
+     *
+     * @param integer $nbAchat
+     *
+     * @return Produits
+     */
+    public function setNbAchat($nbAchat)
+    {
+        $this->nb_achat = $nbAchat;
+
+        return $this;
+    }
+
+    /**
+     * Get nbAchat
+     *
+     * @return integer
+     */
+    public function getNbAchat()
+    {
+        return $this->nb_achat;
+    }
+
+    /**
+     * Set categorie
+     *
+     * @param \WebBundle\Entity\Categories $categorie
+     *
+     * @return Produits
+     */
+    public function setCategorie(\WebBundle\Entity\Categories $categorie)
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * Get categorie
+     *
+     * @return \WebBundle\Entity\Categories
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+
+    /**
+     * Set tva
+     *
+     * @param \WebBundle\Entity\Tva $tva
+     *
+     * @return Produits
+     */
+    public function setTva(\WebBundle\Entity\Tva $tva = null)
+    {
+        $this->tva = $tva;
+
+        return $this;
+    }
+
+    /**
+     * Get tva
+     *
+     * @return \WebBundle\Entity\Tva
+     */
+    public function getTva()
+    {
+        return $this->tva;
+    }
+
+    /**
+     * Add command
+     *
+     * @param \WebBundle\Entity\DetailCommand $command
+     *
+     * @return Produits
+     */
+    public function addCommand(\WebBundle\Entity\DetailCommand $command)
+    {
+        $this->commands[] = $command;
+
+        return $this;
+    }
+
+    /**
+     * Remove command
+     *
+     * @param \WebBundle\Entity\DetailCommand $command
+     */
+    public function removeCommand(\WebBundle\Entity\DetailCommand $command)
+    {
+        $this->commands->removeElement($command);
+    }
+
+    /**
+     * Get commands
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommands()
+    {
+        return $this->commands;
+    }
+
+    public function getPathImage()
+    {
+        return "/uploads/produits/" . $this->getImage();
+    }
+
+
+
+    /**
+     * Set categorieId
+     *
+     * @param integer $categorieId
+     *
+     * @return Produits
+     */
+    public function setCategorieId($categorieId)
+    {
+        $this->categorie_id = $categorieId;
+
+        return $this;
+    }
+
+    /**
+     * Get categorieId
+     *
+     * @return integer
+     */
+    public function getCategorieId()
+    {
+        return $this->categorie_id;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Produits
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->created_at = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set uniteId
+     *
+     * @param integer $uniteId
+     *
+     * @return Produits
+     */
+    public function setUniteId($uniteId)
+    {
+        $this->unite_id = $uniteId;
+
+        return $this;
+    }
+
+    /**
+     * Get uniteId
+     *
+     * @return integer
+     */
+    public function getUniteId()
+    {
+        return $this->unite_id;
+    }
+
+    /**
+     * Set unite
+     *
+     * @param \WebBundle\Entity\Unite $unite
+     *
+     * @return Produits
+     */
+    public function setUnite(\WebBundle\Entity\Unite $unite = null)
+    {
+        $this->unite = $unite;
+
+        return $this;
+    }
+
+    /**
+     * Get unite
+     *
+     * @return \WebBundle\Entity\Unite
+     */
+    public function getUnite()
+    {
+        return $this->unite;
+    }
+    
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the  update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     *
+     * @return Product
+     */
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param string $imageName
+     *
+     * @return Product
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
+    }
+
+
+    /**
+     * Set uniteDemballage
+     *
+     * @param string $uniteDemballage
+     *
+     * @return Produits
+     */
+    public function setUniteDemballage($uniteDemballage)
+    {
+        $this->uniteDemballage = $uniteDemballage;
+
+        return $this;
+    }
+
+    /**
+     * Get uniteDemballage
+     *
+     * @return string
+     */
+    public function getUniteDemballage()
+    {
+        return $this->uniteDemballage;
+    }
+}

@@ -1,0 +1,159 @@
+
+{% extends '@Backend/layout/layout.html.twig' %}
+
+{% block page %}
+    <div class="page">
+
+        <div class="page-header">
+            <h1 class="page-title">{{ "Horaires de retrait"|trans }}  </h1>
+        </div>
+
+        <div class="page-content" style="padding-top: 0px " >
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid"  style="padding-left: 9px !important;padding-right: 9px !important;padding-top: 0px !important;padding-bottom: 0px !important;">
+                    <form class="row row-lg" style="padding-top: 20px;padding-bottom: 20px;" action="{{ path('pick_up_time') }}" method="post">
+
+                        {% if errorhor is defined  %}
+                            <div class="col-lg-12 text-center">
+                            <div class="alert alert-danger alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                {{ errorhor|trans }}
+                            </div>
+                            </div>
+                        {% endif %}
+                        <div class="col-lg-12">
+                            <h4 class="example-title">{{"Veuillez choisir les horaires de disponibilité de retrait"|trans}}</h4>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-xs-1">
+                        </div>
+                        <div class="row col-lg-10">
+                            {%  for  key, horaire in horaires %}
+                                <div class="col-lg-2 col-md-2 col-xs-3">
+                                    <div class="checkbox-custom checkbox-primary">
+                                        <input type="checkbox" name="listHoraires[]"  value="{{ key }}" id="checkbox{{ key }}"
+                                                {% if key in station.horaires %} checked="" {% endif %}>
+                                        <label for="checkbox{{ key }}">{{ horaire|trans }}</label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+
+                        <div class="offset-1 col-lg-12 col-md-12 col-xs-12">
+                            <div class="example-wrap" style="margin-bottom: 40px;">
+
+                                <div class="checkbox-custom checkbox-primary">
+                                    <input type="checkbox" name="isOpen"  value="1" id="isOpen"
+                                            {% if station.isOpen == true %} checked="" {% endif %}>
+                                    <label for="isOpen">{{ "station_open_manday"|trans }} </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 text-right">
+                            <button type="submit" class="btn social-evernote  waves-effect waves-classic">{{ "Valider"|trans }}</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+        <div class="page-header" style="    padding-top: 0px;">
+            <h1 class="page-title">{{ "Livraison"|trans }}</h1>
+        </div>
+
+        <div class="page-content" style="padding-top: 0px " >
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid"  style="padding-left: 9px !important;padding-right: 9px !important;padding-top: 0px !important;padding-bottom: 0px !important;">
+                    <form class="row row-lg" style="padding-top: 20px;padding-bottom: 20px;" action="{{ path('horaire_gerant_index') }}" method="post">
+
+                        {% if error is defined %}
+                            <div class="col-lg-12 text-center">
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                    {{ error }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="col-lg-12">
+                            <h4 class="example-title">{{"Je propose la livraison à domicile pour mes clients"|trans}} </h4>
+                        </div>
+
+                        <div class="offset-1 col-lg-12 col-md-12 col-xs-12 ">
+                            <div class="example-wrap" style="margin-bottom: 40px;">
+
+                                    <div class="checkbox-custom checkbox-primary">
+                                        <input type="checkbox" name="livraison"   id="checkbox"
+                                                {% if station.isDelivered %} checked="" {% endif %}>
+                                        <label>{{ "Active"|trans }} ?</label>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="offset-1  col-lg-3 ">
+                            <label>{{ "prix de livraison"|trans }}</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xs-6">
+                           <input class="form-control" type="number"  min="0" step="0.001"  {% if station.isDelivered %} value="{{ station.prixLivraison }}"{% endif %} name="prix" id="inputprix" >
+                        </div>
+                        <div class="offset-1 col-lg-3 " style="padding-top :10px">
+                            <label>{{ "Montant Minimum de la livraison"|trans }}</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xs-6"  style="padding-top :10px">
+                            <input class="form-control" type="number"  min="0" step="0.001" {% if station.isDelivered %} value="{{ station.minprixLivraison }}" {% endif %}  name="prixmin" id="inputprixmin" >
+                        </div>
+                        <div class="col-lg-12 text-right" style="padding-top: 30px;">
+                            <button type="submit" class="btn social-evernote  waves-effect waves-classic">{{ "Valider"|trans }}</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+
+        if ($('#checkbox').is(":checked"))
+        {
+            // it is checked
+            document.getElementById("inputprix").required = true;
+            document.getElementById("inputprixmin").required = true
+
+        }else {
+
+            document.getElementById("inputprix").required = false;
+            document.getElementById("inputprixmin").required = false
+
+        }
+        $("document").ready(function(){
+            $('#checkbox').change(function() {
+                if(this.checked) {
+                    //$("#inputprix").attr("required", "true");
+                    //$("#inputprixmin").attr("required", "true");
+                    document.getElementById("inputprix").required = true;
+                    document.getElementById("inputprixmin").required = true
+
+                }else {
+                    document.getElementById("inputprix").required = false;
+                    document.getElementById("inputprixmin").required = false
+                   // $("#inputprix").attr("required", "false");
+                   // $("#inputprixmin").attr("required", "false");
+
+                }
+            });
+
+        })
+
+    </script>
+{% endblock %}
+

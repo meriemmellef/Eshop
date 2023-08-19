@@ -1,0 +1,128 @@
+
+{% extends 'FrontendBundle::base.html.twig' %}
+{% block body %}
+<div class="container"  style="padding-right: 2%;padding-left: 2%;margin-top: 110px;background-color: #F7F9FA;max-width: 1600px;margin-bottom: 20px">
+    <div class="row">
+        <div class="col-lg-12 col-xs-12" style="padding: 25px;">
+            <div class="row"  style=" display: flex;  justify-content: center;  align-items: center;padding-bottom: 20px">
+                <div class="col-lg-6  col-xs-12 col-md-12 col-sm-12">
+                    <h1 class="sectionchoix  no-margin">
+                        <span>{{ app.session.get("pays").StationPopupTitle }} </span>
+                    </h1>
+
+                    <p class="itempopupDesc" style="margin-top: 30px;  white-space: pre-line;">
+                        {{ app.session.get("pays").StationPopupDescription |nl2br }}
+                    </p>
+                    <br/>
+                    <h3 class="spandesc  no-margin" ><span>
+                                {% if app.session.get("pays").FrontLanguage == 'en' %}Choose your station : {% else %} Choisissez votre Station :{% endif %}
+                               </span></h3>
+                    <form action="{{ path("setStation") }}">
+
+                        <select class="selectpicker"  id="stationList"  name="station_id" style=" width: 100%;border-radius: 10px;border: 1px solid #B7CBD3;height: 38px; font-family: Roboto-Regular,sans-serif; color: #B7CBD3;">
+
+                            <option class="optionp" selected  disabled >{{" Choisissez votre station" | trans }}</option>
+
+                            {% for key, station in stations %}
+                                <optgroup   label="{{ key }}" style="color: #ED0000">
+                                    {% for s in station %}
+                                        <option class="optionpopup "  value="{{ s.id }}"  data-icon="glyphicon glyphicon-shopping-cart" data-subtext="Heinz" >
+                                            {{ s.nom }}
+                                        </option>
+
+
+
+                                    {% endfor %}
+                                </optgroup>
+                            {% endfor %}
+                        </select>
+                        <br>  <br>
+
+                        <button class="btnpopup" type="submit" style=" width: 100%;margin-top: 10px;font-size: 17px;font-family: Roboto-Regular,sans-serif;height: 38px">{{ "Valider"|trans }}</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+    <style>
+
+    .itempopupDesc {
+        font-family: Roboto-Regular, sans-serif;
+        color: #374649;
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+
+    .titlepopup {
+        font-family: Roboto-Regular, sans-serif;
+        font-size: 16px;
+        background: -webkit-linear-gradient(left, rgba(239, 111, 0), rgba(237, 0, 0)) !important;
+
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+    }
+
+    .btnpopup {
+
+
+        color: #ffffff;
+        border: 1px solid #ED0000;
+
+        padding: 0;
+        height: 34px;
+        width: 58px;
+        font-family: Roboto-Regular, sans-serif;
+        font-weight: normal;
+        font-size: 14px;
+
+        background: #ED0000;
+        text-align: center;
+        border-radius: 15px;
+
+
+    }
+
+    .btnpopup:hover {
+        color: #ED0000;
+        background: #ffffff;
+
+
+    }
+
+    .optionpopup {
+        font-family: Roboto-Regular, sans-serif;
+        font-weight: 400;
+        color: #374649;
+        font-size: 14px;
+
+
+
+    }
+    .optionp {
+        font-family: Roboto-Regular, sans-serif;
+        font-weight: 400;
+        color: #B7CBD3;
+        font-size: 14px;
+
+
+    }
+
+    /* .optionpopup{
+          font-family: Roboto,sans-serif;
+          font-weight: normal;
+          font-size: 14px;
+
+
+      }*/
+
+
+
+
+
+</style>
+{% endblock body %}

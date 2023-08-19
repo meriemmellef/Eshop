@@ -1,0 +1,13 @@
+parameters:
+#    ecommerce.example.class: Ecommerce\EcommerceBundle\Example
+
+services:
+
+
+    setNewFacture:
+      class: FrontendBundle\Services\GetFacture
+      arguments: [@service_container]
+
+    setNewReference:
+      class: FrontendBundle\Services\GetReference
+      arguments: [@security.context, @doctrine.orm.entity_manager]
