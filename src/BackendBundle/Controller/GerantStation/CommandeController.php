@@ -3,6 +3,7 @@
 namespace BackendBundle\Controller\GerantStation;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -78,12 +79,14 @@ class CommandeController extends Controller
      * @Route("/page/{page}", requirements={"page": "[1-9]\d*"}, name="commandes_gerant_show_paginated")
      * @Method("GET")
      */
-    public function showAction( $id,$page)
+    public function showAction( $id,$page,Request $request)
     { 
         $em = $this->getDoctrine()->getManager();
         $commande = $em->getRepository('WebBundle:Commandes')->find($id);
         if($commande && ($commande->getPays() == $this->getUser()->getPays())) {
             $query = $em->getRepository('WebBundle:Commande_Produit')->GetProduitByCommande($commande);
+        // dump($query);die;
+             
             $paginator = $this->get('knp_paginator');
             $commande_produit = $paginator->paginate(
                 $query, $page, 10
@@ -97,6 +100,26 @@ class CommandeController extends Controller
         else{
             return $this->redirectToRoute('commande_gerant_index');
         }
+    }
+    /**
+     * Lists all Produits entities.
+     *
+     * @Route("/nondispo", name="nondispo")
+     * @Method("POST")
+     */
+    public function nondisponibleAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        if ($request->isXmlHttpRequest()) {
+            $id = $request->get('id');
+            $produit= $em->getRepository("WebBundle:Commande_Produit")->find($id);
+            $prix=$produit->getPrix();
+            $commande=$produit->getCommande();
+            $commande->setPrix($commande->getPrix()-$prix);
+            $em->remove($produit);
+            $em->flush();
+            $response = new JsonResponse();
+        }
+        return $response->setData(array('retour' => $id));
     }
 
     /**
@@ -119,6 +142,15 @@ class CommandeController extends Controller
               }
               else*/
             if ($statut == 4) {
+                $commandeproduits=$commande->getCommandesproduits();
+                $reverse_quantite=0;
+                foreach($commandeproduits as $cp){
+                    $produit=$cp->getProduit();
+                    $last_quantite=$produit->getQuantite();
+                    $reverse_quantite=$cp->getQuantite();
+                    $produit->setQuantite($last_quantite+$reverse_quantite);
+                    $em->flush();
+                }
                 $commande->setDateAnnulation(new \DateTime());
                 $commande->setStatutpayement(0);
 

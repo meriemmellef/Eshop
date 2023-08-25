@@ -53,7 +53,7 @@ class SecurityController extends BaseSecurityController
     public function checkAction()
     {
         //dump('check');die;
-        throw new \RuntimeException('You must configure the check path to be handled by the firewall using form_login in your security firewall configuration.');
+   throw new \RuntimeException('You must configure the check path to be handled by the firewall using form_login in your security firewall configuration.');
     }
 }
 ?>

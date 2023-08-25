@@ -3,9 +3,7 @@ security:
         FOS\UserBundle\Model\UserInterface: sha512
 
     role_hierarchy:
-        ROLE_FRONTEND: [ROLE_CLIENT]
-        ROLE_BACKEND:  [ROLE_CLIENT,ROLE_GERANT, ROLE_GESTIONNAIRE, ROLE_SUPER_ADMIN]
-
+     
     providers:
         fos_userbundle:
             id: fos_user.user_provider.username_email
@@ -61,7 +59,7 @@ security:
 
         - { path: ^/log_back_end/produit/get_sous_categorie_from_categorie, role: [  ROLE_GESTIONNAIRE ,ROLE_GERANT ] }
 
-        - { path: ^/log_back_end/dashboard/, , role: [  ROLE_GESTIONNAIRE , ROLE_SUPER_ADMIN ] }
+        - { path: ^/log_back_end/dashboard/,role: [  ROLE_GESTIONNAIRE , ROLE_SUPER_ADMIN ] }
         - { path: ^/log_back_end/station/, role:  ROLE_GESTIONNAIRE  }
         - { path: ^/log_back_end/gerant/, role:  ROLE_GESTIONNAIRE  }
         - { path: ^/log_back_end/categorie/, role:  ROLE_GESTIONNAIRE  }

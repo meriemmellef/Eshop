@@ -432,8 +432,8 @@ class ProduitsRepository extends \Doctrine\ORM\EntityRepository
 
         $q = $this->createQueryBuilder('p')
             ->select("p,cat,sub,c,s")
-            ->where("p.is_active = 1")
-            ->andWhere("p.quantite > 0")
+           // ->where("p.is_active = 1")
+         //   ->andWhere("p.quantite > 0")
             ->andWhere("cat.isActive = true")
             ->andWhere("sub.isActive  = true")
             ->andWhere("p.is_active  = true")

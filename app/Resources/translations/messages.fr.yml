@@ -475,7 +475,7 @@ captchincorect: ReCaptcha incorrect, veuillez réessayer.
 validation: Validation
 Choisir une adresse de livraison: Choisir une adresse de livraison
 forget_password_msg: Si ce compte existe, vous recevrez un mail vous permettant de réinitialiser votre mot de passe.
-email.exist: L'adresse e-mail est invalide
+email.exist: L'adresse e-mail existe déja
 J'accepte de recevoir par email: J'accepte de recevoir par EMAIL les offres promotionnelles de la part de TotalEnergies
 J'accepte de recevoir par sms: J'accepte de recevoir par SMS les offres promotionnelles de la part de TotalEnergies
 create_new_account: Créer un nouveau compte

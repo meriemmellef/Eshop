@@ -7213,3 +7213,30 @@ button.close {
         display: none !important
     }
 }
+.badge-warning {
+  background-color: #f89406;
+}
+.badge-danger {
+  background-color: red;
+}
+.badge-danger:hover {
+  background-color: red;
+}
+.badge-success {
+  background-color: #5cc45e;
+}
+.badge-success:hover {
+  background-color: #356635;
+}
+.badge-info {
+  background-color: #3a87ad;
+}
+.badge-info:hover {
+  background-color: #2d6987;
+}
+.badge-inverse {
+  background-color: #333333;
+}
+.badge-inverse:hover {
+  background-color: #1a1a1a;
+}

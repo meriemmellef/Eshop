@@ -33,6 +33,7 @@
                             <tr>
                                 <th class="titireText" data-class="expand" data-sort-initial="true" data-type="numeric"><span title="tableau trié par cette colonne au chargement">{{"Références" | trans}}</span></th>
                                 <th class="titireText" data-hide="phone,tablet" data-sort-ignore="true">{{ "Nb. articles" | trans }}</th>
+                                <th class="titireText" data-hide="phone,tablet" data-sort-ignore="true">{{ "Désignations" | trans }}</th>
                                 <th class="titireText"  data-hide="phone,tablet" data-sort-ignore="true"><strong></strong></th>
                                 <th class="titireText" data-hide="default" data-type="numeric">{{ "Prix" | trans }} </th>
                                 <th class="titireText" data-hide="default" data-type="numeric"> {{"Date et période de retrait" | trans}}</th>
@@ -40,64 +41,71 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for facture in factures %}
-                            <tr>
-                                <td data-value="}" class="spanText">#{{ facture.0.commande.reference }}</td>
-                                <td>
-                                    {{ facture.nbproduit }}
-                                    <small class="spanText">{{ "Article"|trans }} {% if  facture.nbproduit>1 %}(s) {% endif %}</small>
-                                </td>
-                                <td><a href="{{ path("facture_detail",{"id":facture.0.commande.id}) }}" class="btn btn-primary btn-sm" style="font-family: Roboto-Regular, sans-serif !important;">{{"Voir Détails" | trans}}</a> &nbsp;&nbsp;
-                                    <a style="display:none;" href="{{ path("facturepdf",{"id":facture.0.id}) }}" class="btn btn-primary btn-sm">{{ "Imprimer facture" | trans }}</a>
-                                </td>
-                                <td data-value="{{ formated_price(facture.0.commande.prix,app.session.get('pays'),false) }}"><span class="price" >{{ formated_price(facture.0.commande.prix,app.session.get('pays')) }}</span></td>
-                                <td data-value="" >
-                                    <span class="spanText" >{{facture.0.commande.dateReception|date("d/m/Y h:i") }}</span>
+   
 
-                                    {% if  facture.0.commande.periodeReception == 1 %}
+  {% for facture in factures %}
+     
+                            <tr>
+                                <td data-value="}" class="spanText">#{{ facture.reference }}</td>
+                                <td>
+                                  
+                                    {{ facture.commandesproduits|length }}
+                                  <small class="spanText">{{ "Article"|trans }} {% if  facture.commandesproduits|length>1 %}(s) {% endif %}</small>
+                                </td>
+                              <td>{% for comp in facture.commandesproduits %}{{comp.produit.nom}}{%if not loop.last%}-{%endif%}{% endfor %}</td>
+                            
+                                <td><a href="{{ path("facture_detail",{"id":facture.id}) }}" class="btn btn-primary btn-sm" style="font-family: Roboto-Regular, sans-serif !important;">{{"Voir Détails" | trans}}</a> &nbsp;&nbsp;
+                                   <a style="display:none;" href="{{ path("facturepdf",{"id":facture.id}) }}" class="btn btn-primary btn-sm">{{ "Imprimer facture" | trans }}</a>
+                               </td>
+                                <td data-value="{{ formated_price(facture.prix,app.session.get('pays'),false) }}"><span class="price" >{{ formated_price(facture.prix,app.session.get('pays')) }}</span></td>
+                                <td data-value="" >
+                                    <span class="spanText" >{{facture.dateReception|date("d/m/Y h:i") }}</span>
+
+                                    {% if  facture.periodeReception == 1 %}
 
                                         <span class="spanText" > {{"de 8h à 10h" | trans}}</span>
 
                                     {% endif %}
-                                    {% if  facture.0.commande.periodeReception == 2 %}
+                                    {% if  facture.periodeReception == 2 %}
                                     <span class="spanText" > {{"de 10h à 12h" | trans}}     </span>
 
                                     {% endif %}
-                                    {% if  facture.0.commande.periodeReception == 3 %}
+                                    {% if  facture.periodeReception == 3 %}
 
                                         <span class="spanText" >{{"de 12h à 14h" | trans}}</span>
 
                                     {% endif %}
-                                    {% if facture.0.commande.periodeReception == 4 %}
+                                    {% if facture.periodeReception == 4 %}
 
                                         <span class="spanText" > {{"de 14h à 16h" | trans}}</span>
                                     {% endif %}
-                                    {% if  facture.0.commande.periodeReception == 5 %}
+                                    {% if  facture.periodeReception == 5 %}
 
                                         <span class="spanText" >{{"de 16h à 18h" | trans}}</span>
 
                                     {% endif %}
-                                    {% if facture.0.commande.periodeReception == 6 %}
+                                    {% if facture.periodeReception == 6 %}
 
                                         <span class="spanText" >{{"de 18h à 20h" | trans}}</span>
                                     {% endif %}
                                 </td>
-                                <td data-value="">
-                                {% if  facture.0.commande.statutcommande == 0 %}
-                                    <span class="badge badge-danger" style="font-family: Roboto-Regular, sans-serif">{{"Non traitée" | trans}}</span>
+                               
+                               <td data-value="">
+                                {% if  facture.statutcommande == 0 %}
+                                    <span class="badge badge-warning" style="font-family: Roboto-Regular, sans-serif">{{"Non traitée" | trans}}</span>
                                 {% endif %}
 
-                                {% if  facture.0.commande.statutcommande == 1 %}
+                                {% if  facture.statutcommande == 1 %}
                                     <span class="badge badge-info" style="font-family: Roboto-Regular, sans-serif">{{ "En cours de traitement" | trans }}</span>
                                 {% endif %}
-                                {% if  facture.0.commande.statutcommande == 2 %}
+                                {% if  facture.statutcommande == 2 %}
                                     <span class="badge badge-primary" style="font-family: Roboto-Regular, sans-serif">{{"Traitée" | trans}}</span>
                                 {% endif %}
-                                {% if  facture.0.commande.statutcommande == 3 %}
-                                    <span class="badge badge-warning" style="font-family: Roboto-Regular, sans-serif">{{"Livrée" | trans}}</span>
+                                {% if  facture.statutcommande == 3 %}
+                                    <span class="badge badge-success" style="font-family: Roboto-Regular, sans-serif">{{"Livrée" | trans}}</span>
                                 {% endif %}
-                                {% if  facture.0.commande.statutcommande == 4 %}
-                                    <span class="badge badge-dark" style="font-family: Roboto-Regular, sans-serif">{{"Annulée" | trans}}</span>
+                                {% if  facture.statutcommande == 4 %}
+                                    <span class="badge badge-danger" style="font-family: Roboto-Regular, sans-serif">{{"Annulée" | trans}}</span>
                                 {% endif %}
                                 </td>
                             </tr>

@@ -27,6 +27,10 @@ class Commandes
      */
 
     private $utilisateur;
+    /**
+ * @ORM\OneToMany(targetEntity="WebBundle\Entity\Commande_Produit", mappedBy="commande")
+ */
+protected $commandesproduits;
 
     /**
      * @var boolean
@@ -603,6 +607,14 @@ class Commandes
     {
         $this->uid = $uid;
     }
+    public function getCommandesproduits() {
+        return $this->commandesproduits;
+    }
+
+    public function setCommandesproduits($commandesproduits) {
+        $this->commandesproduits = $commandesproduits;
+    }
+
 
 
 }

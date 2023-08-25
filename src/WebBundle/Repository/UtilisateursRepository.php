@@ -184,6 +184,7 @@ class UtilisateursRepository extends \Doctrine\ORM\EntityRepository
         $query = $this->createQueryBuilder('u')
             ->leftJoin("u.pays", "p")
             ->where('u.roles LIKE :roles and u.enabled = true and p.id = :idPays')
+                ->andWhere('u.tel IS NOT NULL')
             ->setParameter('roles', '%ROLE_GESTIONNAIRE%')
             ->setParameter('idPays', $idPays)
            //was ->setMaxResults(1);
@@ -206,6 +207,7 @@ class UtilisateursRepository extends \Doctrine\ORM\EntityRepository
             ->where('u.roles LIKE :roles')
             ->andWhere('u.enabled = true')
             ->andWhere('u.station = :station')
+            ->andWhere('u.tel IS NOT NULL')
             ->setParameter('roles', '%ROLE_GERANT%')
             ->setParameter('station', $station);
            // ->setMaxResults(1);

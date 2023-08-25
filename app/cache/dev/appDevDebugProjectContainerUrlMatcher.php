@@ -740,6 +740,17 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                     }
                     not_commandes_gerant_show_paginated:
 
+                    // nondispo
+                    if ('/log_back_end/commandegerant/nondispo' === $pathinfo) {
+                        if ($this->context->getMethod() != 'POST') {
+                            $allow[] = 'POST';
+                            goto not_nondispo;
+                        }
+
+                        return array (  '_controller' => 'BackendBundle\\Controller\\GerantStation\\CommandeController::nondisponibleAction',  '_route' => 'nondispo',);
+                    }
+                    not_nondispo:
+
                     // commnde_gerant_edit
                     if (0 === strpos($pathinfo, '/log_back_end/commandegerant/edit') && preg_match('#^/log_back_end/commandegerant/edit/(?P<id>[^/]++)/(?P<statut>[^/]++)/(?P<page>[^/]++)$#sD', $pathinfo, $matches)) {
                         if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {

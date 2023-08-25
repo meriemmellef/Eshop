@@ -201,10 +201,9 @@ class DefaultController extends BaseController
     public function indexAction(Request $request)
     {
 
-         $this->initSession();
-
+    $this->initSession();
         $this->session = $this->getRequest()->getSession();
-        $this->initCategorie();
+       $this->initCategorie();
 
         $station_id = $this->session->get("station_id", "");
        // $this->pays = $this->getDoctrine()->getRepository("WebBundle:Pays")->findOneBy(array("code"=>strtolower("mg"),"isActive"=>1));
@@ -235,6 +234,7 @@ class DefaultController extends BaseController
         $request = $this->container->get('request');
         $routeName = $request->get('_route');
 
+
         ////render les categorie in coutry
 
       /* was  $categories = array("auto"=>array(),"food"=>array(),"clothing"=>array(),"other"=>array());
@@ -245,12 +245,12 @@ class DefaultController extends BaseController
 
 
         return $this->render('FrontendBundle:Default:index.html.twig', array(
-            'produits' => $produits,
+           'produits' => $produits,
             'produitspromo' => $produitspromo,
             'cp' => $routeName,
             'favoris' => $favoris,
             'categories'=>$categories_collection
-          //  'categories'=>$this->initCategorie()
+         //  'categories'=>$this->initCategorie()
         ));
 
     }

@@ -61,7 +61,7 @@
 
 <!-- Footer -->
 <!-- Core  -->
-{% block javascripts %}
+
 
     <script src="{{ asset('remark/global/vendor/babel-external-helpers/babel-external-helpers.js') }}"></script>
     <script src="{{ asset('remark/global/vendor/jquery/jquery.js') }}"></script>
@@ -125,6 +125,7 @@
 
         })(document, window, jQuery);
     </script>
+    {% block javascripts %}
 {% endblock %}
 
 

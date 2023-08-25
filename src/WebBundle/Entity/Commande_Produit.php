@@ -126,7 +126,7 @@ class Commande_Produit
     /**
      * @param mixed $produit
      */
-    public function setProduit(Produits $produit)
+    public function setProduit($produit)
     {
         $this->produit = $produit;
     }

@@ -576,10 +576,10 @@ class CommandesController extends BaseController
 
 
                 $messageClient = preg_replace('/(\v|\s)+/', ' ', $messageClient);
+               
 
                 ///send sms to client
-                $resultsmsClient = $smsHelper->sendSms($pays->getCodePhone().$commande->getUtilisateur()->getTel(), $messageClient);
-
+           //     $resultsmsClient = $smsHelper->sendSms('+216'.$commande->getUtilisateur()->getTel(), $messageClient);
 
 
             }
@@ -625,22 +625,20 @@ class CommandesController extends BaseController
 
 
                     $gerantsStation = $em->getRepository('WebBundle:Utilisateurs')->getAllGerantByStation($commande->getStation());//
-
                     if ($gerantsStation){
-
                         foreach ($gerantsStation as $gerant){
-                            $resultsmsGerant = $smsHelper->sendSms($pays->getCodePhone() .$gerant->getTel(), $messageGerant);
+                           $resultsmsGerant = $smsHelper->sendSms($pays->getCodePhone().$gerant->getTel(), $messageGerant);
                             $resultsmsteltwo = $smsHelper->sendSms($pays->getCodePhone().$gerant->getTelFacultatif(), $messageGerant);
+                            }
                         }
-
                    }
 
 
-                }
+                
                 $gestionsPays = $em->getRepository('WebBundle:Utilisateurs')->getGestionnairesPays($pays->getId());//
-
-                foreach ($gestionsPays as $gestion){
+                foreach ($gestionsPays as $gestion){      
                     $resultsmsGestion = $smsHelper->sendSms($pays->getCodePhone().$gestion->getTel(), $messageGerant);
+                    
                 }
 
                 ///send to
@@ -718,7 +716,8 @@ class CommandesController extends BaseController
         );
 
         $barcode = $this->get('skies_barcode.generator')->generate($options);
-        $savePath = 'uploads/commandes/';
+        $savePath = $this->container->getParameter('qr_directory');
+      //  dump($savePath);die;
         $fileName = $commande->getUid().'.png';
         file_put_contents($savePath . $fileName, base64_decode($barcode));
     }

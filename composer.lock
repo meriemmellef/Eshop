@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "94d70b518d82d77b015173abe5d2d154",
+    "content-hash": "b906e86c742566ae7977f4d9d0fe00b6",
     "packages": [
         {
             "name": "beberlei/doctrineextensions",
@@ -1272,6 +1272,114 @@
                 "source": "https://github.com/doctrine/orm/tree/v2.5.14"
             },
             "time": "2017-12-17T02:57:51+00:00"
+        },
+        {
+            "name": "dpolac/dictionary",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dpolac/dictionary.git",
+                "reference": "7078d8bfe47cfcb11882140f5dbd7c106c1906e6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dpolac/dictionary/zipball/7078d8bfe47cfcb11882140f5dbd7c106c1906e6",
+                "reference": "7078d8bfe47cfcb11882140f5dbd7c106c1906e6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-spl": "*",
+                "php": "^5.4 || ^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DPolac\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Damian Polac",
+                    "email": "damian.polac.111@gmail.com"
+                }
+            ],
+            "description": "Collection indexed with objects and scalars",
+            "keywords": [
+                "SplObjectStorage",
+                "array",
+                "dictionary",
+                "hash"
+            ],
+            "support": {
+                "issues": "https://github.com/dpolac/dictionary/issues",
+                "source": "https://github.com/dpolac/dictionary/tree/master"
+            },
+            "time": "2016-06-05T18:29:47+00:00"
+        },
+        {
+            "name": "dpolac/twig-lambda",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dpolac/twig-lambda.git",
+                "reference": "9138b853dd786e1646870c409cc26f379e2b0b8a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dpolac/twig-lambda/zipball/9138b853dd786e1646870c409cc26f379e2b0b8a",
+                "reference": "9138b853dd786e1646870c409cc26f379e2b0b8a",
+                "shasum": ""
+            },
+            "require": {
+                "dpolac/dictionary": "^1.0",
+                "php": "^5.6 || ^7.0",
+                "twig/twig": "^1.0 || ^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DPolac\\TwigLambda\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Damian Polac",
+                    "email": "damian.polac.111@gmail.com"
+                }
+            ],
+            "description": "Lambda expressions for Twig and filters that make use of them",
+            "keywords": [
+                "filter",
+                "function",
+                "functional",
+                "group",
+                "lambda",
+                "map",
+                "sort",
+                "unique"
+            ],
+            "support": {
+                "issues": "https://github.com/dpolac/twig-lambda/issues",
+                "source": "https://github.com/dpolac/twig-lambda/tree/master"
+            },
+            "time": "2018-06-06T16:44:04+00:00"
         },
         {
             "name": "friendsofsymfony/jsrouting-bundle",
@@ -7643,8 +7751,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3.9"
+        "php": ">=5.5"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }

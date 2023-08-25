@@ -1,225 +1,244 @@
 {% extends '@Backend/layout/layout.html.twig' %}
 
 {% block page %}
-	<!-- Page -->
-	<style>
-		h4 span {
-			font-size: 13px;
-			font-weight: normal;
-		}
-		h4{
-			margin-bottom: 20px;
-		}
-	</style>
-	<div class="page">
-		<div class="page-header">
-			<div class="row">
-				<div class="col-lg-6">
-					<h1 class="page-title">{{ "Details Commande"|trans }} {{commande.reference}}</h1>
-				</div>
-				<div class="col-lg-6 text-right">
-					<a href="{{ path('ExportDetailsGerantCommande',{'_filename':'Details_commandes','id':commande.id}) }}" class="float-center btn btn-icon  btn-dark waves-effect waves-classic waves-effect waves-classic">
-						<i class="icon md-download" aria-hidden="true"></i> {{ "exporter"|trans }}</a>
-				</div>
+    <!-- Page -->
+    <style>
+        h4 span {
+            font-size: 13px;
+            font-weight: normal;
+        }
+        h4{
+            margin-bottom: 20px;
+        }
+    </style>
+    <div class="page">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1 class="page-title">{{ "Details Commande"|trans }} {{commande.reference}}</h1>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <a href="{{ path('ExportDetailsGerantCommande',{'_filename':'Details_commandes','id':commande.id}) }}" class="float-center btn btn-icon  btn-dark waves-effect waves-classic waves-effect waves-classic">
+                        <i class="icon md-download" aria-hidden="true"></i> {{ "exporter"|trans }}</a>
+                </div>
 
-			</div>
+            </div>
 
-		</div>
-		<div class="page-content container-fluid">
-			<div class="row">
-				<div class="col-lg-4">
-					<!-- Page Widget -->
-					<div class="card card-shadow text-center">
-						<div class="card-block">
+        </div>
+        <div class="page-content container-fluid">
+            <div class="row">
+                <div class="col-lg-4">
+                    <!-- Page Widget -->
+                    <div class="card card-shadow text-center">
+                        <div class="card-block">
 
-							<h3 class="profile-user" style="margin-bottom: 5px;">
-								{{commande.utilisateur.firstName }}
-								{{ commande.utilisateur.lastName}}
-							</h3>
-							<h5 class="profile-user" style="    margin-top: 0px;">
-								<i class="icon md-email" aria-hidden="true" style="margin-right:5 !important;"></i>{{commande.utilisateur.email }}
-							</h5>
-							{% if commande.utilisateur.tel  %}
-							<h5 class="profile-user">
-								<i class="icon md-phone" aria-hidden="true" style="margin-right:5 !important;"></i>{{commande.utilisateur.tel }}
-							</h5>
-							{% endif %}
-							<br>
-							{% if commande.adresselivraison == null %}
-								<h4 class="profile-user">{{"Mode de réception"|trans}}
-									<br><span>{{ "Drive"|trans }}</span>
-								</h4>
-
-
-								<h4 class="profile-user">{{ "Date de retrait"|trans }}
-									<br><span>
-									<i class="icon md-calendar" aria-hidden="true" style="margin-right:5px !important;"></i>{{commande.dateReception|date("d/m/Y") }}<br>
-									<i class="icon md-time" aria-hidden="true" style="margin-right:5px !important;"></i>{{ commande.periodeToString }}
-								</span>
-								</h4>
-								<h4 class="profile-user">{{ "Date de la commande"|trans }}
-									<br><span>
-								<i class="icon md-calendar" aria-hidden="true" style="margin-right:5px !important;"></i>{{commande.dateReservation|date("d/m/Y") }}
-								<br><i class="icon md-time" aria-hidden="true" style="margin-right:5px !important;"></i>{{commande.createdAt|date("h:i") }}
-							</span>
-								</h4>
-
-								{% if commande.statutcommande == 3 %}
-									<h4 class="profile-user">{{ "Date Livraison"|trans }}
-										<br><span>
-									<i class="icon md-calendar" aria-hidden="true" style="margin-right:5px !important;"></i>{{commande.dateReception|date("d/m/Y") }}
-								</span>
-									</h4>
-
-								{% endif %}
-								{% if commande.statutcommande == 4 %}
-									<h4 class="profile-user">{{ "Date Annulation"|trans }}
-										<br><span>
-									<i class="icon md-calendar" aria-hidden="true" style="margin-right:5px !important;"></i>{{commande.dateAnnulation|date("d/m/Y") }}
-								</span>
-									</h4>
-								{% endif %}
-							{% else %}
-								<h4 class="profile-user">{{"Mode de réception"|trans}}
-									<br><span>{{ "Livraison"|trans }}</span>
-								</h4>
+                            <h3 class="profile-user" style="margin-bottom: 5px;">
+                                {{commande.utilisateur.firstName }}
+                                {{ commande.utilisateur.lastName}}
+                            </h3>
+                            <h5 class="profile-user" style="    margin-top: 0px;">
+                                <i class="icon md-email" aria-hidden="true" style="margin-right:5 !important;"></i>{{commande.utilisateur.email }}
+                            </h5>
+                            {% if commande.utilisateur.tel  %}
+                                <h5 class="profile-user">
+                                    <i class="icon md-phone" aria-hidden="true" style="margin-right:5 !important;"></i>{{commande.utilisateur.tel }}
+                                </h5>
+                            {% endif %}
+                            <br>
+                            {% if commande.adresselivraison == null %}
+                                <h4 class="profile-user">{{"Mode de réception"|trans}}
+                                    <br><span>{{ "Drive"|trans }}</span>
+                                </h4>
 
 
+                                <h4 class="profile-user">{{ "Date de retrait"|trans }}
+                                    <br><span>
+                                        <i class="icon md-calendar" aria-hidden="true" style="margin-right:5px !important;"></i>{{commande.dateReception|date("d/m/Y") }}<br>
+                                        <i class="icon md-time" aria-hidden="true" style="margin-right:5px !important;"></i>{{ commande.periodeToString }}
+                                    </span>
+                                </h4>
+                                <h4 class="profile-user">{{ "Date de la commande"|trans }}
+                                    <br><span>
+                                        <i class="icon md-calendar" aria-hidden="true" style="margin-right:5px !important;"></i>{{commande.dateReservation|date("d/m/Y") }}
+                                        <br><i class="icon md-time" aria-hidden="true" style="margin-right:5px !important;"></i>{{commande.createdAt|date("h:i") }}
+                                    </span>
+                                </h4>
 
-								<h4 class="profile-user">{{ "Adresse de livraison"|trans }}
-									<br><span >
-									<i class="icon md-pin" aria-hidden="true" style="margin-right:5px !important;"></i>{{commande.adresselivraison.adresse }},{{commande.adresselivraison.ville }},{{commande.adresselivraison.pays }},{{commande.adresselivraison.cp}}
-								</span>
-								</h4>
-								<h4 class="profile-user">{{"Télephone"|trans}}
-									<br><span>
-										{{commande.adresselivraison.telephone }}
-								</span>
-								</h4>
-							{% endif %}
+                                {% if commande.statutcommande == 3 %}
+                                    <h4 class="profile-user">{{ "Date Livraison"|trans }}
+                                        <br><span>
+                                            <i class="icon md-calendar" aria-hidden="true" style="margin-right:5px !important;"></i>{{commande.dateReception|date("d/m/Y") }}
+                                        </span>
+                                    </h4>
+
+                                {% endif %}
+                                {% if commande.statutcommande == 4 %}
+                                    <h4 class="profile-user">{{ "Date Annulation"|trans }}
+                                        <br><span>
+                                            <i class="icon md-calendar" aria-hidden="true" style="margin-right:5px !important;"></i>{{commande.dateAnnulation|date("d/m/Y") }}
+                                        </span>
+                                    </h4>
+                                {% endif %}
+                            {% else %}
+                                <h4 class="profile-user">{{"Mode de réception"|trans}}
+                                    <br><span>{{ "Livraison"|trans }}</span>
+                                </h4>
 
 
 
-							<h4 class="profile-user">{{ "Statut Commande"|trans }}
-								<br><span>	<span class="badge {{ commande.statusCommandeCssClass }}">{{ commande.statutCommandeToString|trans }}</span>
-							</span>
-							</h4>
-							<h4 class="profile-user" style="margin-top: 15px">{{ "Statut Paiement"|trans }}
-								<br><span>	<span class="badge {{ commande.statusPayementCssClass }}">{{ commande.statutPayementToString|trans }}</span>
-							</span>
-							</h4>
-							{#
-									<h4 class="profile-user" style="margin-top: 15px">{{ "Remboursement"|trans }}
-								<br><span ><span class="badge {{ commande.remboursementCssClass }}">{{ commande.remboursementToString }}</span>
-							</span>
-							</h4>
-							#}
-
-							{% if commande.coupon %}
-								<br><br>
-								<div class="panel" style="background-color: #fafafa;border: 1px solid #cccccc;">
-									<div class="panel-heading">
-										<h3 class="panel-title">{{ "Coupon"|trans }}
-										</h3>
-									</div>
-									<div class="panel-body">
-										<span style="    font-weight: bold;">{{ commande.coupon.code }}</span><br>
-										<span>{% if commande.coupon.type == 1 %}
-												{{"réduction de"|trans}} {{ commande.coupon.montant |number_format(0, '', ' ')}}
-											{% elseif commande.coupon.type == 2 %}
-												{{"réduction de"|trans}}  {{ commande.coupon.pourcentage }}%
-											{% endif %}
-											</span>
-									</div>
-								</div>
-
-							{% endif %}
+                                <h4 class="profile-user">{{ "Adresse de livraison"|trans }}
+                                    <br><span >
+                                        <i class="icon md-pin" aria-hidden="true" style="margin-right:5px !important;"></i>{{commande.adresselivraison.adresse }},{{commande.adresselivraison.ville }},{{commande.adresselivraison.pays }},{{commande.adresselivraison.cp}}
+                                    </span>
+                                </h4>
+                                <h4 class="profile-user">{{"Télephone"|trans}}
+                                    <br><span>
+                                        {{commande.adresselivraison.telephone }}
+                                    </span>
+                                </h4>
+                            {% endif %}
 
 
-						</div>
-					</div>
-					<!-- End Page Widget -->
-				</div>
 
-				<div class="col-lg-8">
-					<!-- Panel -->
-					<div class="panel">
-						<div class="panel-body nav-tabs-animate nav-tabs-horizontal" data-plugin="tabs">
-							<div class="example table-responsive">
-								<table class="table" style="border-bottom: 1px solid #e0e0e0;">
-									<thead>
-									<tr>
-										<th colspan="5"><h4 class="profile-user text-right ">{{ "Prix Total"|trans }}  :
-												{{commande.prix|number_format(0, '', ' ')}}
-											</h4></th>
+                            <h4 class="profile-user">{{ "Statut Commande"|trans }}
+                                <br><span>	<span class="badge {{ commande.statusCommandeCssClass }}">{{ commande.statutCommandeToString|trans }}</span>
+                                </span>
+                            </h4>
+                            <h4 class="profile-user" style="margin-top: 15px">{{ "Statut Paiement"|trans }}
+                                <br><span>	<span class="badge {{ commande.statusPayementCssClass }}">{{ commande.statutPayementToString|trans }}</span>
+                                </span>
+                            </h4>
+                            {#
+                                            <h4 class="profile-user" style="margin-top: 15px">{{ "Remboursement"|trans }}
+                                    <br><span ><span class="badge {{ commande.remboursementCssClass }}">{{ commande.remboursementToString }}</span>
+                            </span>
+                            </h4>
+                            #}
 
-									</tr>
-									<tr>
-										<th>{{ "Produit"|trans }}</th>
-										<th colspan="2">{{ "Details"|trans }}</th>
-										<th>{{ "QT"|trans }}</th>
-										<th>{{ "Total"|trans }}</th>
-									</tr>
-									</thead>
-									<tbody>
-									{% for cp in commande_produit %}
-									<tr>
-										<td>
-											<img style="width: 86px;height: 86px;max-width: 100%;" class="lazy"
-												 alt="{{ cp.produit.nom }}"
-												 data-original="/uploads/produits/{{ cp.produit.image }}"
-												 src="{%  if  cp.produit.image  and cp.produit.image != "" %}/uploads/produits/{{ cp.produit.image }}{%  elseif cp.produit.SousCategorie  and cp.produit.SousCategorie.image  and cp.produit.SousCategorie.image != "" %}/uploads/produits/{{ cp.produit.SousCategorie.image }}{% else %}{{ asset('/assets/img/default.jpeg') }}{% endif %}">
-										</td>
-										<td>
+                            {% if commande.coupon %}
+                                <br><br>
+                                <div class="panel" style="background-color: #fafafa;border: 1px solid #cccccc;">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">{{ "Coupon"|trans }}
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <span style="    font-weight: bold;">{{ commande.coupon.code }}</span><br>
+                                        <span>{% if commande.coupon.type == 1 %}
+                                            {{"réduction de"|trans}} {{ commande.coupon.montant |number_format(0, '', ' ')}}
+                                        {% elseif commande.coupon.type == 2 %}
+                                            {{"réduction de"|trans}}  {{ commande.coupon.pourcentage }}%
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
 
-											<div style="margin-top: 6px;font-size: 14px;font-weight: bold;color: #454545;">
-												<span>{{ cp.produit.nom }}</span>
-											</div>
-											{{ cp.produit.finalPrice["prix"]|number_format(0, '', ' ') }}
-										</td>
-										<td   {% if cp.sizes %} style="width: 30%;" {% endif %}>
-											{% if cp.sizes %}
-												{% for s in cp.produit.sizes %}
-													{% for cpsize in cp.sizes %}
-														{% if cpsize[s.id] is defined  %}
-															<div class="row" style="padding-left: 10px;" >
-																<div style="margin-right: 5px;margin-top: 6px;font-size: 14px;font-weight: bold;color: #454545;">
-																	<span>{{ cpsize[s.id] }}x</span>
-																</div>
-																<p style=" float:left;display: inline-block;border: 2px solid #ddd;background-color: {{s.couleur.codeCouleur}};color: transparent;height: 33px;width: 33px;"></p>
+                            {% endif %}
 
-																<div style="margin-left: 5px;margin-top: 6px;font-size: 14px;font-weight: bold;color: #454545;">
-																	<span>{{ s.libelle }}</span>
-																</div>
 
-															</div>
-														{% endif %}
-													{% endfor %}
-												{% endfor %}
-											{% endif %}
-										</td>
-										<td>{{ cp.quantite }}</td>
-										<td style="width: 20%;">
-											<div style="margin-top: 6px;font-size: 14px;font-weight: bold;color: #454545;">
-												<span>{{ cp.prix |number_format(0, '', ' ')}}</span>
-											</div>
-										</td>
+                            </div>
+                        </div>
+                        <!-- End Page Widget -->
+                    </div>
 
-									</tr>
-									{% endfor %}
-									</tbody>
-								</table>
+                    <div class="col-lg-8">
+                        <!-- Panel -->
+                        <div class="panel">
+                            <div class="panel-body nav-tabs-animate nav-tabs-horizontal" data-plugin="tabs">
+                                <div class="example table-responsive">
+                                    <table class="table" style="border-bottom: 1px solid #e0e0e0;">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="5"><h4 class="profile-user text-right ">{{ "Prix Total"|trans }}  :
+                                                        {{commande.prix|number_format(0, '', ' ')}}
+                                                    </h4></th>
 
-								<div class="navigation">
-									{{ knp_pagination_render(commande_produit) }}
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- End Panel -->
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Page -->
-{% endblock %}
+                                            </tr>
+                                            <tr>
+                                                <th>{{ "Produit"|trans }}</th>
+                                                <th colspan="2">{{ "Details"|trans }}</th>
+                                                <th>{{ "QT"|trans }}</th>
+                                                <th>{{ "Total"|trans }}</th>
+                                                <th>{{ "Action"|trans }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for cp in commande_produit %}
+                                                <tr>
+                                                    <td>
+                                                        <img style="width: 86px;height: 86px;max-width: 100%;" class="lazy"
+                                                             alt="{{ cp.produit.nom }}"
+                                                             data-original="/uploads/produits/{{ cp.produit.image }}"
+                                                             src="{%  if  cp.produit.image  and cp.produit.image != "" %}/uploads/produits/{{ cp.produit.image }}{%  elseif cp.produit.SousCategorie  and cp.produit.SousCategorie.image  and cp.produit.SousCategorie.image != "" %}/uploads/produits/{{ cp.produit.SousCategorie.image }}{% else %}{{ asset('/assets/img/default.jpeg') }}{% endif %}">
+                                                    </td>
+                                                    <td>
+
+                                                        <div style="margin-top: 6px;font-size: 14px;font-weight: bold;color: #454545;">
+                                                            <span>{{ cp.produit.nom }}</span>
+                                                        </div>
+                                                        {{ cp.produit.finalPrice["prix"]|number_format(0, '', ' ') }}
+                                                    </td>
+                                                    <td   {% if cp.sizes %} style="width: 30%;" {% endif %}>
+                                                        {% if cp.sizes %}
+                                                            {% for s in cp.produit.sizes %}
+                                                                {% for cpsize in cp.sizes %}
+                                                                    {% if cpsize[s.id] is defined  %}
+                                                                        <div class="row" style="padding-left: 10px;" >
+                                                                            <div style="margin-right: 5px;margin-top: 6px;font-size: 14px;font-weight: bold;color: #454545;">
+                                                                                <span>{{ cpsize[s.id] }}x</span>
+                                                                            </div>
+                                                                            <p style=" float:left;display: inline-block;border: 2px solid #ddd;background-color: {{s.couleur.codeCouleur}};color: transparent;height: 33px;width: 33px;"></p>
+
+                                                                            <div style="margin-left: 5px;margin-top: 6px;font-size: 14px;font-weight: bold;color: #454545;">
+                                                                                <span>{{ s.libelle }}</span>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ cp.quantite }}</td>
+                                                    <td style="width: 20%;">
+                                                        <div style="margin-top: 6px;font-size: 14px;font-weight: bold;color: #454545;">
+                                                            <span>{{ cp.prix |number_format(0, '', ' ')}}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td><button class='btn btn-danger' onClick='nondisponible("{{cp.id}}");'>Non disponible</button></td>
+
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                    <div class="navigation">
+                                        {{ knp_pagination_render(commande_produit) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Panel -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Page -->
+        {% endblock %}
+            {% block javascripts %}
+                <script>
+                    function nondisponible(id) {
+                        var id_produit=id;
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{ path('nondispo') }}",
+                            data: {id: id_produit},
+                            beforeSend: function () {
+                            },
+                            success: function (data) {
+                                location.reload();
+                            }
+                        });
+                    }
+                </script>
+            {% endblock  %}

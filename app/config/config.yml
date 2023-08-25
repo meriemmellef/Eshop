@@ -21,6 +21,7 @@ parameters:
     app.path.condition_general_directory: /uploads/condtion_general
     app.path.personal_data_directory: /uploads/personal_data
     app.path.legal_notice_directory: /uploads/legal_notice
+    qr_directory: '%kernel.root_dir%/../web/uploads/commandes/'
     mailer_transport: mail
     mailer_host: smtp.gmail.com
     mailer_port: 587

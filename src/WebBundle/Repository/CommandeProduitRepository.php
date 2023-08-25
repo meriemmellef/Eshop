@@ -158,15 +158,16 @@ class CommandeProduitRepository extends \Doctrine\ORM\EntityRepository
 
         $em = $this->getEntityManager(); //on appelle Doctrine
         $query=$this->createQueryBuilder('cp')
-            ->addSelect('c as commande ,count(p) as nbproduit')
+          //  ->addSelect('c as commande ,count(p) as nbproduit')
             ->leftJoin("cp.commande", "c")
             ->leftJoin("c.station", "s")
             ->leftJoin("cp.produit", "p")
             ->leftJoin("c.utilisateur", "u")
             ->where('u = :user')
             ->andWhere('c.valider = true')
-            ->setParameter('user', $user)
-            ->groupBy('commande');
+            ->setParameter('user', $user);
+           // ->distinct('c.id')
+           // ->groupBy('c.id');
 
 
 

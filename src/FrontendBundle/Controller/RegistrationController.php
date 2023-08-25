@@ -74,7 +74,7 @@ class RegistrationController extends BaseRegistrationController
                 return $response;
             }*/
 
-        if ($this->container->get('request_stack')->getCurrentRequest()->request->has('g-recaptcha-response')) {
+     /*   if ($this->container->get('request_stack')->getCurrentRequest()->request->has('g-recaptcha-response')) {
             $g_response = $this->container->get('request_stack')->getCurrentRequest()->request->get('g-recaptcha-response');
             $resp = $this->verifyRecaptcha($g_response);
             //
@@ -85,7 +85,7 @@ class RegistrationController extends BaseRegistrationController
                     'form' => $form->createView()
 
                 ));
-            } else {
+            } else {*/
 
 
                 $process = $formHandler->process($confirmationEnabled);
@@ -136,7 +136,7 @@ class RegistrationController extends BaseRegistrationController
                 }
 
 
-            }
+           /* }
         } else {
             $this->container->get('session')->getFlashBag()->add('error', "captcha login or password incorrect");
 
@@ -144,7 +144,7 @@ class RegistrationController extends BaseRegistrationController
             return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.' . $this->getEngine(), array(
                 'form' => $form->createView()
             ));
-        }
+        }*/
     }
 
          return $this->container->get('templating')->renderResponse('FOSUserBundle:Registration:register.html.'.$this->getEngine(), array(

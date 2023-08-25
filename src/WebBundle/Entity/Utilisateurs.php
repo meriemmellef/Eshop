@@ -9,8 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass="WebBundle\Repository\UtilisateursRepository")
  * @ORM\Table(name="user")
- * @UniqueEntity(fields={"username"}, message="username.exist")
- * @UniqueEntity(fields={"email"}, message="fos_user.email.exist")
+ * @UniqueEntity(fields={"username"}, message="email.exist")
  */
 class Utilisateurs extends BaseUser
 {

@@ -98,9 +98,9 @@
                                 <div class="form-group">
                                     <label class="inputtitletxt">{{ "Email" | trans({}, 'messages') }} <sup> * </sup></label>
                                     {{ form_widget(form.email,{"attr" : {"class":"form-control","placeholder":""} } ) }}
-
+{{ form_errors(form.email)}}
                                   {#  {%if form_errors(form.email)  %}
-                                        <span style="color: #ed0000"> {{"email.exist"|trans({}, 'messages') }} </span>
+                                        <span style="color: #ed0000"> {{"email.invalid"|trans({}, 'messages') }} </span>
 
                                     {%  endif %}#}
 
