@@ -1,7 +1,7 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
-     qr_directory: '%kernel.root_dir%/../web/uploads/commandes'
+#    parameter_name: value
 
 services:
 #    service_name:
@@ -28,7 +28,9 @@ services:
       class: WebBundle\Security\AccessDeniedHandler
     app.user_locale_listener:
       class: BackendBundle\EventListener\UserLocaleListener
-      arguments: ['@security.context','@router']
+      arguments: ['@session', '@request_stack', '@event_dispatcher', '@security.token_storage', '@router']
+      tags:
+        - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin, priority: 15 }
     app.twig_extension:
       class: FrontendBundle\Twig\AppExtension
       public: false
@@ -40,14 +42,4 @@ services:
       arguments: ['%kernel.default_locale%','%locale%']
       tags:
         - { name: kernel.event_subscriber }
-    redirect.after.login:
-        class: WebBundle\Services\AfterLoginRedirection
-        arguments: ['@router']
-    redirect.after.logout:
-        class: WebBundle\Services\AfterLogoutRedirection
-        arguments: ['@router']
-    dpolac.twig_lambda.extension:
-        class: DPolac\TwigLambda\LambdaExtension
-        tags: [ { name: twig.extension } ]
-
 

@@ -127,7 +127,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
 
     <div class=\"page-content container-fluid\">
         <div class=\"row\" data-plugin=\"matchHeight\" data-by-row=\"true\">
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\">
                 <div class=\"widget widget-shadow\"  style=\"cursor: pointer;\">
                     <div class=\"widget-content bg-white padding-20\">
                         <button type=\"button\" class=\"btn btn-floating btn-sm btn-info\">
@@ -147,7 +147,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
                 </div>
             </div>
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\">
                 <div class=\"widget widget-shadow\"  style=\"cursor: pointer;\">
                     <div class=\"widget-content bg-white padding-20\">
                         <button type=\"button\" class=\"btn btn-floating btn-sm btn-info\">
@@ -167,7 +167,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
                 </div>
             </div>
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\">
                 <div class=\"widget widget-shadow\"  style=\"cursor: pointer;\">
                     <div class=\"widget-content bg-white padding-20\">
                         <button type=\"button\" class=\"btn btn-floating btn-sm btn-info\">
@@ -187,7 +187,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
                 </div>
             </div>
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\">
                 <div class=\"widget widget-shadow\" style=\"cursor: pointer;\">
                     <div class=\"widget-content bg-white padding-20\">
                         <button type=\"button\" class=\"btn btn-floating btn-sm btn-info\">
@@ -207,7 +207,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                 </div>
             </div>
 
-            <div class=\"col-lg-3 col-md-4  col-sm-6 col-xs-12 info-panel\">
+            <div class=\"col-lg-4 col-md-4  col-sm-6 col-xs-12 info-panel\">
                 <div class=\"widget widget-shadow\" onclick=\"location.href='";
         // line 106
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("station_index");
@@ -231,7 +231,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
                 </div>
             </div>
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\"   style=\"cursor: pointer;\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\"   style=\"cursor: pointer;\">
 
                     <div class=\"widget widget-shadow\" onclick=\"location.href='";
         // line 122
@@ -255,7 +255,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
 
             </div>
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\" style=\"cursor: pointer;\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\" style=\"cursor: pointer;\">
                 <div class=\"widget widget-shadow\" onclick=\"location.href='";
         // line 136
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("client_index");
@@ -277,7 +277,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
                 </div>
             </div>
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\"  style=\"cursor: pointer;\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\"  style=\"cursor: pointer;\">
                 <div class=\"widget widget-shadow\" onclick=\"location.href='";
         // line 149
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("categorie_index");
@@ -301,7 +301,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                 </div>
             </div>
 
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\"  style=\"cursor: pointer;\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\"  style=\"cursor: pointer;\">
                 <div class=\"widget widget-shadow\" onclick=\"location.href='";
         // line 164
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("sous_categorie_index");
@@ -324,6 +324,110 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
                 </div>
             </div>
+                             <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">";
+        // line 187
+        echo twig_escape_filter($this->env, twig_date_format_filter($this->env, "Now", "d-m-Y"), "html", null, true);
+        echo "</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">";
+        // line 191
+        echo twig_escape_filter($this->env, ((($context["total_jour"] ?? $this->getContext($context, "total_jour")) . " ") . $this->getAttribute($this->getAttribute($this->getAttribute(($context["app"] ?? $this->getContext($context, "app")), "user", []), "pays", []), "devise", [])), "html", null, true);
+        echo "</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                  <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">";
+        // line 207
+        echo twig_escape_filter($this->env, ((($context["first_day"] ?? $this->getContext($context, "first_day")) . " - ") . ($context["last_day"] ?? $this->getContext($context, "last_day"))), "html", null, true);
+        echo "</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">";
+        // line 211
+        echo twig_escape_filter($this->env, ((($context["total_semaine"] ?? $this->getContext($context, "total_semaine")) . " ") . $this->getAttribute($this->getAttribute($this->getAttribute(($context["app"] ?? $this->getContext($context, "app")), "user", []), "pays", []), "devise", [])), "html", null, true);
+        echo "</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                   <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">";
+        // line 227
+        echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\TranslationExtension')->trans("Ce mois"), "html", null, true);
+        echo "</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">";
+        // line 231
+        echo twig_escape_filter($this->env, ((($context["total_mois"] ?? $this->getContext($context, "total_mois")) . " ") . $this->getAttribute($this->getAttribute($this->getAttribute(($context["app"] ?? $this->getContext($context, "app")), "user", []), "pays", []), "devise", [])), "html", null, true);
+        echo "</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                  <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">";
+        // line 247
+        echo twig_escape_filter($this->env, twig_date_format_filter($this->env, "Now", "Y"), "html", null, true);
+        echo "</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">";
+        // line 251
+        echo twig_escape_filter($this->env, ((($context["total_ans"] ?? $this->getContext($context, "total_ans")) . " ") . $this->getAttribute($this->getAttribute($this->getAttribute(($context["app"] ?? $this->getContext($context, "app")), "user", []), "pays", []), "devise", [])), "html", null, true);
+        echo "</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 
 </div>
@@ -334,13 +438,13 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
 
     }
 
-    // line 182
+    // line 262
     public function block_javascripts($context, array $blocks = [])
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 183
+        // line 263
         echo "    ";
         $this->displayParentBlock("javascripts", $context, $blocks);
         echo "
@@ -390,7 +494,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
 
     public function getDebugInfo()
     {
-        return array (  344 => 183,  338 => 182,  320 => 171,  315 => 169,  307 => 164,  296 => 156,  291 => 154,  283 => 149,  274 => 143,  269 => 141,  261 => 136,  251 => 129,  246 => 127,  238 => 122,  228 => 115,  223 => 113,  213 => 106,  203 => 99,  198 => 97,  183 => 85,  178 => 83,  163 => 71,  158 => 69,  143 => 57,  138 => 55,  122 => 42,  115 => 37,  109 => 36,  78 => 12,  74 => 11,  68 => 8,  62 => 5,  58 => 4,  53 => 3,  47 => 2,  31 => 1,);
+        return array (  448 => 263,  442 => 262,  424 => 251,  417 => 247,  398 => 231,  391 => 227,  372 => 211,  365 => 207,  346 => 191,  339 => 187,  320 => 171,  315 => 169,  307 => 164,  296 => 156,  291 => 154,  283 => 149,  274 => 143,  269 => 141,  261 => 136,  251 => 129,  246 => 127,  238 => 122,  228 => 115,  223 => 113,  213 => 106,  203 => 99,  198 => 97,  183 => 85,  178 => 83,  163 => 71,  158 => 69,  143 => 57,  138 => 55,  122 => 42,  115 => 37,  109 => 36,  78 => 12,  74 => 11,  68 => 8,  62 => 5,  58 => 4,  53 => 3,  47 => 2,  31 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -451,7 +555,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
 
     <div class=\"page-content container-fluid\">
         <div class=\"row\" data-plugin=\"matchHeight\" data-by-row=\"true\">
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\">
                 <div class=\"widget widget-shadow\"  style=\"cursor: pointer;\">
                     <div class=\"widget-content bg-white padding-20\">
                         <button type=\"button\" class=\"btn btn-floating btn-sm btn-info\">
@@ -465,7 +569,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
                 </div>
             </div>
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\">
                 <div class=\"widget widget-shadow\"  style=\"cursor: pointer;\">
                     <div class=\"widget-content bg-white padding-20\">
                         <button type=\"button\" class=\"btn btn-floating btn-sm btn-info\">
@@ -479,7 +583,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
                 </div>
             </div>
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\">
                 <div class=\"widget widget-shadow\"  style=\"cursor: pointer;\">
                     <div class=\"widget-content bg-white padding-20\">
                         <button type=\"button\" class=\"btn btn-floating btn-sm btn-info\">
@@ -493,7 +597,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
                 </div>
             </div>
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\">
                 <div class=\"widget widget-shadow\" style=\"cursor: pointer;\">
                     <div class=\"widget-content bg-white padding-20\">
                         <button type=\"button\" class=\"btn btn-floating btn-sm btn-info\">
@@ -507,7 +611,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                 </div>
             </div>
 
-            <div class=\"col-lg-3 col-md-4  col-sm-6 col-xs-12 info-panel\">
+            <div class=\"col-lg-4 col-md-4  col-sm-6 col-xs-12 info-panel\">
                 <div class=\"widget widget-shadow\" onclick=\"location.href='{{ path('station_index') }}';\" style=\"cursor: pointer;\">
 
 
@@ -522,7 +626,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
                 </div>
             </div>
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\"   style=\"cursor: pointer;\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\"   style=\"cursor: pointer;\">
 
                     <div class=\"widget widget-shadow\" onclick=\"location.href='{{ path('produit_gestion_index') }}';\" >
                         <div class=\"widget-content bg-white padding-20\">
@@ -537,7 +641,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
 
             </div>
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\" style=\"cursor: pointer;\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\" style=\"cursor: pointer;\">
                 <div class=\"widget widget-shadow\" onclick=\"location.href='{{ path('client_index') }}';\" >
                     <div class=\"widget-content bg-white padding-20\">
                         <button type=\"button\" class=\"btn btn-floating btn-sm btn-primary\">
@@ -550,7 +654,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
                 </div>
             </div>
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\"  style=\"cursor: pointer;\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\"  style=\"cursor: pointer;\">
                 <div class=\"widget widget-shadow\" onclick=\"location.href='{{ path('categorie_index') }}';\">
                     <div class=\"widget-content bg-white padding-20\">
                         <button type=\"button\" class=\"btn btn-floating btn-sm btn-success\">
@@ -565,7 +669,7 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                 </div>
             </div>
 
-            <div class=\"col-lg-3 col-md-4 col-sm-6 col-xs-12 info-panel\"  style=\"cursor: pointer;\">
+            <div class=\"col-lg-4 col-md-4 col-sm-6 col-xs-12 info-panel\"  style=\"cursor: pointer;\">
                 <div class=\"widget widget-shadow\" onclick=\"location.href='{{ path('sous_categorie_index') }}';\" >
                     <div class=\"widget-content bg-white padding-20\">
                         <button type=\"button\" class=\"btn btn-floating btn-sm  social-evernote waves-effect waves-classic\">
@@ -579,6 +683,86 @@ class __TwigTemplate_e8b2720c1ccdd4d50fa8add245a139a8f135a55a414a6c0854486c891af
                     </div>
                 </div>
             </div>
+                             <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">{{ \"Now\"|date('d-m-Y') }}</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">{{ total_jour~' '~app.user.pays.devise }}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                  <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">{{first_day~' - '~last_day}}</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">{{ total_semaine~' '~app.user.pays.devise }}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                   <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">{{\"Ce mois\"|trans}}</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">{{ total_mois~' '~app.user.pays.devise }}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                  <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">{{\"Now\"|date('Y')}}</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">{{ total_ans~' '~app.user.pays.devise }}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 
 </div>

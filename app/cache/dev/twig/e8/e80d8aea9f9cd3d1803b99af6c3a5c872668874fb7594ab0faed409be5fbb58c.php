@@ -254,15 +254,99 @@ class __TwigTemplate_66033b30ff10873186c1831464343fe6e4891153e94033a632e7ec520b2
               <div class=\"d-flex justify-content-between p-md-1\">
                 <div class=\"d-flex flex-row\">
                   <div class=\"align-self-center\">
-                    <i class=\"fas fa-pencil-alt text-info fa-3x me-4\"></i>
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
                   </div>
                   <div>
-                    <h4>Total Posts</h4>
-                    <p class=\"mb-0\">Monthly blog posts</p>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">";
+        // line 138
+        echo twig_escape_filter($this->env, twig_date_format_filter($this->env, "Now", "d-m-Y"), "html", null, true);
+        echo "</p>
                   </div>
                 </div>
                 <div class=\"align-self-center\">
-                  <h2 class=\"h1 mb-0\">18,000</h2>
+                  <h2 class=\"h3 mb-0\">";
+        // line 142
+        echo twig_escape_filter($this->env, ((($context["total_jour"] ?? $this->getContext($context, "total_jour")) . " ") . $this->getAttribute($this->getAttribute($this->getAttribute(($context["app"] ?? $this->getContext($context, "app")), "user", []), "pays", []), "devise", [])), "html", null, true);
+        echo "</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                  <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">";
+        // line 158
+        echo twig_escape_filter($this->env, ((($context["first_day"] ?? $this->getContext($context, "first_day")) . " - ") . ($context["last_day"] ?? $this->getContext($context, "last_day"))), "html", null, true);
+        echo "</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">";
+        // line 162
+        echo twig_escape_filter($this->env, ((($context["total_semaine"] ?? $this->getContext($context, "total_semaine")) . " ") . $this->getAttribute($this->getAttribute($this->getAttribute(($context["app"] ?? $this->getContext($context, "app")), "user", []), "pays", []), "devise", [])), "html", null, true);
+        echo "</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                   <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">";
+        // line 178
+        echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\TranslationExtension')->trans("Ce mois"), "html", null, true);
+        echo "</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">";
+        // line 182
+        echo twig_escape_filter($this->env, ((($context["total_mois"] ?? $this->getContext($context, "total_mois")) . " ") . $this->getAttribute($this->getAttribute($this->getAttribute(($context["app"] ?? $this->getContext($context, "app")), "user", []), "pays", []), "devise", [])), "html", null, true);
+        echo "</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                  <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">";
+        // line 198
+        echo twig_escape_filter($this->env, twig_date_format_filter($this->env, "Now", "Y"), "html", null, true);
+        echo "</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">";
+        // line 202
+        echo twig_escape_filter($this->env, ((($context["total_ans"] ?? $this->getContext($context, "total_ans")) . " ") . $this->getAttribute($this->getAttribute($this->getAttribute(($context["app"] ?? $this->getContext($context, "app")), "user", []), "pays", []), "devise", [])), "html", null, true);
+        echo "</h2>
                 </div>
               </div>
             </div>
@@ -277,13 +361,13 @@ class __TwigTemplate_66033b30ff10873186c1831464343fe6e4891153e94033a632e7ec520b2
 
     }
 
-    // line 152
+    // line 212
     public function block_javascripts($context, array $blocks = [])
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new \Twig\Profiler\Profile($this->getTemplateName(), "block", "javascripts"));
 
-        // line 153
+        // line 213
         echo "    ";
         $this->displayParentBlock("javascripts", $context, $blocks);
         echo "
@@ -332,7 +416,7 @@ class __TwigTemplate_66033b30ff10873186c1831464343fe6e4891153e94033a632e7ec520b2
 
     public function getDebugInfo()
     {
-        return array (  287 => 153,  281 => 152,  245 => 123,  240 => 121,  231 => 115,  223 => 110,  218 => 108,  209 => 102,  200 => 96,  195 => 94,  180 => 82,  175 => 80,  160 => 68,  155 => 66,  140 => 54,  135 => 52,  121 => 41,  115 => 37,  109 => 36,  78 => 12,  74 => 11,  68 => 8,  62 => 5,  58 => 4,  53 => 3,  47 => 2,  31 => 1,);
+        return array (  371 => 213,  365 => 212,  348 => 202,  341 => 198,  322 => 182,  315 => 178,  296 => 162,  289 => 158,  270 => 142,  263 => 138,  245 => 123,  240 => 121,  231 => 115,  223 => 110,  218 => 108,  209 => 102,  200 => 96,  195 => 94,  180 => 82,  175 => 80,  160 => 68,  155 => 66,  140 => 54,  135 => 52,  121 => 41,  115 => 37,  109 => 36,  78 => 12,  74 => 11,  68 => 8,  62 => 5,  58 => 4,  53 => 3,  47 => 2,  31 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -478,15 +562,75 @@ class __TwigTemplate_66033b30ff10873186c1831464343fe6e4891153e94033a632e7ec520b2
               <div class=\"d-flex justify-content-between p-md-1\">
                 <div class=\"d-flex flex-row\">
                   <div class=\"align-self-center\">
-                    <i class=\"fas fa-pencil-alt text-info fa-3x me-4\"></i>
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
                   </div>
                   <div>
-                    <h4>Total Posts</h4>
-                    <p class=\"mb-0\">Monthly blog posts</p>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">{{ \"Now\"|date('d-m-Y') }}</p>
                   </div>
                 </div>
                 <div class=\"align-self-center\">
-                  <h2 class=\"h1 mb-0\">18,000</h2>
+                  <h2 class=\"h3 mb-0\">{{ total_jour~' '~app.user.pays.devise }}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                  <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">{{first_day~' - '~last_day}}</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">{{ total_semaine~' '~app.user.pays.devise }}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                   <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">{{\"Ce mois\"|trans}}</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">{{ total_mois~' '~app.user.pays.devise }}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+                  <div class=\"col-xl-6 col-md-12 mb-4\">
+          <div class=\"card\">
+            <div class=\"card-body\">
+              <div class=\"d-flex justify-content-between p-md-1\">
+                <div class=\"d-flex flex-row\">
+                  <div class=\"align-self-center\">
+                    <i class=\"fa fa-money text-danger\" style=\"font-size:40px;margin-right: 10px\"></i>
+                  </div>
+                  <div>
+                    <h4>Total des ventes</h4>
+                    <p class=\"mb-0\">{{\"Now\"|date('Y')}}</p>
+                  </div>
+                </div>
+                <div class=\"align-self-center\">
+                  <h2 class=\"h3 mb-0\">{{ total_ans~' '~app.user.pays.devise }}</h2>
                 </div>
               </div>
             </div>

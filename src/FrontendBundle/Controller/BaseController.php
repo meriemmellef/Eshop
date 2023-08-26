@@ -55,6 +55,8 @@ class BaseController extends Controller
                 $visitor_country = strtolower($this->getRequest()->headers->get("Cf-Ipcountry", ""));
 
             }
+           
+            
 
 
             $this->session->set('visitor_country', $visitor_country);
@@ -127,6 +129,7 @@ class BaseController extends Controller
                 $visitor_country = strtolower($this->getRequest()->headers->get("Cf-Ipcountry", ""));
 
             }
+             
 
              ///if eshop
           //  $visitor_country = "mg";
